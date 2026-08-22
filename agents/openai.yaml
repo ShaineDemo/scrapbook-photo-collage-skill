@@ -1,0 +1,5 @@
+interface:
+  display_name: "Scrapbook Photo Collage"
+  short_description: "Turn 1–8 photos into tactile scrapbook covers"
+  brand_color: "#4F7FA7"
+  default_prompt: "Use $scrapbook-photo-collage to turn my uploaded photos into a cohesive scrapbook collage cover."
