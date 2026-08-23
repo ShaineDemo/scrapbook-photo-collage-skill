@@ -20,6 +20,7 @@ CANVAS AND HIERARCHY
 - Keep critical content inside safe margins so the final file can be normalized to exact 3:4 without losing faces, titles, hands, food, or meaningful objects.
 - [density preset].
 - Place the collage island [position] and retain [amount] of breathing space.
+- This page's spatial recipe is [photo anchor / title anchor / decoration cluster]. It must visibly differ from adjacent outputs in at least three of those choices.
 - Hero: [source and position], occupying about [percentage].
 - On a combined page, the hero frame is at least 1.4 times the visible area of the next-largest frame.
 - Secondary frames: [mapping].
@@ -39,7 +40,7 @@ MATERIALS
 PROJECT-SPECIFIC DECORATIONS
 - Content-derived: [3–5 motifs tied to the actual photos].
 - Neutral balancing accents: [2–4 items].
-- Dimensional props: [0–3 items].
+- Dimensional props: [0–1 item], each below about 4% of the canvas; do not make a literal 3D duplicate of an object already visible in the source.
 - Every decoration should have a distinct role and silhouette.
 
 COPY
@@ -57,6 +58,8 @@ NEGATIVE CONSTRAINTS
 - No excessive 3D toy-like props.
 - Do not use [project-specific forbidden repeats].
 - No pseudo-text filling empty spaces.
+- No centered-frame-plus-bottom-title template if an adjacent output already uses it.
+- No dominant colors outside the shared set palette; source-specific accents stay subordinate.
 
 FINAL QUALITY
 - [fresh / nostalgic / playful / editorial] but cohesive.
@@ -81,6 +84,8 @@ Reserve exactly [N] clean rectangular photo windows:
 Keep all decorations outside the photo windows and do not cross their edges. Fill each window with one plain matte placeholder color only.
 
 Match every window closely to the aspect ratio of its assigned source. For a combined page, make one hero window at least 1.4 times the area of the next-largest window, stagger edges, and avoid equal rows or columns.
+
+Size each window so uncropped contain placement leaves no more than 18% blank internal mat. On a single page, the placed source itself—not the frame and mat together—must cover 42–58% of the complete canvas.
 
 CRITICAL: do not generate photographs, people, faces, bodies, hands, pets, food, scenery, landmarks, or fake source-image content inside any photo window. Do not invent a group photo. The untouched original photos will be placed later by deterministic compositing.
 

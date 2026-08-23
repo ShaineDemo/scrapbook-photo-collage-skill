@@ -4,7 +4,7 @@ description: Turn 1–8 user photos into a tactile scrapbook set with one design
 license: MIT
 metadata:
   author: ShaineDemo
-  version: "1.3.0"
+  version: "1.4.0"
 ---
 
 # Scrapbook Photo Collage
@@ -102,6 +102,8 @@ For a multi-photo request, define one shared art direction for the complete `N +
 
 Define a set palette before rendering: two or three shared neutrals plus two shared accents sampled from the complete source set. Every page should visibly reuse most of that palette. A source-specific accent may vary, but it must not turn one page into an unrelated pink, blue, green, or sepia template.
 
+Before rendering any page, create a compact **set plan** with one row per output: output index, source ID(s), composition family, photo-window anchor, title-zone anchor, shared palette colors, source-specific accent, content motifs, and forbidden repeats. Adjacent singles must differ in at least three spatial choices: photo position, title position, frame orientation/scale, tape anchor, or decoration cluster. Do not let all pages collapse into a centered photo plus a bottom title strip.
+
 Read [references/visual-system.md](references/visual-system.md) when deciding density, hierarchy, materials, and content-aware decorations.
 
 ### 3. Compose with photo dominance
@@ -120,6 +122,8 @@ For a 2–8 photo collage:
 - avoid cropping a person at an awkward joint or turning a detail photo into an unreadable thumbnail.
 
 For a single-photo collage, keep the visible source photo around 42–58% of the canvas and visibly larger than every decorative object combined. Match the photo window to the source aspect ratio closely enough that letterboxing does not become a major blank block. Do not let a blank note, fabric swatch, or paper panel become larger than the photo.
+
+When using `scripts/compose_locked_photos.py`, its default hard gates reject a single page below 38% visible photo area and any frame with more than 18% blank internal mat. These are safety floors, not new design targets. Enlarge or reshape the reserved window until the normal 42–58% target is met; do not weaken the thresholds merely to accept a poor background.
 
 When producing the default multi-photo set, apply the single-photo rule separately to each of the first `N` outputs, then apply the 2–8 photo rules to the final combined output.
 
@@ -141,9 +145,11 @@ Select motifs from the actual photo content, then add only a few neutral balanci
 1. derive 3–5 motifs from subjects, locations, colors, weather, activity, food, or discovered objects;
 2. add 2–4 neutral paper/hardware accents;
 3. exclude props that appeared repeatedly in recent outputs;
-4. keep dimensional objects to 0–3.
+4. keep dimensional objects to 0–1 on a balanced page, with any one object below about 4% of the canvas.
 
 Never default to the same camera, wax seal, postage stamp, record, coffee cup, or botanical set. A camera is valid only when photography is part of the story; a seal is valid only when the concept calls for correspondence or ceremony.
+
+Content-aware decoration means translating a cue, not copying it literally. If the source already contains a red cap, coffee cup, shell, book, or camera, do not add a large 3D duplicate of that object. Prefer a flatter abstraction such as a color tab, stitch path, contour line, label, ingredient sketch, map fragment, or material swatch.
 
 ### 6. Handle lettering
 
@@ -170,6 +176,8 @@ Write prompts in this order:
 Use [references/prompt-template.md](references/prompt-template.md) as a starting structure, then adapt it to the current photos. Do not paste it unchanged.
 
 When using the hybrid fallback, prompt for **background and empty photo windows only**. The renderer must not create people, pets, meals, scenery, or fake photographs inside those windows. Place the originals afterward with `scripts/compose_locked_photos.py`; do not send the composited result back through a generative pass that could repaint the locked photo regions.
+
+For every single page, run the compositor with its default mat and photo-area checks. Multiple placements require `--summary-layout`; the compositor rejects weak hero hierarchy, summaries below a 42% hard photo-area floor, and aligned contact-sheet grids. If a check fails, regenerate or resize the empty windows and run the compositor again. Do not bypass a failed check by increasing the allowed mat or decreasing the required photo area unless the user explicitly asks for a more minimal or unusually matted layout.
 
 Treat fallback backgrounds as intermediates, not extra artwork. Build them in a temporary work directory and present only the final composites. Do not create one-off helper programs such as `add_titles.py` in the user's project. Put the final decorative title and non-critical labels into the generated background once; if exact text must be overlaid deterministically, use an existing approved text tool or omit uncertain microcopy rather than inventing a per-run script. Never add a second title over an already titled background.
 
@@ -199,11 +207,13 @@ For a multi-photo set, also verify that:
 - every source received its own completed single-photo collage;
 - the final combined collage contains all original sources exactly once;
 - the set shares one art direction without repeating the same layout or decoration bundle;
+- at least 80% of the non-photo color impression comes from the shared set palette, with source-specific accents remaining subordinate;
+- adjacent singles do not reuse the same centered-frame/bottom-title construction;
 - no generated single-photo artwork was mistaken for an original photo inside the summary collage.
 
 ## Delivery
 
-Return the single-photo collages in source order, then the combined summary collage last. Follow with a short note covering the shared art direction, the combined-image hierarchy, the content-derived decoration logic, and any limitation that genuinely remains. Do not expose long internal prompt text unless the user asks for it.
+Return the single-photo collages in source order, then the combined summary collage last. Use sortable filenames such as `01-S1-...`, `02-S2-...`, and `05-summary-...` so gallery order cannot scramble the source sequence. Follow with a short note covering the shared art direction, the combined-image hierarchy, the content-derived decoration logic, and any limitation that genuinely remains. Do not expose long internal prompt text unless the user asks for it.
 
 Display and package only the expected final count: `1` image for one source or `N + 1` images for two to eight sources. Do not show blank frame backgrounds, temporary templates, contact sheets, manifests, or runtime helper files as additional outputs.
 

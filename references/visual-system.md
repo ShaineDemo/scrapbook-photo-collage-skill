@@ -19,7 +19,7 @@ Read this file when choosing composition density, materials, or decorations.
 - Combined-page photo area: 50–65%.
 - Single-photo decorations: 6–8, including labels and hardware.
 - Multi-photo decorations: 8–10, including labels and hardware.
-- Dimensional props: 1–2.
+- Dimensional props: 0–1; any one prop stays below about 4% of the canvas.
 - Breathing space: 12–25%.
 - Combined page: one obvious hero at least 1.4× the next-largest photo, 2–3 medium frames, remaining sources as clear details.
 
@@ -57,9 +57,21 @@ Avoid equal grids unless the user explicitly asks for a contact sheet.
 
 For a multi-output set, rotate composition families instead of cloning one centered-frame template. Adjacent single-photo pages should not reuse the same frame position, bottom-title strip, tape placement, and decoration bundle. Keep the shared palette and lettering family while changing the spatial construction.
 
+Plan the set before rendering. A useful sequence alternates both photo and title anchors, for example:
+
+| Page role | Photo construction | Title zone | Supporting rhythm |
+| --- | --- | --- | --- |
+| Single A | upper-left editorial frame | right or lower-right note | narrow vertical material rail |
+| Single B | wide elevated landscape | upper-left label | low asymmetrical paper shelf |
+| Single C | portrait frame offset right | left handwritten block | curved thread or route line |
+| Single D | notebook field with photo high | side tab or inside-page note | small diagonal cluster |
+| Summary | one hero plus staggered supports | independent calm zone | broken reading path, never a grid |
+
+This is a rotation pattern, not a fixed template. Choose positions from the source composition, but require adjacent singles to differ in at least three spatial decisions.
+
 ## Set cohesion
 
-Choose two or three shared neutrals and two shared accents from the full source set before rendering. Every page should visibly reuse at least three of those colors. Source-specific colors can appear as smaller accents, but no page should drift into an unrelated palette merely because its local subject suggests pink, blue, green, or sepia.
+Choose two or three shared neutrals and two shared accents from the full source set before rendering. Every page should visibly reuse at least three of those colors, and roughly 80% or more of the non-photo color impression should come from that common palette. Source-specific colors can appear as smaller accents, normally no more than 20% of the non-photo area; no page should drift into an unrelated palette merely because its local subject suggests pink, blue, green, or sepia.
 
 For the combined summary, avoid four similarly sized rectangles. Use a hero frame whose area is at least 1.4 times the second-largest frame, stagger frame edges, vary orientations where the sources permit, and use overlap or offset spacing to create a clear reading path.
 
@@ -69,7 +81,7 @@ When source fidelity is uncertain, use clean rectangular photo windows that can 
 
 The frame itself may have a white or colored mat and a shallow shadow. Preserve breathing room around it so deterministic placement does not cover meaningful decorative work. Richness should come from the surrounding paper construction rather than from altering the source photograph.
 
-Match each reservation window to its source aspect ratio. Letterboxing may be used for fidelity, but it should remain a narrow mat rather than a large blank panel. If a landscape source needs a wide window, redesign the page around a wide window instead of forcing it into a tall portrait opening.
+Match each reservation window to its source aspect ratio. Letterboxing may be used for fidelity, but blank internal mat must stay below 18% of the window. If a landscape source needs a wide window, redesign the page around a wide window instead of forcing it into a tall portrait opening.
 
 ## Decoration derivation matrix
 
@@ -88,6 +100,8 @@ Choose from the row matching the sources. Do not use every item.
 | Found object, souvenir | specimen label, catalog number, tiny envelope, tracing, location note |
 
 Then add neutral accents from a separate pool: torn notebook strip, vellum tab, binder clip, thread, paperclip, staple, corner label, sparse stars, dots, or underlines.
+
+Do not literalize every cue as a large 3D object. A cap in the source can become one red stitch or tab; a shell can become a specimen label or wave contour; a drink can become a receipt or color swatch. Large duplicate props turn the page into a themed product flat-lay and compete with the memory itself.
 
 ## Anti-repetition rule
 

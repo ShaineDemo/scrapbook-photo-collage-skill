@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from dataclasses import dataclass
 from pathlib import Path
 
 try:
@@ -33,6 +34,69 @@ def save_image(image: Image.Image, output: Path) -> None:
         image.save(output)
 
 
+@dataclass
+class PlannedPlacement:
+    source_id: str
+    path: Path
+    frame: tuple[int, int, int, int]
+    fitted: Image.Image
+    photo_offset: tuple[int, int]
+    mat_fraction: float
+    canvas_photo_fraction: float
+
+
+def cluster_count(values: list[float], tolerance: float) -> int:
+    """Count near-aligned coordinates without requiring pixel-perfect equality."""
+    clusters: list[float] = []
+    for value in sorted(values):
+        for index, center in enumerate(clusters):
+            if abs(value - center) <= tolerance:
+                clusters[index] = (center + value) / 2
+                break
+        else:
+            clusters.append(value)
+    return len(clusters)
+
+
+def validate_summary_layout(
+    plans: list[PlannedPlacement],
+    canvas_width: int,
+    canvas_height: int,
+    min_photo_fraction: float,
+) -> None:
+    if len(plans) < 2:
+        raise SystemExit("--summary-layout requires at least two source placements")
+
+    areas = sorted(
+        (plan.fitted.width * plan.fitted.height for plan in plans), reverse=True
+    )
+    hero_ratio = areas[0] / areas[1]
+    if hero_ratio < 1.4:
+        raise SystemExit(
+            "Summary hierarchy is too even: the largest visible photo must be at least "
+            f"1.4x the next-largest (received {hero_ratio:.2f}x). Enlarge one hero window."
+        )
+
+    total_photo_fraction = sum(plan.canvas_photo_fraction for plan in plans)
+    if total_photo_fraction < min_photo_fraction:
+        raise SystemExit(
+            f"Summary photos cover only {total_photo_fraction:.1%} of the canvas; hard "
+            f"minimum is {min_photo_fraction:.1%} and the design target is 50–65%. "
+            "Enlarge the hero and supporting windows."
+        )
+
+    if len(plans) >= 4:
+        x_centers = [plan.frame[0] + plan.frame[2] / 2 for plan in plans]
+        y_centers = [plan.frame[1] + plan.frame[3] / 2 for plan in plans]
+        x_clusters = cluster_count(x_centers, canvas_width * 0.055)
+        y_clusters = cluster_count(y_centers, canvas_height * 0.055)
+        if x_clusters * y_clusters == len(plans) and x_clusters > 1 and y_clusters > 1:
+            raise SystemExit(
+                "Summary placement reads as an aligned grid/contact sheet. Stagger frame "
+                "centers, overlap paper layers, and rerun with one clearly dominant hero."
+            )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--background", required=True, type=Path)
@@ -49,6 +113,38 @@ def main() -> None:
     parser.add_argument("--frame-color", default="#fffdf7")
     parser.add_argument("--mat-color", default="#f3f0e8")
     parser.add_argument("--shadow", type=int, default=10)
+    parser.add_argument(
+        "--max-mat-fraction",
+        type=float,
+        default=0.18,
+        help=(
+            "Maximum blank mat inside any photo window after contain fitting. "
+            "Default: 0.18."
+        ),
+    )
+    parser.add_argument(
+        "--min-single-photo-fraction",
+        type=float,
+        default=0.38,
+        help=(
+            "Hard minimum visible source-photo area for a one-photo page, as a fraction "
+            "of the canvas. The design target remains 0.42–0.58. Default: 0.38."
+        ),
+    )
+    parser.add_argument(
+        "--summary-layout",
+        action="store_true",
+        help="Validate hero hierarchy and reject aligned grid/contact-sheet summaries.",
+    )
+    parser.add_argument(
+        "--min-summary-photo-fraction",
+        type=float,
+        default=0.42,
+        help=(
+            "Hard minimum summed visible photo area for a summary page. "
+            "The design target remains 0.50–0.65. Default: 0.42."
+        ),
+    )
     parser.add_argument("--manifest", type=Path)
     args = parser.parse_args()
 
@@ -56,11 +152,22 @@ def main() -> None:
         raise SystemExit(f"Missing background: {args.background}")
     if args.border < 0 or args.shadow < 0:
         raise SystemExit("--border and --shadow must be zero or greater")
+    if not 0 <= args.max_mat_fraction < 1:
+        raise SystemExit("--max-mat-fraction must be at least 0 and less than 1")
+    if not 0 < args.min_single_photo_fraction < 1:
+        raise SystemExit("--min-single-photo-fraction must be greater than 0 and less than 1")
+    if not 0 < args.min_summary_photo_fraction < 1:
+        raise SystemExit("--min-summary-photo-fraction must be greater than 0 and less than 1")
 
     placements = [parse_placement(values) for values in args.place]
     source_ids = [source_id for source_id, _, _ in placements]
     if len(source_ids) != len(set(source_ids)):
         raise SystemExit("Every SOURCE_ID must be unique; duplicate source IDs are not allowed")
+    if len(placements) > 1 and not args.summary_layout:
+        raise SystemExit(
+            "Multiple photo placements require --summary-layout so hierarchy, density, "
+            "and anti-grid checks cannot be skipped."
+        )
 
     with Image.open(args.background) as background_source:
         canvas = ImageOps.exif_transpose(background_source).convert("RGBA")
@@ -78,9 +185,19 @@ def main() -> None:
     manifest: dict[str, object] = {
         "canvas": [canvas_width, canvas_height],
         "fit": "contain",
+        "layout": "summary" if args.summary_layout else "single",
+        "validation": {
+            "max_mat_fraction": args.max_mat_fraction,
+            "min_single_photo_fraction": args.min_single_photo_fraction,
+            "min_summary_photo_fraction": args.min_summary_photo_fraction,
+            "summary_hierarchy": "largest visible photo >= 1.4x next-largest"
+            if args.summary_layout
+            else None,
+        },
         "sources": [],
     }
 
+    plans: list[PlannedPlacement] = []
     for source_id, path, (x, y, width, height) in placements:
         if not path.is_file():
             raise SystemExit(f"Missing source image for {source_id}: {path}")
@@ -88,6 +205,62 @@ def main() -> None:
             raise SystemExit(f"Frame for {source_id} is too small for the selected border")
         if x < 0 or y < 0 or x + width > canvas_width or y + height > canvas_height:
             raise SystemExit(f"Frame for {source_id} is outside the canvas")
+
+        inner_width = width - args.border * 2
+        inner_height = height - args.border * 2
+
+        with Image.open(path) as source_file:
+            source = ImageOps.exif_transpose(source_file).convert("RGBA")
+        fitted = ImageOps.contain(
+            source,
+            (inner_width, inner_height),
+            Image.Resampling.LANCZOS,
+        )
+        photo_x = args.border + (inner_width - fitted.width) // 2
+        photo_y = args.border + (inner_height - fitted.height) // 2
+        fitted_area = fitted.width * fitted.height
+        mat_fraction = 1 - fitted_area / (inner_width * inner_height)
+        canvas_photo_fraction = fitted_area / (canvas_width * canvas_height)
+
+        if mat_fraction > args.max_mat_fraction:
+            source_ratio = source.width / source.height
+            raise SystemExit(
+                f"Frame for {source_id} leaves {mat_fraction:.1%} blank mat; maximum is "
+                f"{args.max_mat_fraction:.1%}. Regenerate or resize that window closer to "
+                f"the source aspect ratio {source_ratio:.3f}."
+            )
+
+        plans.append(
+            PlannedPlacement(
+                source_id=source_id,
+                path=path,
+                frame=(x, y, width, height),
+                fitted=fitted,
+                photo_offset=(photo_x, photo_y),
+                mat_fraction=mat_fraction,
+                canvas_photo_fraction=canvas_photo_fraction,
+            )
+        )
+
+    if len(plans) == 1 and plans[0].canvas_photo_fraction < args.min_single_photo_fraction:
+        raise SystemExit(
+            f"Single-page photo covers only {plans[0].canvas_photo_fraction:.1%} of the "
+            f"canvas; hard minimum is {args.min_single_photo_fraction:.1%} and the design "
+            "target is 42–58%. Enlarge the photo window without changing its aspect ratio."
+        )
+    if args.summary_layout:
+        validate_summary_layout(
+            plans,
+            canvas_width,
+            canvas_height,
+            args.min_summary_photo_fraction,
+        )
+
+    for plan in plans:
+        source_id = plan.source_id
+        path = plan.path
+        x, y, width, height = plan.frame
+        photo_x, photo_y = plan.photo_offset
 
         if args.shadow:
             shadow_layer = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
@@ -101,17 +274,7 @@ def main() -> None:
         inner_height = height - args.border * 2
         mat = Image.new("RGBA", (inner_width, inner_height), mat_color)
         frame.paste(mat, (args.border, args.border))
-
-        with Image.open(path) as source_file:
-            source = ImageOps.exif_transpose(source_file).convert("RGBA")
-        fitted = ImageOps.contain(
-            source,
-            (inner_width, inner_height),
-            Image.Resampling.LANCZOS,
-        )
-        photo_x = args.border + (inner_width - fitted.width) // 2
-        photo_y = args.border + (inner_height - fitted.height) // 2
-        frame.alpha_composite(fitted, (photo_x, photo_y))
+        frame.alpha_composite(plan.fitted, (photo_x, photo_y))
         canvas.alpha_composite(frame, (x, y))
 
         manifest["sources"].append(
@@ -119,7 +282,14 @@ def main() -> None:
                 "id": source_id,
                 "path": str(path.resolve()),
                 "frame": [x, y, width, height],
-                "placed_photo": [x + photo_x, y + photo_y, fitted.width, fitted.height],
+                "placed_photo": [
+                    x + photo_x,
+                    y + photo_y,
+                    plan.fitted.width,
+                    plan.fitted.height,
+                ],
+                "mat_fraction": round(plan.mat_fraction, 6),
+                "canvas_photo_fraction": round(plan.canvas_photo_fraction, 6),
                 "allowed_changes": ["EXIF orientation", "uniform resize", "contain placement"],
             }
         )

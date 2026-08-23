@@ -38,30 +38,35 @@ Choose each window from the original source aspect ratio. The fallback uses uncr
 
 ## Place the originals deterministically
 
-Example for one 900×1200 background:
+Example for one portrait source around a 0.56 aspect ratio on a 900×1200 background:
 
 ```bash
 python3 scripts/compose_locked_photos.py \
   --background scrapbook-background.png \
   --output final.png \
-  --place S1 original.jpg 110 120 680 650 \
+  --place S1 original-portrait.jpg 174 100 552 958 \
   --manifest final.sources.json
 ```
 
-Example for a combined page:
+Illustrative combined-page example using square sources; replace every window with dimensions derived from the actual source ledger:
 
 ```bash
 python3 scripts/compose_locked_photos.py \
   --background summary-background.png \
   --output summary.png \
-  --place S1 photo-1.jpg 70 100 470 390 \
-  --place S2 photo-2.jpg 570 120 250 300 \
-  --place S3 photo-3.jpg 90 540 310 300 \
-  --place S4 photo-4.jpg 440 500 380 340 \
+  --summary-layout \
+  --place S1 photo-square-1.jpg 30 70 500 500 \
+  --place S2 photo-square-2.jpg 550 180 350 350 \
+  --place S3 photo-square-3.jpg 30 680 330 330 \
+  --place S4 photo-square-4.jpg 420 800 310 310 \
   --manifest summary.sources.json
 ```
 
-Coordinates are `X Y WIDTH HEIGHT` in pixels and describe the outer photo frame. The script rejects non-3:4 backgrounds, duplicate source IDs, missing files, and out-of-canvas frames. It always uses uncropped `contain` placement and records the source-to-frame mapping when `--manifest` is supplied.
+Coordinates are `X Y WIDTH HEIGHT` in pixels and describe the outer photo frame. The script rejects non-3:4 backgrounds, duplicate source IDs, missing files, out-of-canvas frames, more than 18% blank mat inside a frame, and a one-photo page below 38% visible photo area. The normal single-page design target remains 42–58%; the lower value is only a hard rejection floor. Multiple placements are rejected unless `--summary-layout` is present.
+
+Always pass `--summary-layout` for the final combined page. It rejects summaries without a hero at least 1.4× the next-largest visible photo, below a 42% summed visible-photo floor, or using aligned grid/contact-sheet placement. The normal summary target remains 50–65%. When the script rejects a layout, redesign the generated empty windows and rerun it. Do not increase `--max-mat-fraction` or decrease either photo-area minimum merely to force a weak composition through validation.
+
+The manifest records each placed photo's `mat_fraction` and `canvas_photo_fraction`, making it possible to audit whether the final page actually meets the intended dominance rather than trusting the visual prompt.
 
 ## Fidelity inspection
 
