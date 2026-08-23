@@ -4,25 +4,23 @@
 
 > Turn everyday photos into tactile scrapbook pages worth keeping.
 
-A portable, open-source Agent Skill for turning 1–8 user photos into tactile scrapbook covers, travel diaries, memory boards, and social-media collages.
+A portable, open-source Agent Skill that turns 1–8 everyday photos into tactile scrapbook stories with atmosphere, personality, and a sense of occasion. Travel days, dinners, friendships, pets, quiet weekends, and small favorite moments can all become a polished set worth keeping and sharing.
 
-It captures the design decisions that usually separate a convincing scrapbook from a generic template:
+## Why try it?
 
-- every supplied photo receives one individual design and appears exactly once in the combined summary;
-- one clear hero and asymmetric supporting frames;
-- generated lettering for expressive short titles, with a deterministic option for exact copy;
-- varied paper, vellum, fabric, metal, tape, and natural textures;
-- tape with real folds, buckling, torn fibers, and curled corners;
-- decorations derived from the current photo content instead of a fixed camera/seal/stamp bundle;
-- a controlled density range that keeps the photos dominant.
+- **Give casual photos a finished look** — bring together color, lettering, and mood without learning complex layout tools.
+- **Let each moment inspire the page** — people, places, weather, food, and emotion guide the creative direction.
+- **Keep the memory real while making it playful** — photographs stay clear and recognizable while paper, notes, maps, tickets, and found details enrich the story.
+- **Turn a photo group into a complete series** — receive individual pages for posting as well as a combined cover or recap.
+- **Share it anywhere** — the consistent 3:4 vertical format works beautifully for Xiaohongshu/RedNote, Instagram, blogs, and personal albums.
 
-The default is a complete balanced, medium-density scrapbook set. One uploaded photo produces one single-photo collage. Two to eight uploaded photos produce one single-photo collage per source plus one combined summary collage. Six photos therefore produce seven final images: six individual designs followed by one six-photo summary. Every delivered image uses the same exact **3:4 vertical ratio**; extra style variants are generated only when requested.
+Upload your photos and the Skill creates a rich but uncluttered medium-density set. One photo becomes one finished scrapbook page; two to eight photos become individual pages for each moment plus one recap that brings the whole story together. Upload six photos, for example, and you receive six individual designs and one summary cover. Every result shares the same **3:4 vertical ratio**, ready to publish as a cohesive series.
 
 ## The style: tactile photo scrapbook
 
 This project calls the style **tactile photo scrapbook**: photography is combined with torn paper, translucent vellum, fabric, folded tape, handwritten titles, tickets, maps, notes, and small found details to create a page that feels assembled by hand.
 
-It is photo-first rather than template-first. The Skill reads the subjects, colors, setting, weather, activity, and mood of the current photos before choosing a palette and decoration set. A coastal scene may grow into tide notes, wave vellum, and a folded chart; a museum visit may use catalog slips, rice paper, ink studies, and architectural lines. The result does not default to the same camera, stamp, seal, or coffee-cup bundle every time.
+The Skill draws inspiration from the subjects, colors, setting, weather, activity, and mood of the current photos, then builds a visual world around that moment. A coastal scene may grow into tide notes, wave vellum, and a folded chart; a museum visit may pair with catalog slips, rice paper, ink studies, and architectural lines; a quiet indoor moment may become a soft composition of fabric, notes, and window light.
 
 The style can feel fresh, quiet, playful, romantic, editorial, or nostalgic without forcing every story into aged beige paper. Photographs remain recognizable and dominant while the surrounding materials give them context, rhythm, and a sense of memory.
 
@@ -44,7 +42,7 @@ The same six source photos produce six individually art-directed pages plus one 
   <img src="examples/after/07-life-lately-summary.webp" alt="Combined scrapbook summary using all six source photos" width="720">
 </p>
 
-<p align="center"><strong>Final combined summary — all six originals, each used exactly once</strong></p>
+<p align="center"><strong>Six moments brought together as one “Life, Lately” story</strong></p>
 
 <table>
   <thead>
