@@ -16,7 +16,7 @@ It captures the design decisions that usually separate a convincing scrapbook fr
 - decorations derived from the current photo content instead of a fixed camera/seal/stamp bundle;
 - a controlled density range that keeps the photos dominant.
 
-The default is a complete balanced, medium-density scrapbook set. One uploaded photo produces one single-photo collage. Two to eight uploaded photos produce one single-photo collage per source plus one combined summary collage. Six photos therefore produce seven final images: six individual designs followed by one six-photo summary. Extra style variants or alternate ratios are generated only when requested.
+The default is a complete balanced, medium-density scrapbook set. One uploaded photo produces one single-photo collage. Two to eight uploaded photos produce one single-photo collage per source plus one combined summary collage. Six photos therefore produce seven final images: six individual designs followed by one six-photo summary. Every delivered image uses the same exact **3:4 vertical ratio**; extra style variants are generated only when requested.
 
 ## The style: tactile photo scrapbook
 

@@ -28,7 +28,13 @@ Do not claim the Skill itself supplies an image model. The host agent must expos
 - **Cover:** a clear title and visual hook, readable at thumbnail size, with breathing room around the collage island.
 - **Inside page:** more room for captions, dates, notes, and secondary objects.
 
-If the user does not specify a ratio, use 3:4 vertical for a social cover. Preserve an explicitly requested ratio.
+## Output canvas contract
+
+Every rendered deliverable must use an exact **3:4 vertical canvas**, including every single-photo collage and the final combined summary. Use one consistent pixel size across a set, such as `1080x1440` or `1536x2048`.
+
+Source photos may have any orientation or aspect ratio; adapt them inside their frames without changing the final 3:4 canvas. Do not treat the words “3:4” in a renderer prompt as proof of compliance. Inspect the actual output pixel dimensions before delivery.
+
+If a renderer returns 2:3, 4:5, square, or another ratio, do not deliver it as final. Rerender on a 3:4 canvas or normalize it through content-aware canvas extension or a safe crop. Never stretch or squeeze the artwork. Preserve titles, faces, hands, food, and important objects when normalizing.
 
 ## Output count
 
@@ -38,7 +44,7 @@ Default to a complete scrapbook set without requiring the user to ask for separa
 - two to eight supplied photos produce one single-photo collage for every source, followed by one combined summary collage containing every source exactly once;
 - for `N` supplied photos where `N >= 2`, the default output count is therefore `N + 1`;
 - six supplied photos produce six single-photo collages plus one six-photo summary collage, for seven final images total;
-- extra style variants, alternate ratios, or additional carousel pages still require an explicit request.
+- extra style variants or additional carousel pages still require an explicit request; alternate aspect ratios are outside this Skill's output contract.
 
 Do not silently collapse a multi-photo request into only the combined collage.
 
@@ -136,7 +142,7 @@ Never default to the same camera, wax seal, postage stamp, record, coffee cup, o
 Write prompts in this order:
 
 1. source-control rules;
-2. canvas and hierarchy;
+2. exact 3:4 vertical canvas and hierarchy;
 3. source-to-frame mapping;
 4. materials;
 5. project-specific decorations;
@@ -152,6 +158,7 @@ For two to eight sources, prepare one adapted renderer prompt per single-photo o
 
 Before delivering, verify:
 
+- every final file has actual pixel dimensions in an exact 3:4 vertical ratio, and all files in the set use the same dimensions;
 - every source ID appears exactly once;
 - no face, hand, meal, landscape, or text-heavy scene was silently altered;
 - the hero remains dominant;

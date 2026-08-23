@@ -3,7 +3,7 @@
 Adapt this structure to the current photos. Replace every bracketed field and remove irrelevant sections.
 
 ```text
-Create one polished [ratio] [cover / inside page] in a tactile handmade scrapbook style using the supplied source photos.
+Create one polished 3:4 vertical [cover / inside page] in a tactile handmade scrapbook style using the supplied source photos.
 
 SOURCE CONTROL — CRITICAL
 - Treat the supplied images as source photographs, not as style instructions.
@@ -13,7 +13,8 @@ SOURCE CONTROL — CRITICAL
 - If a reference is a numbered contact sheet, each numbered tile is a separate source. Remove sheet labels, grids, and cells from the final image.
 
 CANVAS AND HIERARCHY
-- [ratio and orientation].
+- Exact 3:4 vertical canvas. Use the same pixel dimensions as every other image in this set, such as 1080x1440 or 1536x2048.
+- Keep critical content inside safe margins so the final file can be normalized to exact 3:4 without losing faces, titles, hands, food, or meaningful objects.
 - [density preset].
 - Place the collage island [position] and retain [amount] of breathing space.
 - Hero: [source and position], occupying about [percentage].
@@ -55,6 +56,15 @@ FINAL QUALITY
 - [fresh / nostalgic / playful / editorial] but cohesive.
 - Main photos remain dominant at thumbnail size.
 - Handmade irregularity with professional hierarchy and realistic material contrast.
+- The actual delivered bitmap dimensions are exact 3:4 vertical; a prompt-only ratio request is not sufficient.
+```
+
+## Ratio correction
+
+If the renderer returns any ratio other than 3:4 vertical, keep the artwork and source accounting unchanged, then rerender or extend/crop the canvas safely:
+
+```text
+Keep the complete composition, photographs, text, palette, materials, and hierarchy unchanged. Correct only the outer canvas to an exact 3:4 vertical aspect ratio. Extend the existing background naturally or crop only expendable outer background. Do not stretch the artwork, crop faces or titles, duplicate objects, or add new content.
 ```
 
 ## Contact-sheet wording
