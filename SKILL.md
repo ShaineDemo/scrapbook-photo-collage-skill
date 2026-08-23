@@ -4,7 +4,7 @@ description: Turn 1–8 user photos into tactile scrapbook, journal, travel-diar
 license: MIT
 metadata:
   author: ShaineDemo
-  version: "1.0.0"
+  version: "1.0.1"
 ---
 
 # Scrapbook Photo Collage
@@ -24,11 +24,22 @@ Do not claim the Skill itself supplies an image model. The host agent must expos
 ## Choose the mode
 
 - **Single-photo feature:** one supplied photo, one dominant frame, restrained supporting material.
-- **Multi-photo story:** normally 4–8 photos, each used exactly once, with one hero and asymmetric supporting frames.
+- **Multi-photo story:** normally 2–8 photos, each used exactly once, with one hero and asymmetric supporting frames.
 - **Cover:** a clear title and visual hook, readable at thumbnail size, with breathing room around the collage island.
 - **Inside page:** more room for captions, dates, notes, and secondary objects.
 
 If the user does not specify a ratio, use 3:4 vertical for a social cover. Preserve an explicitly requested ratio.
+
+## Output count
+
+Default to one final collage image per request:
+
+- one supplied photo produces one single-photo collage;
+- two to eight supplied photos produce one multi-photo collage containing every supplied photo exactly once;
+- six supplied photos therefore produce one collage image with six distinct photo frames;
+- produce separate images for each source, multiple design variants, or a carousel only when the user explicitly requests them.
+
+Do not infer that the number of output images should equal the number of input photos.
 
 ## Workflow
 
@@ -54,11 +65,13 @@ Choose:
 - a title, a short supporting sentence, and optional micro-labels;
 - a decoration set selected for this project rather than reused from a fixed list.
 
+Use **Balanced / medium density** by default. Do not silently switch to an airy or rich preset. Change density only when the user asks for a simpler, richer, sparse, or dense treatment.
+
 Read [references/visual-system.md](references/visual-system.md) when deciding density, hierarchy, materials, and content-aware decorations.
 
 ### 3. Compose with photo dominance
 
-For a 4–8 photo collage:
+For a 2–8 photo collage:
 
 - use every source exactly once;
 - give the hero roughly 22–32% of the canvas;

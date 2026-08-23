@@ -12,12 +12,13 @@ Read this file when choosing composition density, materials, or decorations.
 - Dimensional props: 0–1.
 - Breathing space: 25–35%.
 
-### Balanced
+### Balanced / medium density
 
-- Default for 4–8 photos.
-- Photo area: 50–65%.
-- Decorations: 8–12, including labels and hardware.
-- Dimensional props: 1–3.
+- Default for all outputs unless the user requests another density.
+- Photo area: 55–65%.
+- Single-photo decorations: 6–8, including labels and hardware.
+- Multi-photo decorations: 8–10, including labels and hardware.
+- Dimensional props: 1–2.
 - Breathing space: 12–25%.
 - One obvious hero, 2–3 medium frames, remaining sources as clear details.
 

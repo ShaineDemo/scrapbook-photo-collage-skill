@@ -14,6 +14,8 @@ It captures the design decisions that usually separate a convincing scrapbook fr
 - decorations derived from the current photo content instead of a fixed camera/seal/stamp bundle;
 - a controlled density range that keeps the photos dominant.
 
+The default is one balanced, medium-density output. For example, six uploaded photos produce one collage containing six distinct photo frames. Separate per-photo images or multiple variants are generated only when requested.
+
 ## Requirements
 
 The Skill is model-agnostic, but a finished bitmap requires the host agent to expose an image-generation or image-editing tool with reference-image support. A text-only agent can still produce the complete art direction and renderer prompt.
