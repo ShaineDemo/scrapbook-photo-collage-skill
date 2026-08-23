@@ -83,7 +83,7 @@ The same six source photos produce six individually art-directed pages plus one 
 
 The Skill is model-agnostic, but a finished bitmap requires the host agent to expose an image-generation or image-editing tool with reference-image support. A text-only agent can still produce the complete art direction and renderer prompt.
 
-Host support is not the same as rendering support. Codex can render when ImageGen is available. WorkBuddy supports custom Skills and can complete this workflow when its active account, model, and toolset expose reference-image generation or editing. Grok Build installs the Skill natively and can use Grok Imagine, including reference-image editing when that tool or API is connected. Qoder currently documents text-to-image only. Claude Code, Kimi Code, Deep Code, and QoderWork require an external image model, plugin, API, or MCP tool for this photo-preserving workflow. See the [verified capability matrix](references/compatibility.md#verified-rendering-capabilities) before installation.
+Host support is not the same as rendering support. Codex can render when ImageGen is available. WorkBuddy supports custom Skills and can complete this workflow when its active account, model, and toolset expose reference-image generation or editing. Grok Build installs the Skill natively and can use Grok Imagine, including reference-image editing when that tool or API is connected. Qoder currently documents text-to-image only. Claude Code, Kimi Code, DeepSeek Harness, and QoderWork require an external image model, plugin, API, or MCP tool for this photo-preserving workflow. See the [verified capability matrix](references/compatibility.md#verified-rendering-capabilities) before installation.
 
 Python 3 and [Pillow](https://python-pillow.org/) are optional and used only when more source photos must be packed into numbered contact sheets.
 
@@ -96,10 +96,10 @@ python3 scripts/install_skill.py --target codex
 python3 scripts/install_skill.py --target workbuddy
 python3 scripts/install_skill.py --target claude
 python3 scripts/install_skill.py --target kimi
-python3 scripts/install_skill.py --target deepcode
+python3 scripts/install_skill.py --target deepseek-harness
 python3 scripts/install_skill.py --target qoder
 python3 scripts/install_skill.py --target qoderwork
-python3 scripts/install_skill.py --target grok
+python3 scripts/install_skill.py --target grok-build
 ```
 
 For TRAE and 豆包, see [cross-agent compatibility](references/compatibility.md). A generic standalone prompt is available at [adapters/portable-agent-prompt.md](adapters/portable-agent-prompt.md).

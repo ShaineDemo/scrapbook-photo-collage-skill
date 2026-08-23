@@ -14,10 +14,10 @@ DEFAULT_ROOTS = {
     "workbuddy": Path.home() / ".workbuddy" / "skills",
     "claude": Path.home() / ".claude" / "skills",
     "kimi": Path.home() / ".kimi-code" / "skills",
-    "deepcode": Path.home() / ".agents" / "skills",
+    "deepseek-harness": Path.home() / ".dsh" / "skills",
     "qoder": Path.home() / ".qoder" / "skills",
     "qoderwork": Path.home() / ".qoderwork" / "skills",
-    "grok": Path.home() / ".grok" / "skills",
+    "grok-build": Path.home() / ".grok" / "skills",
     "generic": Path.home() / ".agents" / "skills",
 }
 INCLUDE = ("SKILL.md", "LICENSE", "agents", "references", "scripts", "adapters")

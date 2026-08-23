@@ -10,7 +10,7 @@ The canonical package follows the open Agent Skills directory format: a folder w
 | Tencent WorkBuddy | `~/.workbuddy/skills/scrapbook-photo-collage/` | Stages the canonical package in WorkBuddy's configuration space; some versions require installation or conversion through the Skills UI. |
 | Claude Code | `~/.claude/skills/scrapbook-photo-collage/` | Project skills can also live under `.claude/skills/`. |
 | Kimi Code CLI | `~/.kimi-code/skills/scrapbook-photo-collage/` | Also discovers `~/.agents/skills/`; invoke with `/skill:scrapbook-photo-collage`. |
-| DeepSeek Deep Code | `~/.agents/skills/scrapbook-photo-collage/` | Project scope: `.deepcode/skills/scrapbook-photo-collage/`. |
+| DeepSeek Harness | `~/.dsh/skills/scrapbook-photo-collage/` | Project scope: `.dsh/skills/scrapbook-photo-collage/`; also discovers the shared `.agents/skills/` roots. |
 | Qoder IDE/CLI | `~/.qoder/skills/scrapbook-photo-collage/` | Project scope: `.qoder/skills/scrapbook-photo-collage/`. |
 | QoderWork | `~/.qoderwork/skills/scrapbook-photo-collage/` | It can also install from a pasted GitHub repository URL. |
 | xAI Grok Build | `~/.grok/skills/scrapbook-photo-collage/` | Project scope: `.grok/skills/scrapbook-photo-collage/`; also discovers `~/.agents/skills/`. |
@@ -22,10 +22,10 @@ python3 scripts/install_skill.py --target codex
 python3 scripts/install_skill.py --target workbuddy
 python3 scripts/install_skill.py --target claude
 python3 scripts/install_skill.py --target kimi
-python3 scripts/install_skill.py --target deepcode
+python3 scripts/install_skill.py --target deepseek-harness
 python3 scripts/install_skill.py --target qoder
 python3 scripts/install_skill.py --target qoderwork
-python3 scripts/install_skill.py --target grok
+python3 scripts/install_skill.py --target grok-build
 ```
 
 Use `--dest /custom/skills/root` for an unlisted host or a custom data directory.
@@ -60,7 +60,7 @@ Checked against official product documentation on 2026-08-23. “Native Skill”
 | Tencent WorkBuddy | Custom Skill | WorkBuddy documents custom Skills and models covering multimodal and image-processing scenarios; available models and tools vary by version, account, and service availability. | **Full only when the active WorkBuddy toolset exposes reference-image generation or editing.** Otherwise use the renderer-prompt fallback. |
 | Claude Code | Yes | Claude does not natively generate photos or illustrations; Claude Code can connect tools through MCP. | **External image generation/editing tool required.** |
 | Kimi Code CLI | Yes | Official built-ins document image/video input and inspection, but not image generation or editing. | **External image generation/editing tool required.** |
-| DeepSeek Deep Code | Yes | DeepSeek V4 is documented as text-only; agent integrations can supply separate tools or proxy models. | **External vision and image generation/editing tools required.** |
+| DeepSeek Harness | Yes | The official harness supports Skills and composable tool plugins, but its product documentation does not establish a built-in reference-image generator/editor. | **External image generation/editing plugin or tool required.** |
 | Qoder IDE/CLI | Yes | `/gen-image` provides text-to-image generation; official documentation does not establish reference-image editing. | **Partial.** External image-to-image support is required for faithful photo preservation. |
 | QoderWork | Yes | Design creates code-based visual artifacts; the official documentation does not establish raster reference-image editing. | **External image generation/editing tool required for this Skill.** |
 | xAI Grok Build | Yes | `/imagine` provides text-to-image. Grok Imagine APIs/tools support image generation and editing with up to three reference images per request. | **Full when the Imagine editing tool/API is connected; text-to-image alone is partial.** Use contact sheets when source count exceeds the reference limit. |
@@ -75,8 +75,8 @@ Consumer chat products are separate surfaces. Grok web/apps and 豆包 can gener
 - [Claude image-generation limitation](https://support.claude.com/en/articles/9002504-can-claude-produce-images)
 - [Kimi Code Agent Skills](https://www.kimi.com/code/docs/en/kimi-code-cli/customization/skills.html)
 - [Kimi Code built-in tools](https://www.kimi.com/code/docs/en/kimi-code-cli/reference/tools.html)
-- [DeepSeek Deep Code integration](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode)
-- [DeepSeek text-only model note](https://api-docs.deepseek.com/quick_start/agent_integrations/github_copilot/)
+- [DeepSeek Harness overview](https://www.deepseek.com/harness/en/)
+- [DeepSeek Harness Skill filesystem](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/skills.md)
 - [Qoder skills](https://docs.qoder.com/extensions/skills)
 - [Qoder image generation](https://docs.qoder.com/user-guide/chat/tools)
 - [QoderWork skills](https://docs.qoder.com/qoderwork/skills)
