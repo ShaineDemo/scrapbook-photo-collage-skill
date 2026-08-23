@@ -2,6 +2,8 @@
 
 [简体中文](README.zh-CN.md)
 
+> Turn everyday photos into tactile scrapbook pages worth keeping.
+
 A portable, open-source Agent Skill for turning 1–8 user photos into tactile scrapbook covers, travel diaries, memory boards, and social-media collages.
 
 It captures the design decisions that usually separate a convincing scrapbook from a generic template:
@@ -15,6 +17,24 @@ It captures the design decisions that usually separate a convincing scrapbook fr
 - a controlled density range that keeps the photos dominant.
 
 The default is a complete balanced, medium-density scrapbook set. One uploaded photo produces one single-photo collage. Two to eight uploaded photos produce one single-photo collage per source plus one combined summary collage. Six photos therefore produce seven final images: six individual designs followed by one six-photo summary. Extra style variants or alternate ratios are generated only when requested.
+
+## The style: tactile photo scrapbook
+
+This project calls the style **tactile photo scrapbook**: photography is combined with torn paper, translucent vellum, fabric, folded tape, handwritten titles, tickets, maps, notes, and small found details to create a page that feels assembled by hand.
+
+It is photo-first rather than template-first. The Skill reads the subjects, colors, setting, weather, activity, and mood of the current photos before choosing a palette and decoration set. A coastal scene may grow into tide notes, wave vellum, and a folded chart; a museum visit may use catalog slips, rice paper, ink studies, and architectural lines. The result does not default to the same camera, stamp, seal, or coffee-cup bundle every time.
+
+The style can feel fresh, quiet, playful, romantic, editorial, or nostalgic without forcing every story into aged beige paper. Photographs remain recognizable and dominant while the surrounding materials give them context, rhythm, and a sense of memory.
+
+## What can you make with it?
+
+- **Travel and city walks** — trip covers, destination diaries, road-trip pages, weekend recaps, and multi-stop memory boards.
+- **Cafes, restaurants, and food** — favorite-dish pages, date-night records, cafe journals, menus, and food-trip summaries.
+- **Friends, couples, and family** — birthdays, anniversaries, friendship memories, family albums, and monthly photo dumps.
+- **Pets** — keepsake portraits, adoption-day pages, birthdays, everyday moments, and memorial pages.
+- **Museums, exhibitions, books, and films** — exhibition notes, reading journals, cultural-day recaps, and personal collections.
+- **Milestones and seasons** — graduation, moving, a new job, holidays, yearly reviews, and “life lately” summaries.
+- **Social posts** — covers and carousel sets for Xiaohongshu/RedNote, Instagram, blogs, newsletters, or personal portfolios.
 
 ## Example: six photos become a complete scrapbook set
 
