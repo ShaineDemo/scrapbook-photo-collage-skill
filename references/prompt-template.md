@@ -21,10 +21,13 @@ CANVAS AND HIERARCHY
 - [density preset].
 - Place the collage island [position] and retain [amount] of breathing space.
 - Hero: [source and position], occupying about [percentage].
+- On a combined page, the hero frame is at least 1.4 times the visible area of the next-largest frame.
 - Secondary frames: [mapping].
 - Detail frames: [mapping].
 - Total visible photo area: [percentage range].
 - Keep all faces and important objects unobstructed.
+- Match each photo window to its source orientation and aspect ratio; avoid large letterbox voids.
+- Break row and column alignment. The composition must not read as a 2×2 grid or contact sheet.
 
 MATERIALS
 - [glossy photo treatment].
@@ -69,11 +72,15 @@ Use this safer prompt when reference fidelity is uncertain:
 ```text
 Create only the handmade scrapbook surround for one exact 3:4 vertical page. Generate the background paper, layered stationery, title, captions, tape, stitching, and project-specific decorations.
 
+This background is an intermediate production asset. It must already contain the final decorative title and non-critical labels exactly once, so no second title pass is needed later.
+
 Reserve exactly [N] clean rectangular photo windows:
 - S1 window: [X, Y, width, height or clear position and size]
 - [remaining windows]
 
 Keep all decorations outside the photo windows and do not cross their edges. Fill each window with one plain matte placeholder color only.
+
+Match every window closely to the aspect ratio of its assigned source. For a combined page, make one hero window at least 1.4 times the area of the next-largest window, stagger edges, and avoid equal rows or columns.
 
 CRITICAL: do not generate photographs, people, faces, bodies, hands, pets, food, scenery, landmarks, or fake source-image content inside any photo window. Do not invent a group photo. The untouched original photos will be placed later by deterministic compositing.
 
@@ -81,6 +88,8 @@ CRITICAL: do not generate photographs, people, faces, bodies, hands, pets, food,
 ```
 
 After generation, use `scripts/compose_locked_photos.py` as described in [source-preservation.md](source-preservation.md). Do not run the finished composite through another generative edit.
+
+Keep the empty-window background, manifest, and any contact sheet in a temporary work directory. Deliver only the final composite. Do not write an ad-hoc helper script into the user's project to add titles, borders, or labels.
 
 ## Ratio correction
 

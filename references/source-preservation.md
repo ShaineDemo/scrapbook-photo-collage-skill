@@ -34,6 +34,8 @@ The windows must contain plain matte placeholder color only. Do not generate pho
 
 Use rectangular windows in the fallback path. Avoid irregular masks, perspective distortion, curled photographs, or objects overlapping a photo window because these make pixel-locked placement unreliable.
 
+Choose each window from the original source aspect ratio. The fallback uses uncropped `contain`, so a badly mismatched window creates large empty mats and weakens photo dominance. Redesign the reservation window instead of accepting a large blank area.
+
 ## Place the originals deterministically
 
 Example for one 900×1200 background:
@@ -73,3 +75,9 @@ Before delivery, compare each placed frame with its original and verify:
 - all outputs remain exact 3:4.
 
 If any check fails, do not deliver the image. Recompose from the original source using the locked-photo fallback.
+
+## Working-file discipline
+
+Empty-window backgrounds, numbered contact sheets, manifests, and layout notes are intermediate production files. Keep them in a temporary work directory and exclude them from the final gallery and final ZIP unless the user requests editable production assets.
+
+Use the bundled compositing script rather than creating per-run scripts in the user's project. The generated background should contain its decorative title and labels once. Do not add a second title pass, and do not run the final locked-photo composite back through image generation.

@@ -15,12 +15,15 @@ Read this file when choosing composition density, materials, or decorations.
 ### Balanced / medium density
 
 - Default for all outputs unless the user requests another density.
-- Photo area: 55–65%.
+- Single-photo visible source area: 42–58%.
+- Combined-page photo area: 50–65%.
 - Single-photo decorations: 6–8, including labels and hardware.
 - Multi-photo decorations: 8–10, including labels and hardware.
 - Dimensional props: 1–2.
 - Breathing space: 12–25%.
-- One obvious hero, 2–3 medium frames, remaining sources as clear details.
+- Combined page: one obvious hero at least 1.4× the next-largest photo, 2–3 medium frames, remaining sources as clear details.
+
+Count narrative richness, not filler rectangles. A balanced page should normally include two content-derived motifs, two materially distinct paper or fabric details, one hardware or stitched accent, and two useful text elements such as a title plus a label or short note. Several plain paper swatches do not by themselves create medium density.
 
 ### Rich editorial
 
@@ -52,11 +55,21 @@ Layer a small number of large photo frames with paper excerpts and a strong titl
 
 Avoid equal grids unless the user explicitly asks for a contact sheet.
 
+For a multi-output set, rotate composition families instead of cloning one centered-frame template. Adjacent single-photo pages should not reuse the same frame position, bottom-title strip, tape placement, and decoration bundle. Keep the shared palette and lettering family while changing the spatial construction.
+
+## Set cohesion
+
+Choose two or three shared neutrals and two shared accents from the full source set before rendering. Every page should visibly reuse at least three of those colors. Source-specific colors can appear as smaller accents, but no page should drift into an unrelated palette merely because its local subject suggests pink, blue, green, or sepia.
+
+For the combined summary, avoid four similarly sized rectangles. Use a hero frame whose area is at least 1.4 times the second-largest frame, stagger frame edges, vary orientations where the sources permit, and use overlap or offset spacing to create a clear reading path.
+
 ## Locked-photo fallback frames
 
 When source fidelity is uncertain, use clean rectangular photo windows that can receive the untouched originals after background generation. Keep tape, clips, paper edges, lettering, and decorations outside the window bounds. Do not use torn photo masks, perspective-warped frames, curled photo corners, irregular cutouts, or foreground objects crossing the image area in this mode.
 
 The frame itself may have a white or colored mat and a shallow shadow. Preserve breathing room around it so deterministic placement does not cover meaningful decorative work. Richness should come from the surrounding paper construction rather than from altering the source photograph.
+
+Match each reservation window to its source aspect ratio. Letterboxing may be used for fidelity, but it should remain a narrow mat rather than a large blank panel. If a landscape source needs a wide window, redesign the page around a wide window instead of forcing it into a tall portrait opening.
 
 ## Decoration derivation matrix
 
