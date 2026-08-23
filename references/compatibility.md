@@ -7,6 +7,7 @@ The canonical package follows the open Agent Skills directory format: a folder w
 | Product | Suggested user-level location | Notes |
 | --- | --- | --- |
 | OpenAI Codex | `~/.codex/skills/scrapbook-photo-collage/` | Restart or begin a new task after installation. |
+| Tencent WorkBuddy | `~/.workbuddy-ai/skills/scrapbook-photo-collage/` | Current desktop builds can import the GitHub repository conversationally. WorkBuddy marks imported Skills with `agent_created: true`; the installer adds the same marker. |
 | Claude Code | `~/.claude/skills/scrapbook-photo-collage/` | Project skills can also live under `.claude/skills/`. |
 | Kimi Code CLI | `~/.kimi-code/skills/scrapbook-photo-collage/` | Also discovers `~/.agents/skills/`; invoke with `/skill:scrapbook-photo-collage`. |
 | DeepSeek Harness | `~/.dsh/skills/scrapbook-photo-collage/` | Project scope: `.dsh/skills/scrapbook-photo-collage/`; also discovers the shared `.agents/skills/` roots. |
@@ -18,6 +19,7 @@ Run the portable installer:
 
 ```bash
 python3 scripts/install_skill.py --target codex
+python3 scripts/install_skill.py --target workbuddy
 python3 scripts/install_skill.py --target claude
 python3 scripts/install_skill.py --target kimi
 python3 scripts/install_skill.py --target deepseek-harness
@@ -40,7 +42,9 @@ The same fallback works for a plain DeepSeek chat, Kimi chat, or any agent that 
 
 ## Tencent WorkBuddy custom-skill surface
 
-WorkBuddy documents creating and installing custom Skills through its product workflow, but it does not document a user-level `~/.workbuddy/skills` directory compatible with this installer. Therefore this repository does not expose a `--target workbuddy` option. Start a new WorkBuddy task and paste [the WorkBuddy creation prompt](../adapters/workbuddy-creation-prompt.md). It tells WorkBuddy to use the canonical `SKILL.md`, references, and portable fallback as the implementation source.
+The simplest current installation route is conversational: start a new WorkBuddy task, paste the GitHub repository URL, and ask it to install the Skill. A verified desktop installation placed the package under `~/.workbuddy-ai/skills/scrapbook-photo-collage/` and added `agent_created: true` to the installed `SKILL.md`. Restart WorkBuddy or start a new task after installation. The portable installer mirrors that location and marker. See [the WorkBuddy installation prompt](../adapters/workbuddy-creation-prompt.md) for a ready-to-paste request.
+
+Model selection and rendering tools remain separate from installation. A vision-capable WorkBuddy model can inspect source photos, but final bitmap rendering still requires a callable reference-image generation or editing tool in the active task. Without one, the Skill correctly returns the complete layout briefs and renderer prompts.
 
 ## Capability limitation
 
@@ -55,7 +59,7 @@ Checked against official product documentation on 2026-08-23. “Native Skill”
 | Host surface | Native Skill | Built-in image capability relevant to this workflow | Practical status |
 | --- | --- | --- | --- |
 | OpenAI Codex | Yes | Image generation is available on Codex surfaces that expose ImageGen. | **Full when ImageGen is present.** Verify the active surface before starting. |
-| Tencent WorkBuddy | Custom Skill | WorkBuddy documents custom Skills and models covering multimodal and image-processing scenarios; available models and tools vary by version, account, and service availability. | **Full only when the active WorkBuddy toolset exposes reference-image generation or editing.** Otherwise use the renderer-prompt fallback. |
+| Tencent WorkBuddy | Yes | WorkBuddy can import this repository as a user-level Skill. Vision support and image rendering are separate: a multimodal model may inspect photos even when no generator/editor is callable. | **Full only when the active WorkBuddy toolset exposes reference-image generation or editing.** Otherwise use the renderer-prompt fallback. |
 | Claude Code | Yes | Claude does not natively generate photos or illustrations; Claude Code can connect tools through MCP. | **External image generation/editing tool required.** |
 | Kimi Code CLI | Yes | Official built-ins document image/video input and inspection, but not image generation or editing. | **External image generation/editing tool required.** |
 | DeepSeek Harness | Yes | The official harness supports Skills and composable tool plugins, but its product documentation does not establish a built-in reference-image generator/editor. | **External image generation/editing plugin or tool required.** |

@@ -11,6 +11,7 @@ from pathlib import Path
 SKILL_NAME = "scrapbook-photo-collage"
 DEFAULT_ROOTS = {
     "codex": Path.home() / ".codex" / "skills",
+    "workbuddy": Path.home() / ".workbuddy-ai" / "skills",
     "claude": Path.home() / ".claude" / "skills",
     "kimi": Path.home() / ".kimi-code" / "skills",
     "deepseek-harness": Path.home() / ".dsh" / "skills",
@@ -20,6 +21,20 @@ DEFAULT_ROOTS = {
     "generic": Path.home() / ".agents" / "skills",
 }
 INCLUDE = ("SKILL.md", "LICENSE", "agents", "references", "scripts", "adapters")
+
+
+def add_workbuddy_marker(skill_file: Path) -> None:
+    """Add the frontmatter marker used by WorkBuddy for agent-created Skills."""
+    lines = skill_file.read_text(encoding="utf-8").splitlines()
+    if not lines or lines[0] != "---":
+        raise SystemExit(f"Missing YAML frontmatter: {skill_file}")
+    try:
+        closing = lines.index("---", 1)
+    except ValueError as exc:
+        raise SystemExit(f"Unclosed YAML frontmatter: {skill_file}") from exc
+    if not any(line.startswith("agent_created:") for line in lines[1:closing]):
+        lines.insert(closing, "agent_created: true")
+        skill_file.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def main() -> None:
@@ -48,6 +63,9 @@ def main() -> None:
             shutil.copytree(item, target, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
         else:
             shutil.copy2(item, target)
+
+    if args.target == "workbuddy":
+        add_workbuddy_marker(destination / "SKILL.md")
 
     print(destination)
 

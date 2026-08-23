@@ -93,6 +93,7 @@ Clone the repository and run one of:
 
 ```bash
 python3 scripts/install_skill.py --target codex
+python3 scripts/install_skill.py --target workbuddy
 python3 scripts/install_skill.py --target claude
 python3 scripts/install_skill.py --target kimi
 python3 scripts/install_skill.py --target deepseek-harness
@@ -101,9 +102,9 @@ python3 scripts/install_skill.py --target qoderwork
 python3 scripts/install_skill.py --target grok-build
 ```
 
-These targets correspond to **Codex**, **Claude Code**, **Kimi Code CLI**, **DeepSeek Harness**, **Qoder IDE/CLI**, **QoderWork**, and **Grok Build**. Qoder and QoderWork are separate products with separate Skill directories, so each has its own target.
+These targets correspond to **Codex**, **WorkBuddy**, **Claude Code**, **Kimi Code CLI**, **DeepSeek Harness**, **Qoder IDE/CLI**, **QoderWork**, and **Grok Build**. Qoder and QoderWork are separate products with separate Skill directories, so each has its own target.
 
-WorkBuddy does not document a filesystem location that this installer can safely target. Start a new WorkBuddy task and give it the [WorkBuddy creation prompt](adapters/workbuddy-creation-prompt.md) instead. For TRAE and 豆包, see [cross-agent compatibility](references/compatibility.md). A generic standalone prompt is available at [adapters/portable-agent-prompt.md](adapters/portable-agent-prompt.md).
+WorkBuddy can also install the Skill conversationally: start a new task, paste this repository URL, and ask it to install the Skill. The current desktop product places imported Skills under `~/.workbuddy-ai/skills/`; restart WorkBuddy or begin a new task after installation. See the [WorkBuddy installation prompt](adapters/workbuddy-creation-prompt.md) for a ready-to-paste request. For TRAE and 豆包, see [cross-agent compatibility](references/compatibility.md). A generic standalone prompt is available at [adapters/portable-agent-prompt.md](adapters/portable-agent-prompt.md).
 
 ## Use
 

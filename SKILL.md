@@ -4,7 +4,7 @@ description: Turn 1–8 user photos into a tactile scrapbook set with one design
 license: MIT
 metadata:
   author: ShaineDemo
-  version: "1.1.0"
+  version: "1.1.1"
 ---
 
 # Scrapbook Photo Collage
