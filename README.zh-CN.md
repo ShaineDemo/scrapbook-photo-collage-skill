@@ -13,6 +13,51 @@
 
 默认输出一套“中密度”成品，不需要用户额外要求逐张制作。上传 1 张照片时生成 1 张单图拼贴；上传 2–8 张照片时，先为每张原图分别生成 1 张单图拼贴，再生成 1 张包含全部原图的总结拼贴。因此上传 6 张照片时默认输出 7 张成品：6 张单图和 1 张六图合并图。只有额外风格版本或不同比例需要用户明确提出。
 
+## 示例：六张照片生成一套完整手账
+
+同一组 6 张原图会生成 6 张分别设计的单图作品，以及 1 张包含全部原图的总结拼贴。Skill 会保持照片主体清晰可辨，同时根据每张照片的题材改变配色、材质、手写字和装饰物。
+
+<p align="center">
+  <img src="examples/after/07-life-lately-summary.webp" alt="使用全部六张原图制作的合并手账拼贴" width="720">
+</p>
+
+<p align="center"><strong>最终合并图——六张原图各使用一次，不遗漏、不重复</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th width="50%">原始照片</th>
+      <th width="50%">单图手账成品</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="examples/before/01-dinner.webp" alt="晚餐原图" width="420"></td>
+      <td><img src="examples/after/01-dinner-after-blue-hour.webp" alt="蓝调时刻晚餐手账" width="420"></td>
+    </tr>
+    <tr>
+      <td><img src="examples/before/02-museum.webp" alt="博物馆雕像原图" width="420"></td>
+      <td><img src="examples/after/02-quiet-wonders.webp" alt="博物馆主题手账" width="420"></td>
+    </tr>
+    <tr>
+      <td><img src="examples/before/03-dog.webp" alt="狗狗原图" width="420"></td>
+      <td><img src="examples/after/03-good-dog-days.webp" alt="狗狗主题手账" width="420"></td>
+    </tr>
+    <tr>
+      <td><img src="examples/before/04-cafe-solo.webp" alt="单人咖啡馆原图" width="420"></td>
+      <td><img src="examples/after/04-a-quiet-cup.webp" alt="安静咖啡时光手账" width="420"></td>
+    </tr>
+    <tr>
+      <td><img src="examples/before/05-cafe-couple.webp" alt="双人咖啡馆原图" width="420"></td>
+      <td><img src="examples/after/05-stay-a-little-longer.webp" alt="双人咖啡时光手账" width="420"></td>
+    </tr>
+    <tr>
+      <td><img src="examples/before/06-coast.webp" alt="海岸风景原图" width="420"></td>
+      <td><img src="examples/after/06-coastal-air.webp" alt="海滨旅行主题手账" width="420"></td>
+    </tr>
+  </tbody>
+</table>
+
 ## 能力要求
 
 Skill 本身是模型无关的工作流说明，不会凭空给 Agent 增加生图能力。要输出最终图片，宿主 Agent 仍需提供支持参考图的生图/改图模型、API、插件或 MCP 工具。纯文本 Agent 会输出完整构图方案和可交付给生图模型的 Prompt。
@@ -46,7 +91,7 @@ python3 scripts/install_skill.py --target codebuddy
 
 ## 隐私
 
-仓库不包含任何用户照片，也不会自行上传图片。图片由你选择的 Agent 与生图服务处理。
+仓库仅在 `examples/` 中包含项目作者授权用于展示的示例照片。Skill 本身不会自行上传图片，实际图片由你选择的 Agent 与生图服务处理。
 
 ## 许可证
 

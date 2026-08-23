@@ -16,6 +16,51 @@ It captures the design decisions that usually separate a convincing scrapbook fr
 
 The default is a complete balanced, medium-density scrapbook set. One uploaded photo produces one single-photo collage. Two to eight uploaded photos produce one single-photo collage per source plus one combined summary collage. Six photos therefore produce seven final images: six individual designs followed by one six-photo summary. Extra style variants or alternate ratios are generated only when requested.
 
+## Example: six photos become a complete scrapbook set
+
+The same six source photos produce six individually art-directed pages plus one combined summary. The Skill keeps the photographs recognizable while changing the palette, materials, lettering, and decorations to match each subject.
+
+<p align="center">
+  <img src="examples/after/07-life-lately-summary.webp" alt="Combined scrapbook summary using all six source photos" width="720">
+</p>
+
+<p align="center"><strong>Final combined summary — all six originals, each used exactly once</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th width="50%">Original photo</th>
+      <th width="50%">Single-photo scrapbook result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="examples/before/01-dinner.webp" alt="Original evening dinner photo" width="420"></td>
+      <td><img src="examples/after/01-dinner-after-blue-hour.webp" alt="Dinner After Blue Hour scrapbook result" width="420"></td>
+    </tr>
+    <tr>
+      <td><img src="examples/before/02-museum.webp" alt="Original museum statue photo" width="420"></td>
+      <td><img src="examples/after/02-quiet-wonders.webp" alt="Quiet Wonders museum scrapbook result" width="420"></td>
+    </tr>
+    <tr>
+      <td><img src="examples/before/03-dog.webp" alt="Original dog photo" width="420"></td>
+      <td><img src="examples/after/03-good-dog-days.webp" alt="Good Dog Days scrapbook result" width="420"></td>
+    </tr>
+    <tr>
+      <td><img src="examples/before/04-cafe-solo.webp" alt="Original solo cafe portrait" width="420"></td>
+      <td><img src="examples/after/04-a-quiet-cup.webp" alt="A Quiet Cup scrapbook result" width="420"></td>
+    </tr>
+    <tr>
+      <td><img src="examples/before/05-cafe-couple.webp" alt="Original cafe couple photo" width="420"></td>
+      <td><img src="examples/after/05-stay-a-little-longer.webp" alt="Stay a Little Longer scrapbook result" width="420"></td>
+    </tr>
+    <tr>
+      <td><img src="examples/before/06-coast.webp" alt="Original coastal landscape photo" width="420"></td>
+      <td><img src="examples/after/06-coastal-air.webp" alt="Coastal Air scrapbook result" width="420"></td>
+    </tr>
+  </tbody>
+</table>
+
 ## Requirements
 
 The Skill is model-agnostic, but a finished bitmap requires the host agent to expose an image-generation or image-editing tool with reference-image support. A text-only agent can still produce the complete art direction and renderer prompt.
@@ -77,7 +122,7 @@ adapters/                        TRAE and generic chat fallbacks
 
 ## Privacy
 
-The repository contains no user photos and does not upload images by itself. Your chosen agent and image provider determine where attached photos are processed.
+The repository includes only the project author's authorized demonstration images under `examples/`. The Skill does not upload images by itself. Your chosen agent and image provider determine where attached photos are processed.
 
 ## License
 
