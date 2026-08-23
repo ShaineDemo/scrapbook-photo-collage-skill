@@ -82,7 +82,7 @@
 
 Skill 本身是模型无关的工作流说明，不会凭空给 Agent 增加生图能力。要输出最终图片，宿主 Agent 仍需提供支持参考图的生图/改图模型、API、插件或 MCP 工具。纯文本 Agent 会输出完整构图方案和可交付给生图模型的 Prompt。
 
-“能安装 Skill”不等于“能完成出图”。Codex 在提供 ImageGen 的产品界面中可以直接渲染；CodeBuddy Code 官方提供文生图和图生图工具；Grok Build 可原生安装 Skill，并可在接入 Grok Imagine 工具或 API 后进行参考图编辑。Qoder 目前官方只明确提供文生图。Claude Code、Kimi Code、Deep Code 与 QoderWork 要完成这种保留原照片的拼贴，需要另外连接生图/改图模型、插件、API 或 MCP。安装前可查看[已核实的能力矩阵](references/compatibility.md#verified-rendering-capabilities)。
+“能安装 Skill”不等于“能完成出图”。Codex 在提供 ImageGen 的产品界面中可以直接渲染；WorkBuddy 支持自定义 Skill，并可在当前账号、模型和工具集提供参考图生成或编辑能力时完成本工作流；Grok Build 可原生安装 Skill，并可在接入 Grok Imagine 工具或 API 后进行参考图编辑。Qoder 目前官方只明确提供文生图。Claude Code、Kimi Code、Deep Code 与 QoderWork 要完成这种保留原照片的拼贴，需要另外连接生图/改图模型、插件、API 或 MCP。安装前可查看[已核实的能力矩阵](references/compatibility.md#verified-rendering-capabilities)。
 
 Python 3 与 Pillow 仅用于在参考图数量超过模型上限时生成带编号的无裁切素材索引图，不是必须依赖。
 
@@ -92,16 +92,16 @@ Python 3 与 Pillow 仅用于在参考图数量超过模型上限时生成带编
 
 ```bash
 python3 scripts/install_skill.py --target codex
+python3 scripts/install_skill.py --target workbuddy
 python3 scripts/install_skill.py --target claude
 python3 scripts/install_skill.py --target kimi
 python3 scripts/install_skill.py --target deepcode
 python3 scripts/install_skill.py --target qoder
 python3 scripts/install_skill.py --target qoderwork
-python3 scripts/install_skill.py --target codebuddy
 python3 scripts/install_skill.py --target grok
 ```
 
-- Codex、Claude Code、Kimi Code、Deep Code、Qoder、QoderWork、CodeBuddy、Grok Build：原生或项目级 `SKILL.md`。
+- Codex、WorkBuddy、Claude Code、Kimi Code、Deep Code、Qoder、QoderWork、Grok Build：支持原生、项目级或产品自定义 Skill。
 - TRAE：使用 [TRAE 项目规则适配文件](adapters/trae-project_rules.md)。
 - 豆包及不支持文件型 Skill 的聊天产品：将 [通用智能体提示词](adapters/portable-agent-prompt.md) 放入自定义智能体设定或知识库。
 - WorkBuddy 自定义 Skill 页面：把 [WorkBuddy 创建指令](adapters/workbuddy-creation-prompt.md) 交给 WorkBuddy，让其生成所需的本地包装文件。

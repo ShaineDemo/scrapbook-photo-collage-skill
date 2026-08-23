@@ -2,29 +2,29 @@
 
 The canonical package follows the open Agent Skills directory format: a folder with `SKILL.md` plus optional `scripts/` and `references/`. Rendering still depends on the host agent exposing an image-generation or image-editing tool.
 
-## Native `SKILL.md` hosts
+## Supported hosts and staging locations
 
 | Product | Suggested user-level location | Notes |
 | --- | --- | --- |
 | OpenAI Codex | `~/.codex/skills/scrapbook-photo-collage/` | Restart or begin a new task after installation. |
+| Tencent WorkBuddy | `~/.workbuddy/skills/scrapbook-photo-collage/` | Stages the canonical package in WorkBuddy's configuration space; some versions require installation or conversion through the Skills UI. |
 | Claude Code | `~/.claude/skills/scrapbook-photo-collage/` | Project skills can also live under `.claude/skills/`. |
 | Kimi Code CLI | `~/.kimi-code/skills/scrapbook-photo-collage/` | Also discovers `~/.agents/skills/`; invoke with `/skill:scrapbook-photo-collage`. |
 | DeepSeek Deep Code | `~/.agents/skills/scrapbook-photo-collage/` | Project scope: `.deepcode/skills/scrapbook-photo-collage/`. |
 | Qoder IDE/CLI | `~/.qoder/skills/scrapbook-photo-collage/` | Project scope: `.qoder/skills/scrapbook-photo-collage/`. |
 | QoderWork | `~/.qoderwork/skills/scrapbook-photo-collage/` | It can also install from a pasted GitHub repository URL. |
-| Tencent CodeBuddy | `~/.codebuddy/skills/scrapbook-photo-collage/` or project `.codebuddy/skills/` | Availability depends on the CodeBuddy/WorkBuddy surface in use. |
 | xAI Grok Build | `~/.grok/skills/scrapbook-photo-collage/` | Project scope: `.grok/skills/scrapbook-photo-collage/`; also discovers `~/.agents/skills/`. |
 
 Run the portable installer:
 
 ```bash
 python3 scripts/install_skill.py --target codex
+python3 scripts/install_skill.py --target workbuddy
 python3 scripts/install_skill.py --target claude
 python3 scripts/install_skill.py --target kimi
 python3 scripts/install_skill.py --target deepcode
 python3 scripts/install_skill.py --target qoder
 python3 scripts/install_skill.py --target qoderwork
-python3 scripts/install_skill.py --target codebuddy
 python3 scripts/install_skill.py --target grok
 ```
 
@@ -57,12 +57,12 @@ Checked against official product documentation on 2026-08-23. “Native Skill”
 | Host surface | Native Skill | Built-in image capability relevant to this workflow | Practical status |
 | --- | --- | --- | --- |
 | OpenAI Codex | Yes | Image generation is available on Codex surfaces that expose ImageGen. | **Full when ImageGen is present.** Verify the active surface before starting. |
+| Tencent WorkBuddy | Custom Skill | WorkBuddy documents custom Skills and models covering multimodal and image-processing scenarios; available models and tools vary by version, account, and service availability. | **Full only when the active WorkBuddy toolset exposes reference-image generation or editing.** Otherwise use the renderer-prompt fallback. |
 | Claude Code | Yes | Claude does not natively generate photos or illustrations; Claude Code can connect tools through MCP. | **External image generation/editing tool required.** |
 | Kimi Code CLI | Yes | Official built-ins document image/video input and inspection, but not image generation or editing. | **External image generation/editing tool required.** |
 | DeepSeek Deep Code | Yes | DeepSeek V4 is documented as text-only; agent integrations can supply separate tools or proxy models. | **External vision and image generation/editing tools required.** |
 | Qoder IDE/CLI | Yes | `/gen-image` provides text-to-image generation; official documentation does not establish reference-image editing. | **Partial.** External image-to-image support is required for faithful photo preservation. |
 | QoderWork | Yes | Design creates code-based visual artifacts; the official documentation does not establish raster reference-image editing. | **External image generation/editing tool required for this Skill.** |
-| Tencent CodeBuddy Code | Yes | `ImageGen` supports text-to-image and image-to-image; newer releases also document `ImageEdit`. | **Full when the image tools and corresponding models are enabled.** |
 | xAI Grok Build | Yes | `/imagine` provides text-to-image. Grok Imagine APIs/tools support image generation and editing with up to three reference images per request. | **Full when the Imagine editing tool/API is connected; text-to-image alone is partial.** Use contact sheets when source count exceeds the reference limit. |
 
 Consumer chat products are separate surfaces. Grok web/apps and 豆包 can generate images, but that does not prove that an installed file-based Skill can invoke their image renderer. Treat them as portable-prompt hosts unless their active agent surface exposes both Skill loading and a callable reference-image editing tool.
@@ -81,8 +81,8 @@ Consumer chat products are separate surfaces. Grok web/apps and 豆包 can gener
 - [Qoder image generation](https://docs.qoder.com/user-guide/chat/tools)
 - [QoderWork skills](https://docs.qoder.com/qoderwork/skills)
 - [QoderWork Design](https://docs.qoder.com/qoderwork/design)
-- [CodeBuddy skills in large repositories](https://www.workbuddy.ai/docs/cli/large-codebases)
-- [CodeBuddy image tools](https://www.codebuddy.ai/docs/cli/tools-reference)
+- [WorkBuddy custom Skills](https://www.workbuddy.ai/docs/workbuddy/From-Beginner-to-Expert-Guide/Practice-Cases/Create-Skills)
+- [WorkBuddy model configuration](https://www.workbuddy.ai/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Model)
 - [Grok Build skills](https://docs.x.ai/build/features/skills-plugins-marketplaces)
 - [Grok Build image command](https://docs.x.ai/build/modes-and-commands)
 - [Grok Imagine generation and editing](https://docs.x.ai/developers/model-capabilities/imagine)

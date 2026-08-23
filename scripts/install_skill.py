@@ -11,12 +11,12 @@ from pathlib import Path
 SKILL_NAME = "scrapbook-photo-collage"
 DEFAULT_ROOTS = {
     "codex": Path.home() / ".codex" / "skills",
+    "workbuddy": Path.home() / ".workbuddy" / "skills",
     "claude": Path.home() / ".claude" / "skills",
     "kimi": Path.home() / ".kimi-code" / "skills",
     "deepcode": Path.home() / ".agents" / "skills",
     "qoder": Path.home() / ".qoder" / "skills",
     "qoderwork": Path.home() / ".qoderwork" / "skills",
-    "codebuddy": Path.home() / ".codebuddy" / "skills",
     "grok": Path.home() / ".grok" / "skills",
     "generic": Path.home() / ".agents" / "skills",
 }
