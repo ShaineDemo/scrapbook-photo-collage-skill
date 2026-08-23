@@ -17,6 +17,7 @@ DEFAULT_ROOTS = {
     "qoder": Path.home() / ".qoder" / "skills",
     "qoderwork": Path.home() / ".qoderwork" / "skills",
     "codebuddy": Path.home() / ".codebuddy" / "skills",
+    "grok": Path.home() / ".grok" / "skills",
     "generic": Path.home() / ".agents" / "skills",
 }
 INCLUDE = ("SKILL.md", "LICENSE", "agents", "references", "scripts", "adapters")

@@ -13,6 +13,7 @@ The canonical package follows the open Agent Skills directory format: a folder w
 | Qoder IDE/CLI | `~/.qoder/skills/scrapbook-photo-collage/` | Project scope: `.qoder/skills/scrapbook-photo-collage/`. |
 | QoderWork | `~/.qoderwork/skills/scrapbook-photo-collage/` | It can also install from a pasted GitHub repository URL. |
 | Tencent CodeBuddy | `~/.codebuddy/skills/scrapbook-photo-collage/` or project `.codebuddy/skills/` | Availability depends on the CodeBuddy/WorkBuddy surface in use. |
+| xAI Grok Build | `~/.grok/skills/scrapbook-photo-collage/` | Project scope: `.grok/skills/scrapbook-photo-collage/`; also discovers `~/.agents/skills/`. |
 
 Run the portable installer:
 
@@ -24,6 +25,7 @@ python3 scripts/install_skill.py --target deepcode
 python3 scripts/install_skill.py --target qoder
 python3 scripts/install_skill.py --target qoderwork
 python3 scripts/install_skill.py --target codebuddy
+python3 scripts/install_skill.py --target grok
 ```
 
 Use `--dest /custom/skills/root` for an unlisted host or a custom data directory.
@@ -48,14 +50,41 @@ An instruction Skill can choose a composition, build prompts, and run available 
 
 For two to eight input photos, the default workflow makes `N + 1` image-rendering calls or equivalent batch jobs: one single-photo collage per source plus one combined summary. Hosts with generation quotas or per-task output limits must not silently replace that set with only the summary image; they should preserve all planned outputs and clearly report the rendering limitation.
 
+## Verified rendering capabilities
+
+Checked against official product documentation on 2026-08-23. “Native Skill” means the product can discover this package; it does not imply that the product can render the final bitmaps.
+
+| Host surface | Native Skill | Built-in image capability relevant to this workflow | Practical status |
+| --- | --- | --- | --- |
+| OpenAI Codex | Yes | Image generation is available on Codex surfaces that expose ImageGen. | **Full when ImageGen is present.** Verify the active surface before starting. |
+| Claude Code | Yes | Claude does not natively generate photos or illustrations; Claude Code can connect tools through MCP. | **External image generation/editing tool required.** |
+| Kimi Code CLI | Yes | Official built-ins document image/video input and inspection, but not image generation or editing. | **External image generation/editing tool required.** |
+| DeepSeek Deep Code | Yes | DeepSeek V4 is documented as text-only; agent integrations can supply separate tools or proxy models. | **External vision and image generation/editing tools required.** |
+| Qoder IDE/CLI | Yes | `/gen-image` provides text-to-image generation; official documentation does not establish reference-image editing. | **Partial.** External image-to-image support is required for faithful photo preservation. |
+| QoderWork | Yes | Design creates code-based visual artifacts; the official documentation does not establish raster reference-image editing. | **External image generation/editing tool required for this Skill.** |
+| Tencent CodeBuddy Code | Yes | `ImageGen` supports text-to-image and image-to-image; newer releases also document `ImageEdit`. | **Full when the image tools and corresponding models are enabled.** |
+| xAI Grok Build | Yes | `/imagine` provides text-to-image. Grok Imagine APIs/tools support image generation and editing with up to three reference images per request. | **Full when the Imagine editing tool/API is connected; text-to-image alone is partial.** Use contact sheets when source count exceeds the reference limit. |
+
+Consumer chat products are separate surfaces. Grok web/apps and 豆包 can generate images, but that does not prove that an installed file-based Skill can invoke their image renderer. Treat them as portable-prompt hosts unless their active agent surface exposes both Skill loading and a callable reference-image editing tool.
+
 ## Primary references
 
 - [Agent Skills specification](https://agentskills.io/specification)
+- [Codex image generation](https://learn.chatgpt.com/docs/image-generation)
 - [Claude Code skills](https://code.claude.com/docs/en/slash-commands)
+- [Claude image-generation limitation](https://support.claude.com/en/articles/9002504-can-claude-produce-images)
 - [Kimi Code Agent Skills](https://www.kimi.com/code/docs/en/kimi-code-cli/customization/skills.html)
+- [Kimi Code built-in tools](https://www.kimi.com/code/docs/en/kimi-code-cli/reference/tools.html)
 - [DeepSeek Deep Code integration](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode)
+- [DeepSeek text-only model note](https://api-docs.deepseek.com/quick_start/agent_integrations/github_copilot/)
 - [Qoder skills](https://docs.qoder.com/extensions/skills)
+- [Qoder image generation](https://docs.qoder.com/user-guide/chat/tools)
 - [QoderWork skills](https://docs.qoder.com/qoderwork/skills)
+- [QoderWork Design](https://docs.qoder.com/qoderwork/design)
 - [CodeBuddy skills in large repositories](https://www.workbuddy.ai/docs/cli/large-codebases)
+- [CodeBuddy image tools](https://www.codebuddy.ai/docs/cli/tools-reference)
+- [Grok Build skills](https://docs.x.ai/build/features/skills-plugins-marketplaces)
+- [Grok Build image command](https://docs.x.ai/build/modes-and-commands)
+- [Grok Imagine generation and editing](https://docs.x.ai/developers/model-capabilities/imagine)
 - [TRAE rules overview](https://www.trae.ai/ide/)
 - [豆包 feature introduction](https://www.doubao.com/legal/feature_intro)
