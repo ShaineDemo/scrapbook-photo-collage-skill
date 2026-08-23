@@ -2,24 +2,22 @@
 
 The canonical package follows the open Agent Skills directory format: a folder with `SKILL.md` plus optional `scripts/` and `references/`. Rendering still depends on the host agent exposing an image-generation or image-editing tool.
 
-## Supported hosts and staging locations
+## Direct filesystem installation targets
 
 | Product | Suggested user-level location | Notes |
 | --- | --- | --- |
 | OpenAI Codex | `~/.codex/skills/scrapbook-photo-collage/` | Restart or begin a new task after installation. |
-| Tencent WorkBuddy | `~/.workbuddy/skills/scrapbook-photo-collage/` | Stages the canonical package in WorkBuddy's configuration space; some versions require installation or conversion through the Skills UI. |
 | Claude Code | `~/.claude/skills/scrapbook-photo-collage/` | Project skills can also live under `.claude/skills/`. |
 | Kimi Code CLI | `~/.kimi-code/skills/scrapbook-photo-collage/` | Also discovers `~/.agents/skills/`; invoke with `/skill:scrapbook-photo-collage`. |
 | DeepSeek Harness | `~/.dsh/skills/scrapbook-photo-collage/` | Project scope: `.dsh/skills/scrapbook-photo-collage/`; also discovers the shared `.agents/skills/` roots. |
-| Qoder IDE/CLI | `~/.qoder/skills/scrapbook-photo-collage/` | Project scope: `.qoder/skills/scrapbook-photo-collage/`. |
-| QoderWork | `~/.qoderwork/skills/scrapbook-photo-collage/` | It can also install from a pasted GitHub repository URL. |
+| Qoder IDE/CLI | `~/.qoder/skills/scrapbook-photo-collage/` | Qoder's coding IDE/CLI product. Project scope: `.qoder/skills/scrapbook-photo-collage/`. |
+| QoderWork | `~/.qoderwork/skills/scrapbook-photo-collage/` | A separate work-agent product with its own Skill store. It can also install from a pasted GitHub repository URL. |
 | xAI Grok Build | `~/.grok/skills/scrapbook-photo-collage/` | Project scope: `.grok/skills/scrapbook-photo-collage/`; also discovers `~/.agents/skills/`. |
 
 Run the portable installer:
 
 ```bash
 python3 scripts/install_skill.py --target codex
-python3 scripts/install_skill.py --target workbuddy
 python3 scripts/install_skill.py --target claude
 python3 scripts/install_skill.py --target kimi
 python3 scripts/install_skill.py --target deepseek-harness
@@ -42,7 +40,7 @@ The same fallback works for a plain DeepSeek chat, Kimi chat, or any agent that 
 
 ## Tencent WorkBuddy custom-skill surface
 
-Some WorkBuddy surfaces generate a custom Skill package rather than scanning an Agent Skills folder. Start a new WorkBuddy task and paste [the WorkBuddy creation prompt](../adapters/workbuddy-creation-prompt.md). It tells WorkBuddy to use the canonical `SKILL.md`, references, and portable fallback as the implementation source.
+WorkBuddy documents creating and installing custom Skills through its product workflow, but it does not document a user-level `~/.workbuddy/skills` directory compatible with this installer. Therefore this repository does not expose a `--target workbuddy` option. Start a new WorkBuddy task and paste [the WorkBuddy creation prompt](../adapters/workbuddy-creation-prompt.md). It tells WorkBuddy to use the canonical `SKILL.md`, references, and portable fallback as the implementation source.
 
 ## Capability limitation
 

@@ -91,7 +91,6 @@ Python 3 与 Pillow 仅用于在参考图数量超过模型上限时生成带编
 
 ```bash
 python3 scripts/install_skill.py --target codex
-python3 scripts/install_skill.py --target workbuddy
 python3 scripts/install_skill.py --target claude
 python3 scripts/install_skill.py --target kimi
 python3 scripts/install_skill.py --target deepseek-harness
@@ -100,10 +99,11 @@ python3 scripts/install_skill.py --target qoderwork
 python3 scripts/install_skill.py --target grok-build
 ```
 
-- Codex、WorkBuddy、Claude Code、Kimi Code、DeepSeek Harness、Qoder、QoderWork、Grok Build：支持原生、项目级或产品自定义 Skill。
+- 上述命令依次适用于 Codex、Claude Code、Kimi Code CLI、DeepSeek Harness、Qoder IDE/CLI、QoderWork 和 Grok Build。
+- Qoder 与 QoderWork 是两个独立产品，并分别使用不同的 Skill 目录，因此需要保留两个安装目标；只需安装自己正在使用的那个。
+- WorkBuddy 没有公开可由本脚本安全写入的 Skill 文件目录，不能使用 `--target workbuddy` 直接安装。请新建一个 WorkBuddy 任务，把 [WorkBuddy 创建指令](adapters/workbuddy-creation-prompt.md) 交给它完成产品内的自定义 Skill 创建。
 - TRAE：使用 [TRAE 项目规则适配文件](adapters/trae-project_rules.md)。
 - 豆包及不支持文件型 Skill 的聊天产品：将 [通用智能体提示词](adapters/portable-agent-prompt.md) 放入自定义智能体设定或知识库。
-- WorkBuddy 自定义 Skill 页面：把 [WorkBuddy 创建指令](adapters/workbuddy-creation-prompt.md) 交给 WorkBuddy，让其生成所需的本地包装文件。
 
 更完整的安装目录和能力限制见 [兼容性说明](references/compatibility.md)。
 
