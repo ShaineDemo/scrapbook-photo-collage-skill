@@ -52,6 +52,12 @@ Layer a small number of large photo frames with paper excerpts and a strong titl
 
 Avoid equal grids unless the user explicitly asks for a contact sheet.
 
+## Locked-photo fallback frames
+
+When source fidelity is uncertain, use clean rectangular photo windows that can receive the untouched originals after background generation. Keep tape, clips, paper edges, lettering, and decorations outside the window bounds. Do not use torn photo masks, perspective-warped frames, curled photo corners, irregular cutouts, or foreground objects crossing the image area in this mode.
+
+The frame itself may have a white or colored mat and a shallow shadow. Preserve breathing room around it so deterministic placement does not cover meaningful decorative work. Richness should come from the surrounding paper construction rather than from altering the source photograph.
+
 ## Decoration derivation matrix
 
 Choose from the row matching the sources. Do not use every item.

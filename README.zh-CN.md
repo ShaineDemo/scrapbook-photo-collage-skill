@@ -83,7 +83,7 @@ Skill 本身是模型无关的工作流说明，不会凭空给 Agent 增加生�
 
 “能安装 Skill”不等于“能完成出图”。Codex 在提供 ImageGen 的产品界面中可以直接渲染；WorkBuddy 支持自定义 Skill，并可在当前账号、模型和工具集提供参考图生成或编辑能力时完成本工作流；Grok Build 可原生安装 Skill，并可在接入 Grok Imagine 工具或 API 后进行参考图编辑。Qoder 目前官方只明确提供文生图。Claude Code、Kimi Code、DeepSeek Harness 与 QoderWork 要完成这种保留原照片的拼贴，需要另外连接生图/改图模型、插件、API 或 MCP。安装前可查看[已核实的能力矩阵](references/compatibility.md#verified-rendering-capabilities)。
 
-Python 3 与 Pillow 仅用于在参考图数量超过模型上限时生成带编号的无裁切素材索引图，不是必须依赖。
+Python 3 与 Pillow 是可选依赖。除了生成带编号的无裁切素材索引图，它们还能启用更稳妥的保真模式：先单独生成手账背景与装饰，再把未经重绘的原图嵌入相框，避免能力较弱的模型删掉人物、宠物或场景。
 
 ## 安装
 

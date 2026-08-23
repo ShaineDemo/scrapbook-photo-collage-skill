@@ -2,6 +2,8 @@
 
 Adapt this structure to the current photos. Replace every bracketed field and remove irrelevant sections.
 
+Use this direct-editing prompt only when the renderer can keep source-photo regions locked. Otherwise skip to **Background-only hybrid prompt** below and composite the originals deterministically.
+
 ```text
 Create one polished 3:4 vertical [cover / inside page] in a tactile handmade scrapbook style using the supplied source photos.
 
@@ -10,6 +12,7 @@ SOURCE CONTROL — CRITICAL
 - Use sources [S1…Sn] exactly once each.
 - Do not duplicate, omit, mirror, repaint, or invent a replacement for any source.
 - Preserve identities, faces, hands, clothing, food, objects, scenery, and meaningful text faithfully.
+- Preserve the original number of people and animals. Do not remove, add, merge, or substitute subjects.
 - If a reference is a numbered contact sheet, each numbered tile is a separate source. Remove sheet labels, grids, and cells from the final image.
 
 CANVAS AND HIERARCHY
@@ -59,6 +62,26 @@ FINAL QUALITY
 - The actual delivered bitmap dimensions are exact 3:4 vertical; a prompt-only ratio request is not sufficient.
 ```
 
+## Background-only hybrid prompt
+
+Use this safer prompt when reference fidelity is uncertain:
+
+```text
+Create only the handmade scrapbook surround for one exact 3:4 vertical page. Generate the background paper, layered stationery, title, captions, tape, stitching, and project-specific decorations.
+
+Reserve exactly [N] clean rectangular photo windows:
+- S1 window: [X, Y, width, height or clear position and size]
+- [remaining windows]
+
+Keep all decorations outside the photo windows and do not cross their edges. Fill each window with one plain matte placeholder color only.
+
+CRITICAL: do not generate photographs, people, faces, bodies, hands, pets, food, scenery, landmarks, or fake source-image content inside any photo window. Do not invent a group photo. The untouched original photos will be placed later by deterministic compositing.
+
+[materials, decorations, exact copy, and quality direction]
+```
+
+After generation, use `scripts/compose_locked_photos.py` as described in [source-preservation.md](source-preservation.md). Do not run the finished composite through another generative edit.
+
 ## Ratio correction
 
 If the renderer returns any ratio other than 3:4 vertical, keep the artwork and source accounting unchanged, then rerender or extend/crop the canvas safely:
@@ -81,9 +104,11 @@ Do not rely only on “use all images.” Name the expected count and map the ph
 
 ### Missing or duplicated photo
 
-```text
-Keep the current composition and style. Correct only the source accounting: remove the duplicated [source], restore the missing [source] as a distinct frame, and keep the total at exactly [n] unique photos.
-```
+Discard the altered render. Keep its art direction only, regenerate a background with empty windows, and use the hybrid locked-photo fallback. A missing, duplicated, substituted, or repainted source is a fidelity failure, not a cosmetic revision.
+
+### Person, pet, object, or scene removed or changed
+
+Discard the altered render immediately. Do not ask the model to reconstruct the missing subject. Generate only the surround and empty rectangular windows, then place the original source files with `scripts/compose_locked_photos.py`.
 
 ### Decorations too dense
 

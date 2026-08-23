@@ -85,7 +85,7 @@ The Skill is model-agnostic, but a finished bitmap requires the host agent to ex
 
 Host support is not the same as rendering support. Codex can render when ImageGen is available. WorkBuddy supports custom Skills and can complete this workflow when its active account, model, and toolset expose reference-image generation or editing. Grok Build installs the Skill natively and can use Grok Imagine, including reference-image editing when that tool or API is connected. Qoder currently documents text-to-image only. Claude Code, Kimi Code, DeepSeek Harness, and QoderWork require an external image model, plugin, API, or MCP tool for this photo-preserving workflow. See the [verified capability matrix](references/compatibility.md#verified-rendering-capabilities) before installation.
 
-Python 3 and [Pillow](https://python-pillow.org/) are optional and used only when more source photos must be packed into numbered contact sheets.
+Python 3 and [Pillow](https://python-pillow.org/) are optional. Besides building numbered contact sheets, they enable a safer fallback that creates the handmade surround separately and places the untouched original photos afterward, preventing a weak renderer from deleting or repainting people and scenes.
 
 ## Install
 
@@ -137,8 +137,10 @@ SKILL.md                         Canonical cross-agent instructions
 agents/openai.yaml               Codex UI metadata
 references/visual-system.md      Density, materials, and decoration logic
 references/prompt-template.md    Renderer prompt structure and revision prompts
+references/source-preservation.md Locked-photo fallback and fidelity checks
 references/compatibility.md      Product-specific installation guidance
 scripts/build_contact_sheet.py   Numbered source-index generator
+scripts/compose_locked_photos.py Deterministic original-photo compositor
 scripts/install_skill.py         Portable installer
 adapters/                        TRAE and generic chat fallbacks
 ```
