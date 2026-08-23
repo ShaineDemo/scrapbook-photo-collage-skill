@@ -44,7 +44,9 @@ Some WorkBuddy surfaces generate a custom Skill package rather than scanning an 
 
 ## Capability limitation
 
-An instruction Skill can choose a composition, build prompts, and run available tools; it cannot add an image model to a host that has none. In a text-only host, expect a layout brief and renderer prompt. Connect an image model through the host's native image tool, API, plugin, or MCP integration to render the final bitmap.
+An instruction Skill can choose a composition, build prompts, and run available tools; it cannot add an image model to a host that has none. In a text-only host, expect the complete set of layout briefs and renderer prompts. Connect an image model through the host's native image tool, API, plugin, or MCP integration to render the final bitmaps.
+
+For two to eight input photos, the default workflow makes `N + 1` image-rendering calls or equivalent batch jobs: one single-photo collage per source plus one combined summary. Hosts with generation quotas or per-task output limits must not silently replace that set with only the summary image; they should preserve all planned outputs and clearly report the rendering limitation.
 
 ## Primary references
 

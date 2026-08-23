@@ -1,15 +1,15 @@
 ---
 name: scrapbook-photo-collage
-description: Turn 1–8 user photos into tactile scrapbook, journal, travel-diary, memory-board, or social-cover compositions. Use when the user wants a single-photo or multi-photo collage with layered paper, expressive lettering, content-aware decorations, and faithful preservation of the supplied photos.
+description: Turn 1–8 user photos into a tactile scrapbook set with one design per source and, for multi-photo requests, a final combined summary. Use for journal, travel-diary, memory-board, or social-cover compositions with layered paper, expressive lettering, content-aware decorations, and faithful photo preservation.
 license: MIT
 metadata:
   author: ShaineDemo
-  version: "1.0.1"
+  version: "1.1.0"
 ---
 
 # Scrapbook Photo Collage
 
-Create a polished collage in which the user's photos remain the evidence and focal content. Generative styling may build the surrounding papers, lettering, tape, textures, and decorations, but must not replace the memories in the supplied photos.
+Create a polished scrapbook set in which the user's photos remain the evidence and focal content. Generative styling may build the surrounding papers, lettering, tape, textures, and decorations, but must not replace the memories in the supplied photos.
 
 ## Capability gate
 
@@ -32,14 +32,26 @@ If the user does not specify a ratio, use 3:4 vertical for a social cover. Prese
 
 ## Output count
 
-Default to one final collage image per request:
+Default to a complete scrapbook set without requiring the user to ask for separate images:
 
 - one supplied photo produces one single-photo collage;
-- two to eight supplied photos produce one multi-photo collage containing every supplied photo exactly once;
-- six supplied photos therefore produce one collage image with six distinct photo frames;
-- produce separate images for each source, multiple design variants, or a carousel only when the user explicitly requests them.
+- two to eight supplied photos produce one single-photo collage for every source, followed by one combined summary collage containing every source exactly once;
+- for `N` supplied photos where `N >= 2`, the default output count is therefore `N + 1`;
+- six supplied photos produce six single-photo collages plus one six-photo summary collage, for seven final images total;
+- extra style variants, alternate ratios, or additional carousel pages still require an explicit request.
 
-Do not infer that the number of output images should equal the number of input photos.
+Do not silently collapse a multi-photo request into only the combined collage.
+
+## Two-stage output sequence
+
+For two to eight supplied photos, render in this order:
+
+1. Create the `N` single-photo collages in source order, one complete composition for each `S1` through `Sn`.
+2. Create the combined summary collage after the singles, using every original source exactly once.
+
+Keep the set cohesive through a shared emotional theme, palette, material family, density, and lettering direction, while varying layout and content-derived decorations so the single-photo pieces do not look cloned.
+
+Use the original photos as the content references for the combined collage. The generated single-photo collages may be used only as style and art-direction references. Do not recursively place or repaint the generated singles as substitutes for the original photos, because this compounds face, text, and detail distortion.
 
 ## Workflow
 
@@ -67,6 +79,8 @@ Choose:
 
 Use **Balanced / medium density** by default. Do not silently switch to an airy or rich preset. Change density only when the user asks for a simpler, richer, sparse, or dense treatment.
 
+For a multi-photo request, define one shared art direction for the complete `N + 1` set before rendering. Give each single-photo piece its own source-derived decoration subset and composition, then carry the shared palette and lettering direction into the combined summary.
+
 Read [references/visual-system.md](references/visual-system.md) when deciding density, hierarchy, materials, and content-aware decorations.
 
 ### 3. Compose with photo dominance
@@ -83,6 +97,8 @@ For a 2–8 photo collage:
 - avoid cropping a person at an awkward joint or turning a detail photo into an unreadable thumbnail.
 
 For a single-photo collage, keep the main photo visibly larger than every decorative object combined.
+
+When producing the default multi-photo set, apply the single-photo rule separately to each of the first `N` outputs, then apply the 2–8 photo rules to the final combined output.
 
 ### 4. Add material contrast
 
@@ -130,6 +146,8 @@ Write prompts in this order:
 
 Use [references/prompt-template.md](references/prompt-template.md) as a starting structure, then adapt it to the current photos. Do not paste it unchanged.
 
+For two to eight sources, prepare one adapted renderer prompt per single-photo output and one separate prompt for the combined summary. Preserve the stable source IDs and state the expected output index, such as `1 of 7` through `7 of 7`, in the orchestration instructions; the index does not need to appear visibly in the artwork.
+
 ### 8. Inspect and revise
 
 Before delivering, verify:
@@ -145,8 +163,15 @@ Before delivering, verify:
 
 If a source is missing or duplicated, revise the render instead of merely disclosing the problem.
 
+For a multi-photo set, also verify that:
+
+- every source received its own completed single-photo collage;
+- the final combined collage contains all original sources exactly once;
+- the set shares one art direction without repeating the same layout or decoration bundle;
+- no generated single-photo artwork was mistaken for an original photo inside the summary collage.
+
 ## Delivery
 
-Return the final image first. Follow with a short note covering the chosen hierarchy, the content-derived decoration logic, and any limitation that genuinely remains. Do not expose long internal prompt text unless the user asks for it.
+Return the single-photo collages in source order, then the combined summary collage last. Follow with a short note covering the shared art direction, the combined-image hierarchy, the content-derived decoration logic, and any limitation that genuinely remains. Do not expose long internal prompt text unless the user asks for it.
 
 For installation paths and fallbacks across agent products, read [references/compatibility.md](references/compatibility.md).

@@ -6,7 +6,7 @@ A portable, open-source Agent Skill for turning 1–8 user photos into tactile s
 
 It captures the design decisions that usually separate a convincing scrapbook from a generic template:
 
-- every supplied photo is accounted for exactly once;
+- every supplied photo receives one individual design and appears exactly once in the combined summary;
 - one clear hero and asymmetric supporting frames;
 - generated lettering for expressive short titles, with a deterministic option for exact copy;
 - varied paper, vellum, fabric, metal, tape, and natural textures;
@@ -14,7 +14,7 @@ It captures the design decisions that usually separate a convincing scrapbook fr
 - decorations derived from the current photo content instead of a fixed camera/seal/stamp bundle;
 - a controlled density range that keeps the photos dominant.
 
-The default is one balanced, medium-density output. For example, six uploaded photos produce one collage containing six distinct photo frames. Separate per-photo images or multiple variants are generated only when requested.
+The default is a complete balanced, medium-density scrapbook set. One uploaded photo produces one single-photo collage. Two to eight uploaded photos produce one single-photo collage per source plus one combined summary collage. Six photos therefore produce seven final images: six individual designs followed by one six-photo summary. Extra style variants or alternate ratios are generated only when requested.
 
 ## Requirements
 
@@ -42,7 +42,7 @@ For TRAE and 豆包, see [cross-agent compatibility](references/compatibility.md
 
 Invoke the installed Skill explicitly or ask naturally:
 
-> Use the scrapbook photo collage skill to turn these eight travel photos into a 3:4 cover. Use every photo once, keep the people recognizable, and make the decorations respond to the places and objects in the photos.
+> Use the scrapbook photo collage skill to turn these eight travel photos into a cohesive 3:4 scrapbook set. Create one design for each photo and finish with a combined summary collage. Keep the people recognizable and make the decorations respond to the places and objects in the photos.
 
 For Kimi Code CLI:
 
