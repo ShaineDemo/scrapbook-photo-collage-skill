@@ -15,15 +15,15 @@ Read this file when choosing composition density, materials, or decorations.
 ### Story-rich / medium density
 
 - Default for all outputs unless the user requests another density.
-- Single-photo visible source area: 18–30%.
-- Combined-page photo area: 42–56%.
+- Single-photo visible source area: target 26–40%; hard 20–46%.
+- Combined-page photo area: target 44–58%; hard 36–64%.
 - Concentrated collage island: roughly 58–78% of the canvas.
 - Single-photo decorations and narrative details: 10–16.
 - Multi-photo decorations and narrative details: 12–18.
 - Dimensional or shallow-relief props: 2–4; any one prop stays below about 8% of the canvas.
 - Flat die-cuts, sketches, stitches, labels, and printed motifs: 4–7.
 - Visible outer stage: roughly 22–42% of the canvas, readable as one continuous field on at least three sides.
-- Combined page: one obvious hero at least 1.4× the next-largest photo, 2–3 medium frames, remaining sources as clear details.
+- Combined page: one connected asymmetric photo island, with one obvious hero at least 1.4× the next-largest photo and all cards touching, overlapping, or connected by shared backing, thread, tape, or a clip spine.
 
 Count narrative richness, not filler rectangles. A default page should normally include 5–8 material layers, 3–5 content-derived motifs, 3–6 mood-building motifs, 2–4 neutral hardware accents, one expressive title, one short journal passage, and 2–4 micro-labels. Several plain paper swatches do not by themselves create medium density.
 
@@ -63,7 +63,7 @@ Layer one photo frame with paper excerpts, a strong title, and a compact object 
 
 Build a dense but bounded central cluster from one photo, one large expressive title, a short journal passage, stacked paper and fabric, and a varied foreground object group. Let some elements project beyond the paper stack while the outer background stays calm. This is the default family for the target style shown in the reference examples.
 
-Treat the island as a small story world rather than a decorated frame. The photograph, title block, journal note, and object group should each be visibly substantial. A useful default is 18–30% for the photograph, 8–18% for the title block, and 4–10% for the journal block, with overlaps preventing these areas from reading as separate columns.
+Treat the island as a small story world rather than a decorated frame. The photograph, title block, journal note, and object group should each be visibly substantial. A useful default is 26–40% for the photograph, 8–18% for the title block, and 4–10% for the journal block, with overlaps preventing these areas from reading as separate columns.
 
 Avoid equal grids unless the user explicitly asks for a contact sheet.
 
@@ -85,13 +85,13 @@ This is a rotation pattern, not a fixed template. Choose positions from the sour
 
 Choose two shared neutrals and one or two shared anchor colors from the full source set before rendering. Every page should visibly reuse those material anchors, but only about 55–70% of the non-photo color impression needs to be common. Reserve 30–45% for a page-specific mood: saturated coastal blue, playful coral and yellow, deep forest green, or warm home peach. A set should feel related, not recolored from one template.
 
-For the combined summary, avoid four similarly sized rectangles. Use a hero frame whose area is at least 1.4 times the second-largest frame, stagger frame edges, vary orientations where the sources permit, and use overlap or offset spacing to create a clear reading path.
+For the combined summary, avoid four similarly sized rectangles and disconnected columns. Build one connected asymmetric photo island: every card touches, overlaps, or connects through shared backing paper, thread, tape, or a clip spine. Keep the title above or outside the island, never as a central vertical spine splitting the photos. Prefer a diagonal cascade, anchored zigzag, fan, or tilted stack. For four sources, use a 22–28% hero, a 12–18% bridge, and two 8–14% supports; shared papers and thread must make the set read as one object.
 
 ## Locked-photo fallback frames
 
 When source fidelity is uncertain, place the untouched originals as complete rectangular photo cards after background generation. Do **not** ask the background renderer to paint colored placeholder windows or prebuilt mats that can remain exposed when the source is composited. Coordinates describe the complete card footprint. The background may place lower papers beneath that footprint, but it must not depend on matching an invented opening.
 
-The compositor supplies the exact mat, frame, shallow shadow, and optional 1–5 degree whole-card rotation. When supported, add a separate transparent foreground overlay after the photos: tape ends, clip, corner tab, thread, or curled paper may touch or cross only the outer mat perimeter. Never cover a face, body, pet, food, meaningful text, or other key source content. This background–photo–foreground sandwich gives the card a physically embedded construction without altering the source photograph.
+The compositor supplies the exact mat, frame, shallow shadow, and optional 1–5 degree whole-card rotation. Add a transparent foreground overlay after the photos whenever supported, with at least two perimeter contacts per card using tape ends, clips, corner tabs, thread, curled paper, or leaves. Never cover a face, body, pet, food, meaningful text, or other key source content. Composite at 4× working resolution, downsample with LANCZOS, and inspect edges at 200% for stair-stepping or halos. This is a last-resort construction; integrated full-composition rendering and geometry-preserving source recovery are preferred.
 
 Match each complete photo-card footprint to its source aspect ratio. Letterboxing may be used for fidelity, but blank internal mat must stay below 18% of the card. If a landscape source needs a wide card, redesign the page around that wide card instead of forcing it into a tall portrait shape.
 

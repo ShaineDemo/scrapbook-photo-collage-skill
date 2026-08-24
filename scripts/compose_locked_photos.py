@@ -88,13 +88,13 @@ def validate_summary_layout(
     if total_photo_fraction < min_photo_fraction:
         raise SystemExit(
             f"Summary photos cover only {total_photo_fraction:.1%} of the canvas; hard "
-            f"minimum is {min_photo_fraction:.1%} and the design target is 42–56%. "
+            f"minimum is {min_photo_fraction:.1%} and the design target is 44–58%. "
             "Enlarge the hero and supporting photo cards."
         )
     if total_photo_fraction > max_photo_fraction:
         raise SystemExit(
             f"Summary photos cover {total_photo_fraction:.1%} of the canvas; hard maximum "
-            f"is {max_photo_fraction:.1%} and the design target is 42–56%. Reduce the "
+            f"is {max_photo_fraction:.1%} and the design target is 44–58%. Reduce the "
             "supporting photo cards and leave room for one coherent story-and-object cluster."
         )
 
@@ -127,6 +127,15 @@ def main() -> None:
     parser.add_argument("--mat-color", default="#f3f0e8")
     parser.add_argument("--shadow", type=int, default=10)
     parser.add_argument(
+        "--supersample",
+        type=int,
+        default=4,
+        help=(
+            "Render each locked photo card at this multiple before LANCZOS downsampling. "
+            "This reduces jagged rotated edges. Default: 4."
+        ),
+    )
+    parser.add_argument(
         "--rotate",
         action="append",
         nargs=2,
@@ -157,19 +166,19 @@ def main() -> None:
     parser.add_argument(
         "--min-single-photo-fraction",
         type=float,
-        default=0.14,
+        default=0.20,
         help=(
             "Hard minimum visible source-photo area for a one-photo page, as a fraction "
-            "of the canvas. The design target is 0.18–0.30. Default: 0.14."
+            "of the canvas. The design target is 0.26–0.40. Default: 0.20."
         ),
     )
     parser.add_argument(
         "--max-single-photo-fraction",
         type=float,
-        default=0.40,
+        default=0.46,
         help=(
             "Hard maximum visible source-photo area for a one-photo page, as a fraction "
-            "of the canvas. This preserves room for the story cluster. Default: 0.40."
+            "of the canvas. This preserves room for the story cluster. Default: 0.46."
         ),
     )
     parser.add_argument(
@@ -180,19 +189,19 @@ def main() -> None:
     parser.add_argument(
         "--min-summary-photo-fraction",
         type=float,
-        default=0.34,
+        default=0.36,
         help=(
             "Hard minimum summed visible photo area for a summary page. "
-            "The design target is 0.42–0.56. Default: 0.34."
+            "The design target is 0.44–0.58. Default: 0.36."
         ),
     )
     parser.add_argument(
         "--max-summary-photo-fraction",
         type=float,
-        default=0.62,
+        default=0.64,
         help=(
             "Hard maximum summed visible photo area for a summary page. "
-            "The design target is 0.42–0.56. Default: 0.62."
+            "The design target is 0.44–0.58. Default: 0.64."
         ),
     )
     parser.add_argument("--manifest", type=Path)
@@ -202,6 +211,8 @@ def main() -> None:
         raise SystemExit(f"Missing background: {args.background}")
     if args.border < 0 or args.shadow < 0:
         raise SystemExit("--border and --shadow must be zero or greater")
+    if not 1 <= args.supersample <= 8:
+        raise SystemExit("--supersample must be between 1 and 8")
     if not 0 <= args.max_mat_fraction < 1:
         raise SystemExit("--max-mat-fraction must be at least 0 and less than 1")
     if not 0 < args.min_single_photo_fraction < 1:
@@ -259,6 +270,7 @@ def main() -> None:
     manifest: dict[str, object] = {
         "canvas": [canvas_width, canvas_height],
         "fit": "contain",
+        "supersample_factor": args.supersample,
         "layout": "summary" if args.summary_layout else "single",
         "validation": {
             "max_mat_fraction": args.max_mat_fraction,
@@ -325,12 +337,12 @@ def main() -> None:
             raise SystemExit(
                 f"Single-page photo covers only {photo_fraction:.1%} of the canvas; hard "
                 f"minimum is {args.min_single_photo_fraction:.1%} and the design target is "
-                "18–30%. Enlarge the complete photo card without changing its aspect ratio."
+                "26–40%. Enlarge the complete photo card without changing its aspect ratio."
             )
         if photo_fraction > args.max_single_photo_fraction:
             raise SystemExit(
                 f"Single-page photo covers {photo_fraction:.1%} of the canvas; hard maximum "
-                f"is {args.max_single_photo_fraction:.1%} and the design target is 18–30%. "
+                f"is {args.max_single_photo_fraction:.1%} and the design target is 26–40%. "
                 "Reduce the complete photo card and use the recovered space for the title, journal "
                 "copy, layered materials, and a compact decoration cluster."
             )
@@ -350,15 +362,31 @@ def main() -> None:
         x, y, width, height = plan.frame
         photo_x, photo_y = plan.photo_offset
 
-        card = Image.new("RGBA", (width, height), frame_color)
+        scale = args.supersample
+        high_width = width * scale
+        high_height = height * scale
+        high_border = args.border * scale
+        card = Image.new("RGBA", (high_width, high_height), frame_color)
         inner_width = width - args.border * 2
         inner_height = height - args.border * 2
-        mat = Image.new("RGBA", (inner_width, inner_height), mat_color)
-        card.paste(mat, (args.border, args.border))
-        card.alpha_composite(plan.fitted, (photo_x, photo_y))
+        high_inner_width = inner_width * scale
+        high_inner_height = inner_height * scale
+        mat = Image.new("RGBA", (high_inner_width, high_inner_height), mat_color)
+        card.paste(mat, (high_border, high_border))
 
-        card_photo_mask = Image.new("L", (width, height), 0)
-        card_photo_mask.paste(plan.fitted.getchannel("A"), (photo_x, photo_y))
+        with Image.open(path) as source_file:
+            source = ImageOps.exif_transpose(source_file).convert("RGBA")
+        high_fitted = ImageOps.contain(
+            source,
+            (high_inner_width, high_inner_height),
+            Image.Resampling.LANCZOS,
+        )
+        high_photo_x = high_border + (high_inner_width - high_fitted.width) // 2
+        high_photo_y = high_border + (high_inner_height - high_fitted.height) // 2
+        card.alpha_composite(high_fitted, (high_photo_x, high_photo_y))
+
+        card_photo_mask = Image.new("L", (high_width, high_height), 0)
+        card_photo_mask.paste(high_fitted.getchannel("A"), (high_photo_x, high_photo_y))
 
         if plan.rotation:
             rendered_card = card.rotate(
@@ -374,6 +402,20 @@ def main() -> None:
         else:
             rendered_card = card
             rendered_photo_mask = card_photo_mask
+
+        if scale > 1:
+            downsampled_size = (
+                max(1, round(rendered_card.width / scale)),
+                max(1, round(rendered_card.height / scale)),
+            )
+            rendered_card = rendered_card.resize(
+                downsampled_size,
+                Image.Resampling.LANCZOS,
+            )
+            rendered_photo_mask = rendered_photo_mask.resize(
+                downsampled_size,
+                Image.Resampling.LANCZOS,
+            )
 
         center_x = x + width / 2
         center_y = y + height / 2

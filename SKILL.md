@@ -4,7 +4,7 @@ description: Turn 1–8 user photos into a tactile scrapbook set with one design
 license: MIT
 metadata:
   author: ShaineDemo
-  version: "1.6.0"
+  version: "1.7.0"
 ---
 
 # Scrapbook Photo Collage
@@ -15,14 +15,16 @@ Create a polished scrapbook set in which the user's photos remain the evidence a
 
 Determine the available rendering path before composing:
 
-1. Prefer image editing only when the tool can keep supplied photos as locked, unchanged image regions.
-2. If the renderer may repaint, omit, merge, crop, or replace source content, use the **hybrid locked-photo fallback**: generate the outer stage and lower scrapbook layers beneath exact photo-card footprints, then place complete original-photo cards with `scripts/compose_locked_photos.py`; optionally finish with a small transparent foreground-attachment overlay.
-3. If the tool accepts fewer references than the photo count, numbered contact sheets from `scripts/build_contact_sheet.py` may help with planning, but they do not replace the locked-photo fallback when source fidelity is uncertain.
-4. If no generative image tool exists, deliver a production-ready layout brief and prompt. If deterministic compositing is available, it may place the original photos over an existing background; otherwise label any basic Canvas, SVG, or Pillow draft as a layout proof rather than the final handmade treatment.
+1. Prefer an **integrated full-composition reference edit**. Supply the original photo in the same render that creates its card, mat, tape, clips, foreground crossings, contact shadows, lettering, and surrounding materials. Generate these relationships together; never generate empty photo slots first on this preferred path.
+2. Inspect the integrated result against the original. If the source pixels and subject count remain faithful, deliver it.
+3. If the composition is strong but the renderer altered source pixels, keep the generated card geometry and art direction, then restore the untouched original into that already-generated card geometry while preserving its mat, tape, clip, foreground crossings, and contact shadow. This is an exact-source recovery step, not a new blank template.
+4. Use the **background-only hybrid fallback**—generate lower layers and paste complete original-photo cards afterward—only when integrated editing and geometry-preserving source recovery are unavailable. It is the last visual fallback because it can make photographs look detached.
+5. If the tool accepts fewer references than the photo count, numbered contact sheets from `scripts/build_contact_sheet.py` may help with planning, but they do not replace fidelity inspection.
+6. If no generative image tool exists, deliver a production-ready layout brief and prompt. If deterministic compositing is available, label its basic Canvas, SVG, or Pillow result as a layout proof unless it passes all integration checks below.
 
 Do not claim the Skill itself supplies an image model. The host agent must expose one to render the final artwork.
 
-Read [references/source-preservation.md](references/source-preservation.md) before using a renderer that cannot guarantee faithful reference editing. After one failed fidelity check, stop retrying source restoration with that renderer and switch to the hybrid fallback.
+Read [references/source-preservation.md](references/source-preservation.md) before rendering. After one failed fidelity check, do not ask the model to reconstruct missing subjects: first restore the untouched original into the successful generated card geometry; use the background-only fallback only if that recovery is impossible.
 
 ## Immutable source contract
 
@@ -118,9 +120,12 @@ Default to a **stage-and-island composition**. The 3:4 canvas first establishes 
 For a 2–8 photo collage:
 
 - use every source exactly once;
-- give the hero roughly 20–30% of the canvas and at least 1.4 times the visible area of the next-largest photo;
-- keep total visible photo area around 42–56%;
-- use irregular overlap rather than an equal grid;
+- keep total visible photo area around **44–58%**, within a hard **36–64%** range;
+- build one connected asymmetric **photo island**: every card must overlap, touch, or be visibly joined through a shared backing paper, thread path, clip spine, or continuous material layer;
+- give the hero at least 1.4 times the visible area of the next-largest photo;
+- use irregular overlap rather than an equal grid, disconnected columns, or a contact sheet;
+- keep the main title above or outside the photo island; never split the sources with a central vertical title or journal spine;
+- prefer a diagonal cascade, anchored zigzag, fan, or tilted stack. For four photos, a useful starting hierarchy is one 22–28% hero, one 12–18% bridge photo, and two 8–14% supporting photos;
 - use at least three visibly different frame sizes or orientations when the source set allows it;
 - break shared row and column edges so the result does not read as a 2×2 or contact-sheet grid;
 - keep the collage island slightly above center unless the source composition suggests otherwise;
@@ -129,11 +134,11 @@ For a 2–8 photo collage:
 - keep faces and important objects unobstructed;
 - avoid cropping a person at an awkward joint or turning a detail photo into an unreadable thumbnail.
 
-For a single-photo collage, keep the visible source photo around **18–30%** of the canvas. The photo must remain the clearest evidence and emotional anchor, but it does not need to occupy the majority of the page. Pair it with a title-and-journal block and a layered decoration cluster so the complete story island—not the frame alone—is the subject. Match the complete photo card to the source aspect ratio closely enough that letterboxing does not become a major blank block. Avoid making every photo perfectly upright: when safe, rotate the complete photo card by about **1–5 degrees**, vary frame construction, and overlap surrounding paper beneath or attachments across only the outer mat edge.
+For a single-photo collage, keep the visible source photo around **26–40%** of the canvas, within a hard **20–46%** range. The photo must remain the clearest evidence and emotional anchor without filling the entire page. Pair it with a title-and-journal block and a layered decoration cluster so the complete story island—not the frame alone—is the subject. Match the complete photo card to the source aspect ratio closely enough that letterboxing does not become a major blank block. Avoid making every photo perfectly upright: when safe, rotate the complete photo card by about **1–5 degrees**, vary frame construction, and overlap surrounding paper beneath or attachments across only the outer mat edge.
 
 Do not create oversized blank foundation sheets behind or beside the photo. Any empty paper panel larger than about 10% of the canvas must contain useful copy, a meaningful illustration, a material transition, or be mostly occluded. A large unused cream rectangle is not breathing space; it is an unfinished layout.
 
-When using `scripts/compose_locked_photos.py`, its default hard gates keep a single page between 14% and 40% visible photo area and any frame below 18% blank internal mat. These are rejection limits, not design targets. Size the complete card footprint to meet the normal 18–30% target; do not weaken the limits merely to accept a sparse or photo-dominated background.
+When using `scripts/compose_locked_photos.py`, its default hard gates keep a single page between 20% and 46% visible photo area and any frame below 18% blank internal mat. These are rejection limits, not design targets. Size the complete card footprint to meet the normal 26–40% target; do not weaken the limits merely to accept a sparse or photo-dominated background.
 
 When producing the default multi-photo set, apply the single-photo rule separately to each of the first `N` outputs, then apply the 2–8 photo rules to the final combined output.
 
@@ -192,7 +197,9 @@ Write prompts in this order:
 
 Use [references/prompt-template.md](references/prompt-template.md) as a starting structure, then adapt it to the current photos. Do not paste it unchanged.
 
-When using the hybrid fallback, prompt for an **outer stage, scrapbook island, and photo-card placement map**, not a finished template with colored holes. The renderer must not paint placeholder photos, people, pets, meals, scenery, or fake photographs. The placement coordinates describe the complete photo card that the compositor will add; do not prepaint a colored mat larger than that card, because exposed placeholder edges make the source look pasted on afterward.
+The hybrid fallback is not the preferred renderer path. First try an integrated full-composition reference edit in which each original photo, its card edge, mat, tape, clip, foreground crossing, contact shadow, and neighboring papers are rendered as one relationship. Do not create empty photo slots first.
+
+Only when integrated editing and geometry-preserving source recovery are unavailable, prompt for an **outer stage, scrapbook island, and photo-card placement map**, not a finished template with colored holes. The renderer must not paint placeholder photos, people, pets, meals, scenery, or fake photographs. The placement coordinates describe the complete photo card that the compositor will add; do not prepaint a colored mat larger than that card, because exposed placeholder edges make the source look pasted on afterward.
 
 Build the final page as a three-layer sandwich:
 
@@ -200,9 +207,11 @@ Build the final page as a three-layer sandwich:
 2. the original photo cards placed by `scripts/compose_locked_photos.py`, optionally with small whole-card rotations;
 3. when available, a transparent foreground integration overlay containing only tape ends, clips, corner tabs, thread, or paper curls that touch the card perimeter without covering faces or important source content.
 
+On this fallback path, give every photo at least **two visible perimeter contacts** chosen from tape, a clip, a corner tab, thread, a paper overlap, or a foreground leaf. Add a shallow contact shadow that follows the complete card edge. Composite at 4× working resolution and downsample with LANCZOS when possible; inspect the final at 200% and reject stair-stepped edges, halos, light seams, and mismatched placeholder borders.
+
 Do not send the locked-photo composite through another generative pass. The optional foreground overlay must be generated and inspected separately, then composited deterministically with `--overlay`.
 
-For every single page, run the compositor with its default mat and photo-area checks. Multiple placements require `--summary-layout`; the compositor rejects weak hero hierarchy, summaries outside the 34–62% hard photo-area range, and aligned contact-sheet grids. If a check fails, redesign or resize the complete photo-card footprints and run the compositor again. Do not bypass a failed check by increasing the allowed mat or widening the photo-area limits unless the user explicitly asks for an unusually minimal or photo-led layout.
+For every single page, run the compositor with its default mat and photo-area checks. Multiple placements require `--summary-layout`; the compositor rejects weak hero hierarchy, summaries outside the 36–64% hard photo-area range, and aligned contact-sheet grids. If a check fails, redesign or resize the complete photo-card footprints and run the compositor again. Do not bypass a failed check by increasing the allowed mat or widening the photo-area limits unless the user explicitly asks for an unusually minimal or photo-led layout.
 
 Treat fallback backgrounds as intermediates, not extra artwork. Build them in a temporary work directory and present only the final composites. Do not create one-off helper programs such as `add_titles.py` in the user's project. Put the final decorative title and non-critical labels into the generated background once; if exact text must be overlaid deterministically, use an existing approved text tool or omit uncertain microcopy rather than inventing a per-run script. Never add a second title over an already titled background.
 
@@ -217,7 +226,7 @@ Before delivering, verify:
 - every source retains its original subject count and unmistakable visual anchors;
 - no face, hand, meal, landscape, or text-heavy scene was silently altered;
 - the hero remains dominant;
-- each single-photo page keeps the source photo around 18–30% of the canvas and within the 14–40% hard range;
+- each single-photo page keeps the source photo around 26–40% of the canvas and within the 20–46% hard range;
 - the page reads as one concentrated story island rather than a large photo with a detached title strip;
 - a clearly visible outer stage surrounds the scrapbook island on at least three sides, unless the user explicitly requested full bleed;
 - the English-copy default was followed unless the user explicitly requested another artwork language;
@@ -225,7 +234,9 @@ Before delivering, verify:
 - the title, short journal passage, and 2–4 micro-labels are present and purposeful;
 - the default page contains enough layered materials and varied motifs to feel hand-assembled, not like a clean editorial poster;
 - no large empty foundation panel remains visibly unused;
+- the combined page keeps total visible photo area around 44–58% within the 36–64% hard range;
 - the combined page has one unmistakable hero whose visible area is at least 1.4 times the next-largest photo and does not read as an equal grid;
+- the combined page reads as one connected asymmetric photo island, without disconnected photo columns or a central vertical text spine;
 - decorations do not cover key content or repeat conspicuously;
 - the decoration set is approximately half source-responsive and half free-association found objects, with at least three playful object families represented when the theme permits;
 - paper, photo, tape, fabric, and hardware have distinct textures;
@@ -233,7 +244,7 @@ Before delivering, verify:
 - title and required copy are legible and correctly spelled;
 - the result is neither an equal-grid collage nor an overfilled 3D object pile.
 
-If a source is missing, duplicated, repainted, merged with another source, or has a person or important object removed, do not deliver it and do not rely on another vague “restore it” prompt. Discard the altered render and rebuild it with the hybrid locked-photo fallback. If deterministic compositing is unavailable, deliver the verified background/layout package instead of a false final image.
+If a source is missing, duplicated, repainted, merged with another source, or has a person or important object removed, do not deliver it and do not rely on another vague “restore it” prompt. If the generated composition has good card geometry, restore the untouched original into that geometry while retaining the generated mat, attachments, foreground crossings, and contact shadow. Use the background-only hybrid path only when this recovery is impossible. If deterministic compositing is unavailable, deliver the verified layout package instead of a false final image.
 
 For a multi-photo set, also verify that:
 

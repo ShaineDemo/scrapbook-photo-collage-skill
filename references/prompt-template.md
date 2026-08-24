@@ -2,7 +2,7 @@
 
 Adapt this structure to the current photos. Replace every bracketed field and remove irrelevant sections.
 
-Use this direct-editing prompt only when the renderer can keep source-photo regions locked. Otherwise skip to **Background-only hybrid prompt** below and composite the originals deterministically.
+Use this integrated full-composition prompt whenever the renderer can accept the source photo as an editing/reference input. Generate the source photo, card/mat, tape, clips, foreground overlaps, contact shadows, papers, lettering, and decorations as one coherent physical scene. Do not generate an empty photo opening first. If the composition geometry is strong but source pixels drift, recover the untouched original inside that already-generated card geometry. Use **Background-only hybrid prompt** only as the last fidelity fallback.
 
 ```text
 Create one polished 3:4 vertical [cover / inside page] in a tactile handmade scrapbook style using the supplied source photos.
@@ -25,11 +25,13 @@ CANVAS AND HIERARCHY
 - On a combined page, the hero frame is at least 1.4 times the visible area of the next-largest frame.
 - Secondary frames: [mapping].
 - Detail frames: [mapping].
-- Total visible photo area: [percentage range].
+- Total visible photo area: [single target 26–40%, hard 20–46% / summary target 44–58%, hard 36–64%].
 - Title block: roughly 8–18% of the canvas; journal block: roughly 4–10%, integrated through overlap rather than separated into editorial columns.
 - Keep all faces and important objects unobstructed.
 - Match each complete photo card to its source orientation and aspect ratio; avoid large letterbox voids.
 - Break row and column alignment. The composition must not read as a 2×2 grid or contact sheet.
+- On a summary, build one connected asymmetric photo island: every card must touch, overlap, or be visibly connected by shared backing paper, thread, tape, or a clip spine. Put the title above or outside the island, never as a central vertical text spine that splits the photos. Prefer a diagonal cascade, anchored zigzag, fan, or tilted stack.
+- For four sources, prefer one hero card covering roughly 22–28% of the canvas, one bridge card at 12–18%, and two support cards at 8–14% each, with shared papers and thread making them read as one island.
 - Do not use a clean two-column editorial poster, a full-width photo with a detached bottom caption strip, or an oversized blank paper panel behind the photo.
 
 MATERIALS
@@ -38,6 +40,7 @@ MATERIALS
 - [one translucent material].
 - [one fabric, metal, ink, or natural material].
 - Tape colors: [palette]. Show torn fibers, folds, buckled ridges, curled corners, translucency, and shallow contact shadows.
+- Create each card/mat/tape/clip/foreground/contact-shadow relationship together in the same render so photograph edges feel physically embedded rather than pasted onto a prebuilt background.
 
 PROJECT-SPECIFIC DECORATIONS
 - Layer 5–8 distinct paper, vellum, fabric, label, or notebook materials.
@@ -79,7 +82,7 @@ FINAL QUALITY
 
 ## Background-only hybrid prompt
 
-Use this safer prompt when reference fidelity is uncertain:
+Use this prompt only when integrated rendering and geometry-preserving source recovery are unavailable:
 
 ```text
 Create only the lower layers of one exact 3:4 vertical scrapbook composition. Establish a large outer stage [describe stage], then build a bounded scrapbook island occupying about 58–78% of the canvas. Keep 22–42% of the stage clearly visible on at least three sides. Generate lower papers, lettering, stitching, and project-specific decorations that sit beneath or beside the future photo cards.
@@ -94,7 +97,9 @@ Do not draw a colored placeholder, fake mat, empty white aperture, blurred perso
 
 Match every card footprint closely to the aspect ratio of its assigned source. For a combined page, make one hero card at least 1.4 times the area of the next-largest card, stagger edges, and avoid equal rows or columns.
 
-Size each card so uncropped contain placement leaves no more than 18% blank internal mat. On a single page, the placed source itself—not the frame and mat together—should cover 18–30% of the complete canvas. On a combined page, all placed sources together should cover 42–56%.
+Size each card so uncropped contain placement leaves no more than 18% blank internal mat. On a single page, the placed source itself—not the frame and mat together—should target 26–40% of the complete canvas and stay within a hard 20–46% range. On a combined page, all placed sources together should target 44–58% and stay within a hard 36–64% range.
+
+On a combined page, the footprints must form one connected asymmetric photo island. Every card touches, overlaps, or is connected through shared backing paper, thread, tape, or a clip spine. Place the title above or outside this island; never put a vertical title column between disconnected photo columns. For four sources, use one 22–28% hero, one 12–18% bridge, and two 8–14% supports in a diagonal cascade, anchored zigzag, fan, or tilted stack.
 
 Build the scrapbook island around the card footprints using 5–8 material layers, a large expressive English title occupying about 8–18% of the canvas, a 12–30 word English journal passage occupying about 4–10%, 2–4 micro-labels, 3–5 source-responsive motifs, 3–6 free-association found objects, 2–4 shallow dimensional props, and 4–7 flat details. Balance source relevance and free association roughly 50/50. The free objects may include a camera, record, cassette, model car, fruit, open book, cup, radio, compass, sunglasses, dice, key, yarn, pen, toy, postcard, or mini sailboat when they fit the palette and mood. Include at least one printed ephemera element, one tactile or natural object, one illustrated or die-cut motif, and one stitched or metal attachment. Do not generate an oversized blank foundation rectangle; every large paper panel must carry copy, illustration, texture, or meaningful overlap.
 
@@ -105,7 +110,7 @@ CRITICAL: do not generate photographs, people, faces, bodies, hands, pets, food,
 
 After generation, use `scripts/compose_locked_photos.py` as described in [source-preservation.md](source-preservation.md). Do not run the finished composite through another generative edit.
 
-If the production environment can generate transparent PNGs, optionally create a separate foreground integration overlay after the background. It may contain only small tape ends, one clip, corner tabs, thread, or curled paper touching the outer mat perimeter. It must not contain photographs or cover faces, bodies, pets, food, meaningful text, or other key source content. Apply it with `--overlay` after the locked photo cards.
+If the production environment can generate transparent PNGs, create a separate foreground integration overlay after the background. Give every card at least two perimeter contacts chosen from tape ends, clips, corner tabs, thread, curled paper, or leaves, plus one shallow contact shadow. It must not contain photographs or cover faces, bodies, pets, food, meaningful text, or other key source content. Apply it with `--overlay` after the locked photo cards. Composite at 4× working resolution, downsample with LANCZOS, and inspect card edges at 200% for stair-stepping, white halos, and mismatched openings.
 
 Keep the lower-layer background, manifest, and any contact sheet in a temporary work directory. Deliver only the final composite. Do not write an ad-hoc helper script into the user's project to add titles, borders, or labels.
 
@@ -131,11 +136,11 @@ Do not rely only on “use all images.” Name the expected count and map the ph
 
 ### Missing or duplicated photo
 
-Discard the altered render. Keep its art direction only, regenerate the outer stage and lower scrapbook layers beneath exact complete-card footprints, and use the hybrid locked-photo fallback. A missing, duplicated, substituted, or repainted source is a fidelity failure, not a cosmetic revision.
+Keep the successful composition geometry and art direction, then restore every untouched original into the already-generated card geometry while preserving its mat, tape, clip, foreground crossings, and contact shadow. Use the background-only hybrid fallback only if that geometry recovery is impossible. A missing, duplicated, substituted, or repainted source is a fidelity failure, not a cosmetic revision.
 
 ### Person, pet, object, or scene removed or changed
 
-Discard the altered render immediately. Do not ask the model to reconstruct the missing subject. Generate only the outer stage, scrapbook island, and lower layers beneath the planned card footprints, then place the original source files with `scripts/compose_locked_photos.py`.
+Do not ask the model to reconstruct the missing subject. Restore the untouched original into the generated card geometry first, retaining the integrated card-edge relationships. Only if that is impossible should you generate lower layers beneath planned footprints and place the originals with `scripts/compose_locked_photos.py`.
 
 ### Decorations too dense
 
