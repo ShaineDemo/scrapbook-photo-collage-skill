@@ -19,7 +19,7 @@ CANVAS AND HIERARCHY
 - Exact 3:4 vertical canvas. Use the same pixel dimensions as every other image in this set, such as 1080x1440 or 1536x2048.
 - Keep critical content inside safe margins so the final file can be normalized to exact 3:4 without losing faces, titles, hands, food, or meaningful objects.
 - [density preset].
-- Build one concentrated story-and-object island occupying about 70–88% of the canvas, placed [position], with calm background around it and no empty gaps inside it.
+- Establish a clearly visible outer stage first: [vivid solid color / sky / tabletop / fabric / wall / landscape blur / notebook spread]. Place one bounded story-and-object island above it, occupying about 58–78% of the canvas. Keep 22–42% of the stage visible on at least three sides; no scrapbook layer touches all four canvas edges.
 - This page's spatial recipe is [photo anchor / title anchor / decoration cluster]. It must visibly differ from adjacent outputs in at least three of those choices.
 - Hero: [source and position], occupying about [percentage].
 - On a combined page, the hero frame is at least 1.4 times the visible area of the next-largest frame.
@@ -28,7 +28,7 @@ CANVAS AND HIERARCHY
 - Total visible photo area: [percentage range].
 - Title block: roughly 8–18% of the canvas; journal block: roughly 4–10%, integrated through overlap rather than separated into editorial columns.
 - Keep all faces and important objects unobstructed.
-- Match each photo window to its source orientation and aspect ratio; avoid large letterbox voids.
+- Match each complete photo card to its source orientation and aspect ratio; avoid large letterbox voids.
 - Break row and column alignment. The composition must not read as a 2×2 grid or contact sheet.
 - Do not use a clean two-column editorial poster, a full-width photo with a detached bottom caption strip, or an oversized blank paper panel behind the photo.
 
@@ -42,16 +42,16 @@ MATERIALS
 PROJECT-SPECIFIC DECORATIONS
 - Layer 5–8 distinct paper, vellum, fabric, label, or notebook materials.
 - Content-derived: [3–5 motifs tied to the actual photos].
-- Narrative enrichment: [3–6 mood-building motifs or objects that need not appear literally in the source].
+- Free-association found objects: [3–6 playful objects chosen for mood, palette, contrast, or nostalgia; they do not need to appear in the source]. Balance the decoration impression roughly 50/50 between content-responsive and freely associated elements.
 - Neutral balancing accents: [2–4 items].
 - Dimensional or shallow-relief props: [2–4 items], each below about 8% of the canvas.
 - Flat die-cuts, sketches, stitches, labels, or printed motifs: [4–7 items].
-- Do not make a literal 3D duplicate of an object already visible in the source.
+- Do not make a literal 3D duplicate of an object already visible in the source. Cameras, records, cassettes, model cars, fruit, open books, cups, radios, compasses, sunglasses, dice, keys, yarn, pens, toys, postcards, and mini sailboats are valid free-association objects when they strengthen the page.
 - Every decoration should have a distinct role and silhouette.
 - Arrange the materials in three depth levels and concentrate the objects around the photo-and-copy cluster instead of spacing them evenly around the border.
 
 COPY
-- Language: [language].
+- Language: English by default. Use another language only when the user explicitly requested it for the artwork.
 - Title: “[exact title]”.
 - Journal passage, 12–30 words across 3–7 short lines: “[exact passage]”.
 - Labels: “[label 1]”, “[label 2]”, “[label 3]”.
@@ -82,30 +82,32 @@ FINAL QUALITY
 Use this safer prompt when reference fidelity is uncertain:
 
 ```text
-Create only the handmade scrapbook surround for one exact 3:4 vertical page. Generate the background paper, layered stationery, title, captions, tape, stitching, and project-specific decorations.
+Create only the lower layers of one exact 3:4 vertical scrapbook composition. Establish a large outer stage [describe stage], then build a bounded scrapbook island occupying about 58–78% of the canvas. Keep 22–42% of the stage clearly visible on at least three sides. Generate lower papers, lettering, stitching, and project-specific decorations that sit beneath or beside the future photo cards.
 
 This background is an intermediate production asset. It must already contain the final decorative title and non-critical labels exactly once, so no second title pass is needed later.
 
-Reserve exactly [N] clean rectangular photo windows:
-- S1 window: [X, Y, width, height or clear position and size]
-- [remaining windows]
+Use exactly [N] photo-card footprints as a placement map:
+- S1 complete card footprint: [X, Y, width, height, optional whole-card rotation]
+- [remaining footprints]
 
-Keep all decorations outside the photo windows and do not cross their edges. Fill each window with one plain matte placeholder color only.
+Do not draw a colored placeholder, fake mat, empty white aperture, blurred person, photograph, or prebuilt frame inside these footprints. Continue the ordinary lower paper construction beneath them; the deterministic compositor will add the complete mat, frame, source photo, and shadow. Keep important lower decorations outside the footprints so they are not accidentally covered.
 
-Match every window closely to the aspect ratio of its assigned source. For a combined page, make one hero window at least 1.4 times the area of the next-largest window, stagger edges, and avoid equal rows or columns.
+Match every card footprint closely to the aspect ratio of its assigned source. For a combined page, make one hero card at least 1.4 times the area of the next-largest card, stagger edges, and avoid equal rows or columns.
 
-Size each window so uncropped contain placement leaves no more than 18% blank internal mat. On a single page, the placed source itself—not the frame and mat together—should cover 18–30% of the complete canvas. On a combined page, all placed sources together should cover 42–56%.
+Size each card so uncropped contain placement leaves no more than 18% blank internal mat. On a single page, the placed source itself—not the frame and mat together—should cover 18–30% of the complete canvas. On a combined page, all placed sources together should cover 42–56%.
 
-Build a concentrated story island around the reserved windows using 5–8 material layers, a large expressive title occupying about 8–18% of the canvas, a 12–30 word journal passage occupying about 4–10%, 2–4 micro-labels, 3–5 source-derived motifs, 3–6 narrative-enrichment motifs, 2–4 shallow dimensional props, and 4–7 flat details. Include at least one printed ephemera element, one tactile or natural object, one illustrated or die-cut motif, and one stitched or metal attachment when the theme permits. Do not generate an oversized blank foundation rectangle; every large paper panel must carry copy, illustration, texture, or meaningful overlap.
+Build the scrapbook island around the card footprints using 5–8 material layers, a large expressive English title occupying about 8–18% of the canvas, a 12–30 word English journal passage occupying about 4–10%, 2–4 micro-labels, 3–5 source-responsive motifs, 3–6 free-association found objects, 2–4 shallow dimensional props, and 4–7 flat details. Balance source relevance and free association roughly 50/50. The free objects may include a camera, record, cassette, model car, fruit, open book, cup, radio, compass, sunglasses, dice, key, yarn, pen, toy, postcard, or mini sailboat when they fit the palette and mood. Include at least one printed ephemera element, one tactile or natural object, one illustrated or die-cut motif, and one stitched or metal attachment. Do not generate an oversized blank foundation rectangle; every large paper panel must carry copy, illustration, texture, or meaningful overlap.
 
-CRITICAL: do not generate photographs, people, faces, bodies, hands, pets, food, scenery, landmarks, or fake source-image content inside any photo window. Do not invent a group photo. The untouched original photos will be placed later by deterministic compositing.
+CRITICAL: do not generate photographs, people, faces, bodies, hands, pets, food, scenery, landmarks, colored placeholders, or fake source-image content inside any card footprint. Do not invent a group photo. The untouched original photos will be placed later by deterministic compositing.
 
 [materials, decorations, exact copy, and quality direction]
 ```
 
 After generation, use `scripts/compose_locked_photos.py` as described in [source-preservation.md](source-preservation.md). Do not run the finished composite through another generative edit.
 
-Keep the empty-window background, manifest, and any contact sheet in a temporary work directory. Deliver only the final composite. Do not write an ad-hoc helper script into the user's project to add titles, borders, or labels.
+If the production environment can generate transparent PNGs, optionally create a separate foreground integration overlay after the background. It may contain only small tape ends, one clip, corner tabs, thread, or curled paper touching the outer mat perimeter. It must not contain photographs or cover faces, bodies, pets, food, meaningful text, or other key source content. Apply it with `--overlay` after the locked photo cards.
+
+Keep the lower-layer background, manifest, and any contact sheet in a temporary work directory. Deliver only the final composite. Do not write an ad-hoc helper script into the user's project to add titles, borders, or labels.
 
 ## Ratio correction
 
@@ -129,11 +131,11 @@ Do not rely only on “use all images.” Name the expected count and map the ph
 
 ### Missing or duplicated photo
 
-Discard the altered render. Keep its art direction only, regenerate a background with empty windows, and use the hybrid locked-photo fallback. A missing, duplicated, substituted, or repainted source is a fidelity failure, not a cosmetic revision.
+Discard the altered render. Keep its art direction only, regenerate the outer stage and lower scrapbook layers beneath exact complete-card footprints, and use the hybrid locked-photo fallback. A missing, duplicated, substituted, or repainted source is a fidelity failure, not a cosmetic revision.
 
 ### Person, pet, object, or scene removed or changed
 
-Discard the altered render immediately. Do not ask the model to reconstruct the missing subject. Generate only the surround and empty rectangular windows, then place the original source files with `scripts/compose_locked_photos.py`.
+Discard the altered render immediately. Do not ask the model to reconstruct the missing subject. Generate only the outer stage, scrapbook island, and lower layers beneath the planned card footprints, then place the original source files with `scripts/compose_locked_photos.py`.
 
 ### Decorations too dense
 
@@ -144,7 +146,7 @@ Keep the photographs, title, and palette. Remove roughly one third of the decora
 ### Decorations too sparse
 
 ```text
-Keep every source photo unchanged. Rebuild the page as one concentrated story island: add a 12–30 word journal passage, 2–4 micro-labels, 3–5 source-derived motifs, 3–6 mood-building motifs, 2–4 shallow dimensional props, and 4–7 flatter stitched, printed, or die-cut details. Use three depth levels and meaningful overlap. Do not scatter isolated objects around the border, create a neat editorial two-column poster, or leave a large blank foundation sheet.
+Keep every source photo unchanged. Rebuild the page as an outer stage plus one concentrated story island: add a 12–30 word English journal passage, 2–4 micro-labels, 3–5 source-responsive motifs, 3–6 freely associated found objects, 2–4 shallow dimensional props, and 4–7 flatter stitched, printed, or die-cut details. Use four planes—stage, lower papers, photo/copy, foreground objects—and meaningful overlap. Do not scatter isolated objects around the border, create a neat editorial two-column poster, or let scrapbook paper fill the entire canvas.
 ```
 
 ### Tape too flat

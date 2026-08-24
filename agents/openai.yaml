@@ -1,5 +1,5 @@
 interface:
   display_name: "Scrapbook Photo Collage"
-  short_description: "Turn 1–8 photos into tactile scrapbook covers"
+  short_description: "Turn 1–8 photos into playful tactile scrapbook stories"
   brand_color: "#4F7FA7"
-  default_prompt: "Use $scrapbook-photo-collage to create one scrapbook design per uploaded photo, then finish with a cohesive combined summary collage."
+  default_prompt: "Use $scrapbook-photo-collage to create one English-copy scrapbook design per uploaded photo, then finish with a cohesive combined summary collage. Keep the original photos unchanged, place the collage island on a visible outer background, and mix photo-inspired details with playful freely associated keepsakes."

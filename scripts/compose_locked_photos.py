@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 try:
-    from PIL import Image, ImageColor, ImageFilter, ImageOps
+    from PIL import Image, ImageChops, ImageColor, ImageFilter, ImageOps
 except ImportError as exc:
     raise SystemExit("Pillow is required: python3 -m pip install Pillow") from exc
 
@@ -41,6 +41,7 @@ class PlannedPlacement:
     frame: tuple[int, int, int, int]
     fitted: Image.Image
     photo_offset: tuple[int, int]
+    rotation: float
     mat_fraction: float
     canvas_photo_fraction: float
 
@@ -56,6 +57,11 @@ def cluster_count(values: list[float], tolerance: float) -> int:
         else:
             clusters.append(value)
     return len(clusters)
+
+
+def channel_sum(channel: Image.Image) -> int:
+    """Return the sum of an 8-bit channel without deprecated pixel iterators."""
+    return sum(value * count for value, count in enumerate(channel.histogram()))
 
 
 def validate_summary_layout(
@@ -75,7 +81,7 @@ def validate_summary_layout(
     if hero_ratio < 1.4:
         raise SystemExit(
             "Summary hierarchy is too even: the largest visible photo must be at least "
-            f"1.4x the next-largest (received {hero_ratio:.2f}x). Enlarge one hero window."
+            f"1.4x the next-largest (received {hero_ratio:.2f}x). Enlarge one hero card."
         )
 
     total_photo_fraction = sum(plan.canvas_photo_fraction for plan in plans)
@@ -83,13 +89,13 @@ def validate_summary_layout(
         raise SystemExit(
             f"Summary photos cover only {total_photo_fraction:.1%} of the canvas; hard "
             f"minimum is {min_photo_fraction:.1%} and the design target is 42–56%. "
-            "Enlarge the hero and supporting windows."
+            "Enlarge the hero and supporting photo cards."
         )
     if total_photo_fraction > max_photo_fraction:
         raise SystemExit(
             f"Summary photos cover {total_photo_fraction:.1%} of the canvas; hard maximum "
             f"is {max_photo_fraction:.1%} and the design target is 42–56%. Reduce the "
-            "supporting windows and leave room for one coherent story-and-object cluster."
+            "supporting photo cards and leave room for one coherent story-and-object cluster."
         )
 
     if len(plans) >= 4:
@@ -121,11 +127,30 @@ def main() -> None:
     parser.add_argument("--mat-color", default="#f3f0e8")
     parser.add_argument("--shadow", type=int, default=10)
     parser.add_argument(
+        "--rotate",
+        action="append",
+        nargs=2,
+        default=[],
+        metavar=("SOURCE_ID", "DEGREES"),
+        help=(
+            "Optionally rotate the complete photo-card assembly. Repeat per source; "
+            "absolute values above 6 degrees are rejected."
+        ),
+    )
+    parser.add_argument(
+        "--overlay",
+        type=Path,
+        help=(
+            "Optional transparent full-canvas PNG placed after the locked photos. "
+            "Use only for small clips, tape ends, corner tabs, thread, or leaves."
+        ),
+    )
+    parser.add_argument(
         "--max-mat-fraction",
         type=float,
         default=0.18,
         help=(
-            "Maximum blank mat inside any photo window after contain fitting. "
+            "Maximum blank mat inside any photo card after contain fitting. "
             "Default: 0.18."
         ),
     )
@@ -202,6 +227,22 @@ def main() -> None:
             "and anti-grid checks cannot be skipped."
         )
 
+    rotations: dict[str, float] = {}
+    for source_id, degrees_text in args.rotate:
+        if source_id in rotations:
+            raise SystemExit(f"Rotation for {source_id} was provided more than once")
+        if source_id not in source_ids:
+            raise SystemExit(f"Rotation references unknown SOURCE_ID: {source_id}")
+        try:
+            degrees = float(degrees_text)
+        except ValueError as exc:
+            raise SystemExit(f"Rotation for {source_id} must be a number") from exc
+        if abs(degrees) > 6:
+            raise SystemExit(
+                f"Rotation for {source_id} is {degrees:g} degrees; maximum is ±6 degrees"
+            )
+        rotations[source_id] = degrees
+
     with Image.open(args.background) as background_source:
         canvas = ImageOps.exif_transpose(background_source).convert("RGBA")
     canvas_width, canvas_height = canvas.size
@@ -261,7 +302,7 @@ def main() -> None:
             source_ratio = source.width / source.height
             raise SystemExit(
                 f"Frame for {source_id} leaves {mat_fraction:.1%} blank mat; maximum is "
-                f"{args.max_mat_fraction:.1%}. Regenerate or resize that window closer to "
+                f"{args.max_mat_fraction:.1%}. Regenerate or resize that photo card closer to "
                 f"the source aspect ratio {source_ratio:.3f}."
             )
 
@@ -272,6 +313,7 @@ def main() -> None:
                 frame=(x, y, width, height),
                 fitted=fitted,
                 photo_offset=(photo_x, photo_y),
+                rotation=rotations.get(source_id, 0.0),
                 mat_fraction=mat_fraction,
                 canvas_photo_fraction=canvas_photo_fraction,
             )
@@ -283,13 +325,13 @@ def main() -> None:
             raise SystemExit(
                 f"Single-page photo covers only {photo_fraction:.1%} of the canvas; hard "
                 f"minimum is {args.min_single_photo_fraction:.1%} and the design target is "
-                "18–30%. Enlarge the photo window without changing its aspect ratio."
+                "18–30%. Enlarge the complete photo card without changing its aspect ratio."
             )
         if photo_fraction > args.max_single_photo_fraction:
             raise SystemExit(
                 f"Single-page photo covers {photo_fraction:.1%} of the canvas; hard maximum "
                 f"is {args.max_single_photo_fraction:.1%} and the design target is 18–30%. "
-                "Reduce the photo window and use the recovered space for the title, journal "
+                "Reduce the complete photo card and use the recovered space for the title, journal "
                 "copy, layered materials, and a compact decoration cluster."
             )
     if args.summary_layout:
@@ -301,33 +343,87 @@ def main() -> None:
             args.max_summary_photo_fraction,
         )
 
+    locked_photo_mask = Image.new("L", canvas.size, 0)
     for plan in plans:
         source_id = plan.source_id
         path = plan.path
         x, y, width, height = plan.frame
         photo_x, photo_y = plan.photo_offset
 
-        if args.shadow:
-            shadow_layer = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
-            shadow_plate = Image.new("RGBA", (width, height), (0, 0, 0, 92))
-            shadow_layer.paste(shadow_plate, (x + args.shadow // 2, y + args.shadow // 2))
-            shadow_layer = shadow_layer.filter(ImageFilter.GaussianBlur(args.shadow))
-            canvas = Image.alpha_composite(canvas, shadow_layer)
-
-        frame = Image.new("RGBA", (width, height), frame_color)
+        card = Image.new("RGBA", (width, height), frame_color)
         inner_width = width - args.border * 2
         inner_height = height - args.border * 2
         mat = Image.new("RGBA", (inner_width, inner_height), mat_color)
-        frame.paste(mat, (args.border, args.border))
-        frame.alpha_composite(plan.fitted, (photo_x, photo_y))
-        canvas.alpha_composite(frame, (x, y))
+        card.paste(mat, (args.border, args.border))
+        card.alpha_composite(plan.fitted, (photo_x, photo_y))
+
+        card_photo_mask = Image.new("L", (width, height), 0)
+        card_photo_mask.paste(plan.fitted.getchannel("A"), (photo_x, photo_y))
+
+        if plan.rotation:
+            rendered_card = card.rotate(
+                plan.rotation,
+                resample=Image.Resampling.BICUBIC,
+                expand=True,
+            )
+            rendered_photo_mask = card_photo_mask.rotate(
+                plan.rotation,
+                resample=Image.Resampling.BICUBIC,
+                expand=True,
+            )
+        else:
+            rendered_card = card
+            rendered_photo_mask = card_photo_mask
+
+        center_x = x + width / 2
+        center_y = y + height / 2
+        rendered_x = round(center_x - rendered_card.width / 2)
+        rendered_y = round(center_y - rendered_card.height / 2)
+        if (
+            rendered_x < 0
+            or rendered_y < 0
+            or rendered_x + rendered_card.width > canvas_width
+            or rendered_y + rendered_card.height > canvas_height
+        ):
+            raise SystemExit(
+                f"Rotated card for {source_id} extends outside the canvas; move its "
+                "unrotated frame inward or reduce --rotate"
+            )
+
+        if args.shadow:
+            shadow_layer = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
+            shadow_plate = Image.new("RGBA", rendered_card.size, (0, 0, 0, 0))
+            shadow_alpha = rendered_card.getchannel("A").point(lambda value: value * 92 // 255)
+            shadow_plate.putalpha(shadow_alpha)
+            shadow_layer.alpha_composite(
+                shadow_plate,
+                (rendered_x + args.shadow // 2, rendered_y + args.shadow // 2),
+            )
+            shadow_layer = shadow_layer.filter(ImageFilter.GaussianBlur(args.shadow))
+            canvas = Image.alpha_composite(canvas, shadow_layer)
+
+        canvas.alpha_composite(rendered_card, (rendered_x, rendered_y))
+        source_mask_canvas = Image.new("L", canvas.size, 0)
+        source_mask_canvas.paste(rendered_photo_mask, (rendered_x, rendered_y))
+        locked_photo_mask = ImageChops.lighter(locked_photo_mask, source_mask_canvas)
+
+        allowed_changes = ["EXIF orientation", "uniform resize", "contain placement"]
+        if plan.rotation:
+            allowed_changes.append("shallow whole-card rotation")
 
         manifest["sources"].append(
             {
                 "id": source_id,
                 "path": str(path.resolve()),
                 "frame": [x, y, width, height],
-                "placed_photo": [
+                "rotation_degrees": plan.rotation,
+                "rendered_card_bbox": [
+                    rendered_x,
+                    rendered_y,
+                    rendered_card.width,
+                    rendered_card.height,
+                ],
+                "unrotated_photo_box": [
                     x + photo_x,
                     y + photo_y,
                     plan.fitted.width,
@@ -335,9 +431,46 @@ def main() -> None:
                 ],
                 "mat_fraction": round(plan.mat_fraction, 6),
                 "canvas_photo_fraction": round(plan.canvas_photo_fraction, 6),
-                "allowed_changes": ["EXIF orientation", "uniform resize", "contain placement"],
+                "allowed_changes": allowed_changes,
             }
         )
+
+    if args.overlay:
+        if not args.overlay.is_file():
+            raise SystemExit(f"Missing transparent foreground overlay: {args.overlay}")
+        with Image.open(args.overlay) as overlay_source:
+            if "A" not in overlay_source.getbands():
+                raise SystemExit("--overlay must contain an alpha channel")
+            overlay = ImageOps.exif_transpose(overlay_source).convert("RGBA")
+        if overlay.size != canvas.size:
+            raise SystemExit(
+                f"Overlay must match the canvas exactly; received {overlay.width}x"
+                f"{overlay.height}, expected {canvas_width}x{canvas_height}"
+            )
+        overlay_alpha = overlay.getchannel("A")
+        alpha_sum = channel_sum(overlay_alpha)
+        overlay_fraction = alpha_sum / (255 * canvas_width * canvas_height)
+        if overlay_fraction > 0.35:
+            raise SystemExit(
+                f"Overlay covers {overlay_fraction:.1%} of the canvas; maximum is 35%. "
+                "Use it only for small foreground clips, tape ends, tabs, thread, or leaves."
+            )
+        photo_alpha_sum = channel_sum(locked_photo_mask)
+        overlap = ImageChops.multiply(overlay_alpha, locked_photo_mask)
+        overlap_fraction = (
+            channel_sum(overlap) / photo_alpha_sum if photo_alpha_sum else 0.0
+        )
+        if overlap_fraction > 0.02:
+            raise SystemExit(
+                f"Foreground overlay covers {overlap_fraction:.1%} of locked photo pixels; "
+                "maximum is 2%. Move attachments to the outer card perimeter."
+            )
+        canvas = Image.alpha_composite(canvas, overlay)
+        manifest["foreground_overlay"] = {
+            "path": str(args.overlay.resolve()),
+            "canvas_alpha_fraction": round(overlay_fraction, 6),
+            "locked_photo_overlap_fraction": round(overlap_fraction, 6),
+        }
 
     save_image(canvas, args.output)
     if args.manifest:

@@ -17,17 +17,17 @@ Read this file when choosing composition density, materials, or decorations.
 - Default for all outputs unless the user requests another density.
 - Single-photo visible source area: 18–30%.
 - Combined-page photo area: 42–56%.
-- Concentrated collage island: roughly 70–88% of the canvas.
+- Concentrated collage island: roughly 58–78% of the canvas.
 - Single-photo decorations and narrative details: 10–16.
 - Multi-photo decorations and narrative details: 12–18.
 - Dimensional or shallow-relief props: 2–4; any one prop stays below about 8% of the canvas.
 - Flat die-cuts, sketches, stitches, labels, and printed motifs: 4–7.
-- Breathing space: 12–25% around the island, not as holes inside it.
+- Visible outer stage: roughly 22–42% of the canvas, readable as one continuous field on at least three sides.
 - Combined page: one obvious hero at least 1.4× the next-largest photo, 2–3 medium frames, remaining sources as clear details.
 
 Count narrative richness, not filler rectangles. A default page should normally include 5–8 material layers, 3–5 content-derived motifs, 3–6 mood-building motifs, 2–4 neutral hardware accents, one expressive title, one short journal passage, and 2–4 micro-labels. Several plain paper swatches do not by themselves create medium density.
 
-Build three visible depth levels: broad foundation papers and fabric, mid-level labels/illustrations/stitches, and a small foreground cluster of shallow objects. Concentrate these levels into one coherent story island; do not distribute isolated decorations evenly around the perimeter.
+Build four readable planes: an atmospheric outer stage, broad foundation papers and fabric, mid-level labels/illustrations/stitches, and a small foreground cluster of shallow objects. Concentrate the scrapbook materials into one coherent story island; do not distribute isolated decorations evenly around the perimeter or let scrapbook paper touch all four canvas edges.
 
 ### Rich editorial
 
@@ -44,6 +44,8 @@ Density is not the number of objects alone. Richness can come from paper edges, 
 ### Elevated collage island
 
 Place the assembled cluster slightly above center with open background around it. Good for covers and for scenes with sky, water, or landscape.
+
+This is the default outer construction. Use a vivid solid field, sky, tabletop, fabric, wall, landscape blur, or open notebook as the stage; place a smaller scrapbook board or paper island above it. The stage is atmosphere, not another layer of densely torn scraps.
 
 ### Notebook field
 
@@ -87,11 +89,11 @@ For the combined summary, avoid four similarly sized rectangles. Use a hero fram
 
 ## Locked-photo fallback frames
 
-When source fidelity is uncertain, use clean rectangular photo windows that can receive the untouched originals after background generation. Keep tape, clips, paper edges, lettering, and decorations outside the window bounds. Do not use torn photo masks, perspective-warped frames, curled photo corners, irregular cutouts, or foreground objects crossing the image area in this mode.
+When source fidelity is uncertain, place the untouched originals as complete rectangular photo cards after background generation. Do **not** ask the background renderer to paint colored placeholder windows or prebuilt mats that can remain exposed when the source is composited. Coordinates describe the complete card footprint. The background may place lower papers beneath that footprint, but it must not depend on matching an invented opening.
 
-The frame itself may have a white or colored mat and a shallow shadow. Preserve breathing room around it so deterministic placement does not cover meaningful decorative work. Richness should come from the surrounding paper construction rather than from altering the source photograph.
+The compositor supplies the exact mat, frame, shallow shadow, and optional 1–5 degree whole-card rotation. When supported, add a separate transparent foreground overlay after the photos: tape ends, clip, corner tab, thread, or curled paper may touch or cross only the outer mat perimeter. Never cover a face, body, pet, food, meaningful text, or other key source content. This background–photo–foreground sandwich gives the card a physically embedded construction without altering the source photograph.
 
-Match each reservation window to its source aspect ratio. Letterboxing may be used for fidelity, but blank internal mat must stay below 18% of the window. If a landscape source needs a wide window, redesign the page around a wide window instead of forcing it into a tall portrait opening.
+Match each complete photo-card footprint to its source aspect ratio. Letterboxing may be used for fidelity, but blank internal mat must stay below 18% of the card. If a landscape source needs a wide card, redesign the page around that wide card instead of forcing it into a tall portrait shape.
 
 ## Decoration derivation matrix
 
@@ -109,16 +111,16 @@ Choose from the row matching the sources. Do not use every item.
 | Flowers, fruit, season | pressed petal, produce label, seed-paper fragment, color swatch, hand-cut silhouette |
 | Found object, souvenir | specimen label, catalog number, tiny envelope, tracing, location note |
 
-Then add neutral accents from a separate pool: torn notebook strip, vellum tab, binder clip, thread, paperclip, staple, corner label, sparse stars, dots, or underlines.
+Then add a separate **free-association found-object pool**. About half of the decoration impression should come from source-responsive motifs and about half may come from mood, palette, nostalgia, or playful contrast. Free objects may include a camera, record, cassette, model car, fruit, open or closed book, coffee cup, radio, compass, binoculars, sunglasses, dice, key, yarn, pen, toy, postcard, mini sailboat, or specimen object even when it is not visible in the source. Add neutral accents such as torn notebook strip, vellum tab, binder clip, thread, paperclip, staple, corner label, sparse stars, dots, or underlines.
 
-Do not literalize every cue as a large 3D object. A cap in the source can become one red stitch or tab; a shell can become a specimen label or wave contour; a drink can become a receipt or color swatch. Large duplicate props turn the page into a themed product flat-lay and compete with the memory itself.
+Do not literalize every cue as a large 3D duplicate. A cap in the source can become one red stitch or tab; a shell can become a specimen label or wave contour; a drink can become a receipt or color swatch. Free-association props are welcome, but keep them shallow and varied so the result feels like a collected memory desk rather than a themed product catalog.
 
 ## Anti-repetition rule
 
 For each output, form a project-specific set:
 
 - `content motifs`: 3–5 selections from source cues;
-- `narrative enrichment`: 3–6 objects or motifs that build the memory's mood;
+- `free-association found objects`: 3–6 objects or motifs chosen for mood, contrast, playfulness, or nostalgia; literal source relevance is optional;
 - `neutral accents`: 2–4 selections;
 - `dimensional/shallow object`: 2–4 selections;
 - `forbidden repeats`: any prop that appeared in two recent outputs or was rejected by the user.

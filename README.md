@@ -9,18 +9,20 @@ A portable, open-source Agent Skill that turns 1–8 everyday photos into tactil
 ## Why try it?
 
 - **Give casual photos a finished look** — bring together color, lettering, and mood without learning complex layout tools.
-- **Let each moment inspire the page** — people, places, weather, food, and emotion guide the creative direction.
-- **Keep the memory real while making it playful** — photographs stay clear and recognizable while paper, notes, maps, tickets, and found details enrich the story.
+- **Let each moment inspire the page** — people, places, weather, food, and emotion guide part of the creative direction, while playful keepsakes add surprise and personality.
+- **Keep the memory real while making it playful** — photographs stay clear and recognizable while paper, notes, maps, tickets, cameras, records, books, fruit, coffee, tiny models, and other found details enrich the story.
 - **Turn a photo group into a complete series** — receive individual pages for posting as well as a combined cover or recap.
 - **Share it anywhere** — the consistent 3:4 vertical format works beautifully for Xiaohongshu/RedNote, Instagram, blogs, and personal albums.
 
-Upload your photos and the Skill creates a story-rich medium-density set: each page gathers a real photograph, expressive lettering, a short journal note, layered paper and fabric, and a varied cluster of small objects into one tactile composition. One photo becomes one finished scrapbook page; two to eight photos become individual pages for each moment plus one recap that brings the whole story together. Upload six photos, for example, and you receive six individual designs and one summary cover. Every result shares the same **3:4 vertical ratio**, ready to publish as a cohesive series.
+Upload your photos and the Skill creates a story-rich medium-density set. By default, a concentrated handmade collage island sits on a spacious color, sky, tabletop, textile, or atmospheric background instead of filling the entire canvas. Real photographs, expressive English lettering, a short journal note, layered paper and fabric, and a varied cluster of small objects come together as one tactile composition. One photo becomes one finished scrapbook page; two to eight photos become individual pages for each moment plus one recap that brings the whole story together. Upload six photos, for example, and you receive six individual designs and one summary cover. Every result shares the same **3:4 vertical ratio**, ready to publish as a cohesive series.
 
 ## The style: tactile photo scrapbook
 
 This project calls the style **tactile photo scrapbook**: photography is combined with torn paper, translucent vellum, fabric, folded tape, handwritten titles, tickets, maps, notes, and small found details to create a page that feels assembled by hand.
 
-The Skill draws inspiration from the subjects, colors, setting, weather, activity, and mood of the current photos, then builds a visual world around that moment. A coastal scene may grow into tide notes, wave vellum, and a folded chart; a museum visit may pair with catalog slips, rice paper, ink studies, and architectural lines; a quiet indoor moment may become a soft composition of fabric, notes, and window light.
+The Skill draws part of its inspiration from the subjects, colors, setting, weather, activity, and mood of the current photos, then gives itself room to collect delightful objects that do not have to be literally present in the picture. A coastal scene may grow into tide notes and a folded chart, then gain a tiny camera, fruit slice, compass, radio, or toy sailboat for rhythm and character. A quiet indoor moment might combine fabric and window light with an open book, coffee cup, record, model car, or other charming keepsake. This roughly half-related, half-free approach keeps each page imaginative instead of mechanically literal.
+
+Decorative titles and journal fragments are written in **English by default**, giving the set a compact editorial feel. Another language is used only when you explicitly ask for it.
 
 The style can feel fresh, quiet, playful, romantic, editorial, or nostalgic without forcing every story into aged beige paper. Photographs remain recognizable and emotionally central, while titles, journal fragments, tactile materials, and small found objects turn the whole page into a miniature story world.
 
@@ -110,7 +112,7 @@ WorkBuddy can also install the Skill conversationally: start a new task, paste t
 
 Invoke the installed Skill explicitly or ask naturally:
 
-> Use the scrapbook photo collage skill to turn these eight travel photos into a cohesive 3:4 scrapbook set. Create one design for each photo and finish with a combined summary collage. Keep the people recognizable and make the decorations respond to the places and objects in the photos.
+> Use the scrapbook photo collage skill to turn these eight travel photos into a cohesive 3:4 scrapbook set. Create one English-copy design for each photo and finish with a combined summary collage. Keep the people recognizable, leave a visible atmospheric background around each scrapbook island, and mix photo-inspired details with playful found keepsakes.
 
 For Kimi Code CLI:
 
