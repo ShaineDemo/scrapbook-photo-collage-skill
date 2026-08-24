@@ -63,6 +63,7 @@ def validate_summary_layout(
     canvas_width: int,
     canvas_height: int,
     min_photo_fraction: float,
+    max_photo_fraction: float,
 ) -> None:
     if len(plans) < 2:
         raise SystemExit("--summary-layout requires at least two source placements")
@@ -81,8 +82,14 @@ def validate_summary_layout(
     if total_photo_fraction < min_photo_fraction:
         raise SystemExit(
             f"Summary photos cover only {total_photo_fraction:.1%} of the canvas; hard "
-            f"minimum is {min_photo_fraction:.1%} and the design target is 50–65%. "
+            f"minimum is {min_photo_fraction:.1%} and the design target is 42–56%. "
             "Enlarge the hero and supporting windows."
+        )
+    if total_photo_fraction > max_photo_fraction:
+        raise SystemExit(
+            f"Summary photos cover {total_photo_fraction:.1%} of the canvas; hard maximum "
+            f"is {max_photo_fraction:.1%} and the design target is 42–56%. Reduce the "
+            "supporting windows and leave room for one coherent story-and-object cluster."
         )
 
     if len(plans) >= 4:
@@ -125,10 +132,19 @@ def main() -> None:
     parser.add_argument(
         "--min-single-photo-fraction",
         type=float,
-        default=0.38,
+        default=0.14,
         help=(
             "Hard minimum visible source-photo area for a one-photo page, as a fraction "
-            "of the canvas. The design target remains 0.42–0.58. Default: 0.38."
+            "of the canvas. The design target is 0.18–0.30. Default: 0.14."
+        ),
+    )
+    parser.add_argument(
+        "--max-single-photo-fraction",
+        type=float,
+        default=0.40,
+        help=(
+            "Hard maximum visible source-photo area for a one-photo page, as a fraction "
+            "of the canvas. This preserves room for the story cluster. Default: 0.40."
         ),
     )
     parser.add_argument(
@@ -139,10 +155,19 @@ def main() -> None:
     parser.add_argument(
         "--min-summary-photo-fraction",
         type=float,
-        default=0.42,
+        default=0.34,
         help=(
             "Hard minimum summed visible photo area for a summary page. "
-            "The design target remains 0.50–0.65. Default: 0.42."
+            "The design target is 0.42–0.56. Default: 0.34."
+        ),
+    )
+    parser.add_argument(
+        "--max-summary-photo-fraction",
+        type=float,
+        default=0.62,
+        help=(
+            "Hard maximum summed visible photo area for a summary page. "
+            "The design target is 0.42–0.56. Default: 0.62."
         ),
     )
     parser.add_argument("--manifest", type=Path)
@@ -156,8 +181,16 @@ def main() -> None:
         raise SystemExit("--max-mat-fraction must be at least 0 and less than 1")
     if not 0 < args.min_single_photo_fraction < 1:
         raise SystemExit("--min-single-photo-fraction must be greater than 0 and less than 1")
+    if not 0 < args.max_single_photo_fraction < 1:
+        raise SystemExit("--max-single-photo-fraction must be greater than 0 and less than 1")
+    if args.min_single_photo_fraction >= args.max_single_photo_fraction:
+        raise SystemExit("single-photo minimum must be smaller than its maximum")
     if not 0 < args.min_summary_photo_fraction < 1:
         raise SystemExit("--min-summary-photo-fraction must be greater than 0 and less than 1")
+    if not 0 < args.max_summary_photo_fraction < 1:
+        raise SystemExit("--max-summary-photo-fraction must be greater than 0 and less than 1")
+    if args.min_summary_photo_fraction >= args.max_summary_photo_fraction:
+        raise SystemExit("summary-photo minimum must be smaller than its maximum")
 
     placements = [parse_placement(values) for values in args.place]
     source_ids = [source_id for source_id, _, _ in placements]
@@ -189,7 +222,9 @@ def main() -> None:
         "validation": {
             "max_mat_fraction": args.max_mat_fraction,
             "min_single_photo_fraction": args.min_single_photo_fraction,
+            "max_single_photo_fraction": args.max_single_photo_fraction,
             "min_summary_photo_fraction": args.min_summary_photo_fraction,
+            "max_summary_photo_fraction": args.max_summary_photo_fraction,
             "summary_hierarchy": "largest visible photo >= 1.4x next-largest"
             if args.summary_layout
             else None,
@@ -242,18 +277,28 @@ def main() -> None:
             )
         )
 
-    if len(plans) == 1 and plans[0].canvas_photo_fraction < args.min_single_photo_fraction:
-        raise SystemExit(
-            f"Single-page photo covers only {plans[0].canvas_photo_fraction:.1%} of the "
-            f"canvas; hard minimum is {args.min_single_photo_fraction:.1%} and the design "
-            "target is 42–58%. Enlarge the photo window without changing its aspect ratio."
-        )
+    if len(plans) == 1:
+        photo_fraction = plans[0].canvas_photo_fraction
+        if photo_fraction < args.min_single_photo_fraction:
+            raise SystemExit(
+                f"Single-page photo covers only {photo_fraction:.1%} of the canvas; hard "
+                f"minimum is {args.min_single_photo_fraction:.1%} and the design target is "
+                "18–30%. Enlarge the photo window without changing its aspect ratio."
+            )
+        if photo_fraction > args.max_single_photo_fraction:
+            raise SystemExit(
+                f"Single-page photo covers {photo_fraction:.1%} of the canvas; hard maximum "
+                f"is {args.max_single_photo_fraction:.1%} and the design target is 18–30%. "
+                "Reduce the photo window and use the recovered space for the title, journal "
+                "copy, layered materials, and a compact decoration cluster."
+            )
     if args.summary_layout:
         validate_summary_layout(
             plans,
             canvas_width,
             canvas_height,
             args.min_summary_photo_fraction,
+            args.max_summary_photo_fraction,
         )
 
     for plan in plans:

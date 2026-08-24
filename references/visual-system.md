@@ -12,25 +12,29 @@ Read this file when choosing composition density, materials, or decorations.
 - Dimensional props: 0–1.
 - Breathing space: 25–35%.
 
-### Balanced / medium density
+### Story-rich / medium density
 
 - Default for all outputs unless the user requests another density.
-- Single-photo visible source area: 42–58%.
-- Combined-page photo area: 50–65%.
-- Single-photo decorations: 6–8, including labels and hardware.
-- Multi-photo decorations: 8–10, including labels and hardware.
-- Dimensional props: 0–1; any one prop stays below about 4% of the canvas.
-- Breathing space: 12–25%.
+- Single-photo visible source area: 18–30%.
+- Combined-page photo area: 42–56%.
+- Concentrated collage island: roughly 70–88% of the canvas.
+- Single-photo decorations and narrative details: 10–16.
+- Multi-photo decorations and narrative details: 12–18.
+- Dimensional or shallow-relief props: 2–4; any one prop stays below about 8% of the canvas.
+- Flat die-cuts, sketches, stitches, labels, and printed motifs: 4–7.
+- Breathing space: 12–25% around the island, not as holes inside it.
 - Combined page: one obvious hero at least 1.4× the next-largest photo, 2–3 medium frames, remaining sources as clear details.
 
-Count narrative richness, not filler rectangles. A balanced page should normally include two content-derived motifs, two materially distinct paper or fabric details, one hardware or stitched accent, and two useful text elements such as a title plus a label or short note. Several plain paper swatches do not by themselves create medium density.
+Count narrative richness, not filler rectangles. A default page should normally include 5–8 material layers, 3–5 content-derived motifs, 3–6 mood-building motifs, 2–4 neutral hardware accents, one expressive title, one short journal passage, and 2–4 micro-labels. Several plain paper swatches do not by themselves create medium density.
+
+Build three visible depth levels: broad foundation papers and fabric, mid-level labels/illustrations/stitches, and a small foreground cluster of shallow objects. Concentrate these levels into one coherent story island; do not distribute isolated decorations evenly around the perimeter.
 
 ### Rich editorial
 
 - Use only when the user explicitly wants a dense scrapbook.
-- Photo area must remain at least 48%.
-- Decorations: 12–16, mostly paper, ink, thread, or shallow objects.
-- Dimensional props: at most 3.
+- Single-photo area: 16–30%.
+- Decorations: 16–24, mostly paper, ink, thread, die-cuts, and shallow objects.
+- Dimensional props: 4–7, with no single prop larger than the photo.
 - Preserve at least one calm zone for title or background.
 
 Density is not the number of objects alone. Richness can come from paper edges, writing, overlaps, stitching, translucent layers, and crop rhythm without adding more 3D props.
@@ -51,7 +55,13 @@ Build around a card, corkboard, postcard, or file-folder shape. Use a route line
 
 ### Editorial stack
 
-Layer a small number of large photo frames with paper excerpts and a strong title. Good when one portrait or scene should dominate.
+Layer one photo frame with paper excerpts, a strong title, and a compact object cluster. Good when one portrait or scene should anchor a story-rich page. Avoid turning it into a two-column magazine layout or a full-width photo plus bottom caption strip.
+
+### Story-object island
+
+Build a dense but bounded central cluster from one photo, one large expressive title, a short journal passage, stacked paper and fabric, and a varied foreground object group. Let some elements project beyond the paper stack while the outer background stays calm. This is the default family for the target style shown in the reference examples.
+
+Treat the island as a small story world rather than a decorated frame. The photograph, title block, journal note, and object group should each be visibly substantial. A useful default is 18–30% for the photograph, 8–18% for the title block, and 4–10% for the journal block, with overlaps preventing these areas from reading as separate columns.
 
 Avoid equal grids unless the user explicitly asks for a contact sheet.
 
@@ -71,7 +81,7 @@ This is a rotation pattern, not a fixed template. Choose positions from the sour
 
 ## Set cohesion
 
-Choose two or three shared neutrals and two shared accents from the full source set before rendering. Every page should visibly reuse at least three of those colors, and roughly 80% or more of the non-photo color impression should come from that common palette. Source-specific colors can appear as smaller accents, normally no more than 20% of the non-photo area; no page should drift into an unrelated palette merely because its local subject suggests pink, blue, green, or sepia.
+Choose two shared neutrals and one or two shared anchor colors from the full source set before rendering. Every page should visibly reuse those material anchors, but only about 55–70% of the non-photo color impression needs to be common. Reserve 30–45% for a page-specific mood: saturated coastal blue, playful coral and yellow, deep forest green, or warm home peach. A set should feel related, not recolored from one template.
 
 For the combined summary, avoid four similarly sized rectangles. Use a hero frame whose area is at least 1.4 times the second-largest frame, stagger frame edges, vary orientations where the sources permit, and use overlap or offset spacing to create a clear reading path.
 
@@ -108,11 +118,14 @@ Do not literalize every cue as a large 3D object. A cap in the source can become
 For each output, form a project-specific set:
 
 - `content motifs`: 3–5 selections from source cues;
+- `narrative enrichment`: 3–6 objects or motifs that build the memory's mood;
 - `neutral accents`: 2–4 selections;
-- `hardware/natural object`: 0–2 selections;
+- `dimensional/shallow object`: 2–4 selections;
 - `forbidden repeats`: any prop that appeared in two recent outputs or was rejected by the user.
 
 Change shape and construction as well as object identity. Two cameras with different colors are still the same repeated idea. Two identical circular seals with different letters are also repetition.
+
+For the default story-rich preset, span at least four object languages when the subject supports them: printed ephemera, a tactile or natural object, an illustrated or die-cut motif, and a stitched or metal attachment. Many similar labels or paper rectangles do not create the dimensional variety seen in a collected scrapbook.
 
 ## Material contrast
 
@@ -125,6 +138,10 @@ Use meaningful contrasts:
 - subtle real shadow under a dimensional object and almost no shadow under ink.
 
 Avoid applying the same grain, blur, outline, and drop shadow to every layer.
+
+## No-unused-panel rule
+
+Do not leave a large blank foundation rectangle above, below, or behind the photo. Any visible paper panel larger than about 10% of the canvas must do at least one job: carry the title or journal copy, hold a meaningful drawing or specimen, create a clear material transition, or be mostly covered by the story island. If it does none of these, remove or shrink it.
 
 ## Tape construction
 
@@ -143,8 +160,9 @@ Vary tape materials: masking tape, translucent stationery tape, cloth tape, pape
 ## Text hierarchy
 
 - Title: expressive, 2–7 words.
-- Supporting sentence: one short sentence, ideally under 18 words.
-- Labels: 1–3 words each.
-- Optional journal copy: use only when enough clean paper is visible.
+- Journal passage: 12–30 words arranged across 3–7 short lines.
+- Labels: 2–4 labels, usually 1–3 words each.
+- Visual weight: title block about 8–18% of the canvas; journal block about 4–10% when practical.
+- The title and journal passage form a second visual anchor beside the photograph; avoid a tiny footer caption or title-only page.
 
 Generated lettering can be irregular and human. Critical names, dates, prices, addresses, or long copy should be rendered after generation when exactness matters.

@@ -34,17 +34,17 @@ The windows must contain plain matte placeholder color only. Do not generate pho
 
 Use rectangular windows in the fallback path. Avoid irregular masks, perspective distortion, curled photographs, or objects overlapping a photo window because these make pixel-locked placement unreliable.
 
-Choose each window from the original source aspect ratio. The fallback uses uncropped `contain`, so a badly mismatched window creates large empty mats and weakens photo dominance. Redesign the reservation window instead of accepting a large blank area.
+Choose each window from the original source aspect ratio. The fallback uses uncropped `contain`, so a badly mismatched window creates large empty mats and weakens the intended hierarchy. Redesign the reservation window instead of accepting a large blank area.
 
 ## Place the originals deterministically
 
-Example for one portrait source around a 0.56 aspect ratio on a 900×1200 background:
+Example for one portrait source around a 0.56 aspect ratio on a 900×1200 background. This window places the original at about 28% of the canvas, leaving room for a story-rich title, journal passage, materials, and objects:
 
 ```bash
 python3 scripts/compose_locked_photos.py \
   --background scrapbook-background.png \
   --output final.png \
-  --place S1 original-portrait.jpg 174 100 552 958 \
+  --place S1 original-portrait.jpg 230 180 440 763 \
   --manifest final.sources.json
 ```
 
@@ -62,9 +62,9 @@ python3 scripts/compose_locked_photos.py \
   --manifest summary.sources.json
 ```
 
-Coordinates are `X Y WIDTH HEIGHT` in pixels and describe the outer photo frame. The script rejects non-3:4 backgrounds, duplicate source IDs, missing files, out-of-canvas frames, more than 18% blank mat inside a frame, and a one-photo page below 38% visible photo area. The normal single-page design target remains 42–58%; the lower value is only a hard rejection floor. Multiple placements are rejected unless `--summary-layout` is present.
+Coordinates are `X Y WIDTH HEIGHT` in pixels and describe the outer photo frame. The script rejects non-3:4 backgrounds, duplicate source IDs, missing files, out-of-canvas frames, more than 18% blank mat inside a frame, and a one-photo page outside the 14–40% hard visible-photo range. The normal single-page design target is 18–30%; the wider limits only reject obviously tiny or photo-dominated layouts. Multiple placements are rejected unless `--summary-layout` is present.
 
-Always pass `--summary-layout` for the final combined page. It rejects summaries without a hero at least 1.4× the next-largest visible photo, below a 42% summed visible-photo floor, or using aligned grid/contact-sheet placement. The normal summary target remains 50–65%. When the script rejects a layout, redesign the generated empty windows and rerun it. Do not increase `--max-mat-fraction` or decrease either photo-area minimum merely to force a weak composition through validation.
+Always pass `--summary-layout` for the final combined page. It rejects summaries without a hero at least 1.4× the next-largest visible photo, outside the 34–62% hard summed visible-photo range, or using aligned grid/contact-sheet placement. The normal summary target is 42–56%. When the script rejects a layout, redesign the generated empty windows and rerun it. Do not increase `--max-mat-fraction` or widen the photo-area limits merely to force a weak composition through validation.
 
 The manifest records each placed photo's `mat_fraction` and `canvas_photo_fraction`, making it possible to audit whether the final page actually meets the intended dominance rather than trusting the visual prompt.
 

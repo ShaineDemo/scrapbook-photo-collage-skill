@@ -19,16 +19,18 @@ CANVAS AND HIERARCHY
 - Exact 3:4 vertical canvas. Use the same pixel dimensions as every other image in this set, such as 1080x1440 or 1536x2048.
 - Keep critical content inside safe margins so the final file can be normalized to exact 3:4 without losing faces, titles, hands, food, or meaningful objects.
 - [density preset].
-- Place the collage island [position] and retain [amount] of breathing space.
+- Build one concentrated story-and-object island occupying about 70–88% of the canvas, placed [position], with calm background around it and no empty gaps inside it.
 - This page's spatial recipe is [photo anchor / title anchor / decoration cluster]. It must visibly differ from adjacent outputs in at least three of those choices.
 - Hero: [source and position], occupying about [percentage].
 - On a combined page, the hero frame is at least 1.4 times the visible area of the next-largest frame.
 - Secondary frames: [mapping].
 - Detail frames: [mapping].
 - Total visible photo area: [percentage range].
+- Title block: roughly 8–18% of the canvas; journal block: roughly 4–10%, integrated through overlap rather than separated into editorial columns.
 - Keep all faces and important objects unobstructed.
 - Match each photo window to its source orientation and aspect ratio; avoid large letterbox voids.
 - Break row and column alignment. The composition must not read as a 2×2 grid or contact sheet.
+- Do not use a clean two-column editorial poster, a full-width photo with a detached bottom caption strip, or an oversized blank paper panel behind the photo.
 
 MATERIALS
 - [glossy photo treatment].
@@ -38,15 +40,20 @@ MATERIALS
 - Tape colors: [palette]. Show torn fibers, folds, buckled ridges, curled corners, translucency, and shallow contact shadows.
 
 PROJECT-SPECIFIC DECORATIONS
+- Layer 5–8 distinct paper, vellum, fabric, label, or notebook materials.
 - Content-derived: [3–5 motifs tied to the actual photos].
+- Narrative enrichment: [3–6 mood-building motifs or objects that need not appear literally in the source].
 - Neutral balancing accents: [2–4 items].
-- Dimensional props: [0–1 item], each below about 4% of the canvas; do not make a literal 3D duplicate of an object already visible in the source.
+- Dimensional or shallow-relief props: [2–4 items], each below about 8% of the canvas.
+- Flat die-cuts, sketches, stitches, labels, or printed motifs: [4–7 items].
+- Do not make a literal 3D duplicate of an object already visible in the source.
 - Every decoration should have a distinct role and silhouette.
+- Arrange the materials in three depth levels and concentrate the objects around the photo-and-copy cluster instead of spacing them evenly around the border.
 
 COPY
 - Language: [language].
 - Title: “[exact title]”.
-- Supporting sentence: “[exact sentence]”.
+- Journal passage, 12–30 words across 3–7 short lines: “[exact passage]”.
 - Labels: “[label 1]”, “[label 2]”, “[label 3]”.
 - Keep text away from faces. Spell all required copy exactly.
 
@@ -59,11 +66,13 @@ NEGATIVE CONSTRAINTS
 - Do not use [project-specific forbidden repeats].
 - No pseudo-text filling empty spaces.
 - No centered-frame-plus-bottom-title template if an adjacent output already uses it.
-- No dominant colors outside the shared set palette; source-specific accents stay subordinate.
+- No oversized unused blank paper panel.
+- No isolated decorations evenly spaced around the perimeter.
+- Reuse the set's material and anchor colors, but allow this page's specific accent palette to occupy 30–45% of the non-photo color impression.
 
 FINAL QUALITY
 - [fresh / nostalgic / playful / editorial] but cohesive.
-- Main photos remain dominant at thumbnail size.
+- Main photos remain immediately recognizable at thumbnail size while the title-and-object cluster reads as the second anchor.
 - Handmade irregularity with professional hierarchy and realistic material contrast.
 - The actual delivered bitmap dimensions are exact 3:4 vertical; a prompt-only ratio request is not sufficient.
 ```
@@ -85,7 +94,9 @@ Keep all decorations outside the photo windows and do not cross their edges. Fil
 
 Match every window closely to the aspect ratio of its assigned source. For a combined page, make one hero window at least 1.4 times the area of the next-largest window, stagger edges, and avoid equal rows or columns.
 
-Size each window so uncropped contain placement leaves no more than 18% blank internal mat. On a single page, the placed source itself—not the frame and mat together—must cover 42–58% of the complete canvas.
+Size each window so uncropped contain placement leaves no more than 18% blank internal mat. On a single page, the placed source itself—not the frame and mat together—should cover 18–30% of the complete canvas. On a combined page, all placed sources together should cover 42–56%.
+
+Build a concentrated story island around the reserved windows using 5–8 material layers, a large expressive title occupying about 8–18% of the canvas, a 12–30 word journal passage occupying about 4–10%, 2–4 micro-labels, 3–5 source-derived motifs, 3–6 narrative-enrichment motifs, 2–4 shallow dimensional props, and 4–7 flat details. Include at least one printed ephemera element, one tactile or natural object, one illustrated or die-cut motif, and one stitched or metal attachment when the theme permits. Do not generate an oversized blank foundation rectangle; every large paper panel must carry copy, illustration, texture, or meaningful overlap.
 
 CRITICAL: do not generate photographs, people, faces, bodies, hands, pets, food, scenery, landmarks, or fake source-image content inside any photo window. Do not invent a group photo. The untouched original photos will be placed later by deterministic compositing.
 
@@ -133,7 +144,7 @@ Keep the photographs, title, and palette. Remove roughly one third of the decora
 ### Decorations too sparse
 
 ```text
-Keep the photographs dominant. Add 3–5 mostly flat details derived from the actual subjects, plus one hardware accent. Increase overlap and material variation without shrinking the hero or filling the entire background.
+Keep every source photo unchanged. Rebuild the page as one concentrated story island: add a 12–30 word journal passage, 2–4 micro-labels, 3–5 source-derived motifs, 3–6 mood-building motifs, 2–4 shallow dimensional props, and 4–7 flatter stitched, printed, or die-cut details. Use three depth levels and meaningful overlap. Do not scatter isolated objects around the border, create a neat editorial two-column poster, or leave a large blank foundation sheet.
 ```
 
 ### Tape too flat

@@ -14,7 +14,7 @@ A portable, open-source Agent Skill that turns 1–8 everyday photos into tactil
 - **Turn a photo group into a complete series** — receive individual pages for posting as well as a combined cover or recap.
 - **Share it anywhere** — the consistent 3:4 vertical format works beautifully for Xiaohongshu/RedNote, Instagram, blogs, and personal albums.
 
-Upload your photos and the Skill creates a rich but uncluttered medium-density set. One photo becomes one finished scrapbook page; two to eight photos become individual pages for each moment plus one recap that brings the whole story together. Upload six photos, for example, and you receive six individual designs and one summary cover. Every result shares the same **3:4 vertical ratio**, ready to publish as a cohesive series.
+Upload your photos and the Skill creates a story-rich medium-density set: each page gathers a real photograph, expressive lettering, a short journal note, layered paper and fabric, and a varied cluster of small objects into one tactile composition. One photo becomes one finished scrapbook page; two to eight photos become individual pages for each moment plus one recap that brings the whole story together. Upload six photos, for example, and you receive six individual designs and one summary cover. Every result shares the same **3:4 vertical ratio**, ready to publish as a cohesive series.
 
 ## The style: tactile photo scrapbook
 
@@ -22,7 +22,7 @@ This project calls the style **tactile photo scrapbook**: photography is combine
 
 The Skill draws inspiration from the subjects, colors, setting, weather, activity, and mood of the current photos, then builds a visual world around that moment. A coastal scene may grow into tide notes, wave vellum, and a folded chart; a museum visit may pair with catalog slips, rice paper, ink studies, and architectural lines; a quiet indoor moment may become a soft composition of fabric, notes, and window light.
 
-The style can feel fresh, quiet, playful, romantic, editorial, or nostalgic without forcing every story into aged beige paper. Photographs remain recognizable and dominant while the surrounding materials give them context, rhythm, and a sense of memory.
+The style can feel fresh, quiet, playful, romantic, editorial, or nostalgic without forcing every story into aged beige paper. Photographs remain recognizable and emotionally central, while titles, journal fragments, tactile materials, and small found objects turn the whole page into a miniature story world.
 
 ## What can you make with it?
 
