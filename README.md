@@ -6,6 +6,8 @@
 
 A portable, open-source Agent Skill that turns 1–8 everyday photos into tactile scrapbook stories with atmosphere, personality, and a sense of occasion. Travel days, dinners, friendships, pets, quiet weekends, and small favorite moments can all become a polished set worth keeping and sharing.
 
+> **Early-stage release:** this Skill has currently been tested only in **Codex**. Codex with ImageGen is the recommended environment while the workflow continues to mature.
+
 ## Why try it?
 
 - **Give casual photos a finished look** — bring together color, lettering, and mood without learning complex layout tools.
@@ -14,7 +16,9 @@ A portable, open-source Agent Skill that turns 1–8 everyday photos into tactil
 - **Turn a photo group into a complete series** — receive individual pages for posting as well as a combined cover or recap.
 - **Share it anywhere** — the consistent 3:4 vertical format works beautifully for Xiaohongshu/RedNote, Instagram, blogs, and personal albums.
 
-Upload your photos and the Skill creates a story-rich medium-density set. By default, a concentrated handmade collage island sits on a spacious color, sky, tabletop, textile, or atmospheric background instead of filling the entire canvas. Real photographs, expressive English lettering, a short journal note, layered paper and fabric, and a varied cluster of small objects come together as one tactile composition. One photo becomes one finished scrapbook page; two to eight photos become individual pages for each moment plus one recap that brings the whole story together. Upload six photos, for example, and you receive six individual designs and one summary cover. Every result shares the same **3:4 vertical ratio**, ready to publish as a cohesive series.
+Upload your photos and the Skill creates a story-rich medium-density set. By default, every single page and combined summary places a concentrated handmade collage island in front of an expansive photographic sky, soft clouds, warm horizon light and low distant treetops. Paper and fabric belong to the foreground island, not a flat canvas-filling background. Real photographs, expressive English lettering, a short journal note and playful objects come together as one tactile composition. One photo becomes one finished scrapbook page; two to eight photos become individual pages for each moment plus one recap. Every result shares the same **3:4 vertical ratio**. The outer scene is decorative atmosphere; the source photographs keep their own setting and light.
+
+Version 1.9 bundles `examples/after/08-open-sky-stage.png` as its primary visual anchor for both single and summary pages. It is a style reference, not an additional source photo. A fresh installation carries the same baseline without needing reference images from a previous conversation. The older examples below illustrate material construction; their flat backgrounds are not the current default.
 
 ## The style: tactile photo scrapbook
 
@@ -83,42 +87,25 @@ The same six source photos produce six individually art-directed pages plus one 
 
 ## Requirements
 
-The Skill is model-agnostic, but a finished bitmap requires the host agent to expose an image-generation or image-editing tool with reference-image support. A text-only agent can still produce the complete art direction and renderer prompt.
-
-Host support is not the same as rendering support. Codex can render when ImageGen is available. WorkBuddy supports custom Skills and can complete this workflow when its active account, model, and toolset expose reference-image generation or editing. Grok Build installs the Skill natively and can use Grok Imagine, including reference-image editing when that tool or API is connected. Qoder currently documents text-to-image only. Claude Code, Kimi Code, DeepSeek Harness, and QoderWork require an external image model, plugin, API, or MCP tool for this photo-preserving workflow. See the [verified capability matrix](references/compatibility.md#verified-rendering-capabilities) before installation.
+This is an early-stage Skill and has currently been tested only in **Codex**. We recommend using Codex on a surface that provides ImageGen. A finished bitmap requires reference-image generation or editing; without an available image tool, Codex can still produce the art direction and renderer prompt but cannot render the final scrapbook images.
 
 Python 3 and [Pillow](https://python-pillow.org/) are optional. Besides building numbered contact sheets, they enable a safer fallback that creates the handmade surround separately and places the untouched original photos afterward, preventing a weak renderer from deleting or repainting people and scenes.
 
 ## Install
 
-Clone the repository and run one of:
+Clone the repository and install it for Codex:
 
 ```bash
 python3 scripts/install_skill.py --target codex
-python3 scripts/install_skill.py --target workbuddy
-python3 scripts/install_skill.py --target claude
-python3 scripts/install_skill.py --target kimi
-python3 scripts/install_skill.py --target deepseek-harness
-python3 scripts/install_skill.py --target qoder
-python3 scripts/install_skill.py --target qoderwork
-python3 scripts/install_skill.py --target grok-build
 ```
 
-These targets correspond to **Codex**, **WorkBuddy**, **Claude Code**, **Kimi Code CLI**, **DeepSeek Harness**, **Qoder IDE/CLI**, **QoderWork**, and **Grok Build**. Qoder and QoderWork are separate products with separate Skill directories, so each has its own target.
-
-WorkBuddy can also install the Skill conversationally: start a new task, paste this repository URL, and ask it to install the Skill. The current desktop product places imported Skills under `~/.workbuddy-ai/skills/`; restart WorkBuddy or begin a new task after installation. See the [WorkBuddy installation prompt](adapters/workbuddy-creation-prompt.md) for a ready-to-paste request. For TRAE and 豆包, see [cross-agent compatibility](references/compatibility.md). A generic standalone prompt is available at [adapters/portable-agent-prompt.md](adapters/portable-agent-prompt.md).
+The installer copies the Skill to `~/.codex/skills/scrapbook-photo-collage/`. Start a new Codex task after installation so the latest version is discovered cleanly.
 
 ## Use
 
 Invoke the installed Skill explicitly or ask naturally:
 
 > Use the scrapbook photo collage skill to turn these eight travel photos into a cohesive 3:4 scrapbook set. Create one English-copy design for each photo and finish with a combined summary collage. Keep the people recognizable, leave a visible atmospheric background around each scrapbook island, and mix photo-inspired details with playful found keepsakes.
-
-For Kimi Code CLI:
-
-```text
-/skill:scrapbook-photo-collage Create a balanced 3:4 travel-diary cover from the attached photos.
-```
 
 ## Contact sheets
 
@@ -135,16 +122,14 @@ The generated indexes do not crop the source photos and label each tile with a s
 ## Repository layout
 
 ```text
-SKILL.md                         Canonical cross-agent instructions
+SKILL.md                         Canonical Skill instructions
 agents/openai.yaml               Codex UI metadata
 references/visual-system.md      Density, materials, and decoration logic
 references/prompt-template.md    Renderer prompt structure and revision prompts
 references/source-preservation.md Locked-photo fallback and fidelity checks
-references/compatibility.md      Product-specific installation guidance
 scripts/build_contact_sheet.py   Numbered source-index generator
 scripts/compose_locked_photos.py Deterministic original-photo compositor
-scripts/install_skill.py         Portable installer
-adapters/                        TRAE and generic chat fallbacks
+scripts/install_skill.py         Codex installer entry point
 ```
 
 ## Privacy

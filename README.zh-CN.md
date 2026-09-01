@@ -4,6 +4,8 @@
 
 这是一个可移植的开源 Agent Skill，可以把 1–8 张日常照片变成有氛围、有细节、也更有故事感的纸感手账。旅行、聚会、约会、美食、宠物或某个普通周末，都可以被整理成值得收藏和分享的一组作品。
 
+> **早期版本说明：** 目前仅完成了 **Codex** 环境测试。现阶段推荐在提供 ImageGen 的 Codex 中使用，工作流仍在持续完善。
+
 ## 为什么值得试试？
 
 - **让随手拍更有作品感**：普通照片也能拥有完整的配色、标题和画面氛围。
@@ -12,7 +14,9 @@
 - **一组照片自动变成完整系列**：既有适合单独发布的页面，也有适合作为封面或回顾的合辑。
 - **适合直接分享**：统一的 3:4 竖版画面可用于小红书、Instagram、博客和个人相册。
 
-上传照片后，Skill 默认会制作一套“故事感中密度”作品：画面不会被手账素材全部铺满，而是在纯色、天空、桌面、布料或氛围场景形成的大背景上，放置一个边界清楚、层次集中的手作故事岛。真实照片、醒目英文标题、短日记、纸张与布料层次，以及不同的小物件会在其中自然交叠。1 张照片会变成 1 张完整手账；2–8 张照片会得到每个瞬间的独立页面，以及 1 张串联全部回忆的合辑。比如上传 6 张照片，就会收获 6 张单图作品和 1 张总结封面。所有成品统一为 **3:4 竖版比例**，可以直接组成风格连贯的发布系列。
+上传照片后，Skill 默认会制作一套“故事感中密度”作品：单图和合辑都会在宽阔的摄影感天空、柔和云层、温暖地平线与低处远树剪影前，放置一个边界清楚、层次集中的手作故事岛。纸张和布料留在前景拼贴中，不再铺成平闷的整幅底色。真实照片、醒目英文标题、短日记与有趣小物自然交叠。1 张照片会变成 1 张完整手账；2–8 张照片会得到每张照片的独立页面，以及 1 张串联全部回忆的合辑。所有成品统一为 **3:4 竖版比例**。外部场景只是装饰氛围，不改变原照片的地点、光线和内容。
+
+v1.9 将 `examples/after/08-open-sky-stage.png` 随包提供，作为单页和合辑共同的主要风格参考。它不是额外的素材照片；新安装的 Skill 无需读取旧对话或补传参考图，也能获得相同的视觉基线。下方旧示例主要展示材质工艺，其中的平面底色不是当前默认背景。
 
 ## 风格名称：纸感照片手账
 
@@ -81,34 +85,19 @@ Skill 会从照片中的人物、地点、颜色、天气、活动与情绪寻�
 
 ## 能力要求
 
-Skill 本身是模型无关的工作流说明，不会凭空给 Agent 增加生图能力。要输出最终图片，宿主 Agent 仍需提供支持参考图的生图/改图模型、API、插件或 MCP 工具。纯文本 Agent 会输出完整构图方案和可交付给生图模型的 Prompt。
-
-“能安装 Skill”不等于“能完成出图”。Codex 在提供 ImageGen 的产品界面中可以直接渲染；WorkBuddy 支持自定义 Skill，并可在当前账号、模型和工具集提供参考图生成或编辑能力时完成本工作流；Grok Build 可原生安装 Skill，并可在接入 Grok Imagine 工具或 API 后进行参考图编辑。Qoder 目前官方只明确提供文生图。Claude Code、Kimi Code、DeepSeek Harness 与 QoderWork 要完成这种保留原照片的拼贴，需要另外连接生图/改图模型、插件、API 或 MCP。安装前可查看[已核实的能力矩阵](references/compatibility.md#verified-rendering-capabilities)。
+这是一个早期版本，目前仅在 **Codex** 中完成测试，现阶段推荐使用提供 ImageGen 的 Codex 界面。最终图片需要参考图生图或改图能力；如果当前 Codex 界面没有可用的图片工具，Skill 仍可输出构图方案和渲染 Prompt，但不能直接完成最终手账图片。
 
 Python 3 与 Pillow 是可选依赖。除了生成带编号的无裁切素材索引图，它们还能启用更稳妥的保真模式：先单独生成手账背景与装饰，再把未经重绘的原图嵌入相框，避免能力较弱的模型删掉人物、宠物或场景。
 
 ## 安装
 
-克隆仓库后运行对应命令：
+克隆仓库后，为 Codex 安装：
 
 ```bash
 python3 scripts/install_skill.py --target codex
-python3 scripts/install_skill.py --target workbuddy
-python3 scripts/install_skill.py --target claude
-python3 scripts/install_skill.py --target kimi
-python3 scripts/install_skill.py --target deepseek-harness
-python3 scripts/install_skill.py --target qoder
-python3 scripts/install_skill.py --target qoderwork
-python3 scripts/install_skill.py --target grok-build
 ```
 
-- 上述命令依次适用于 Codex、WorkBuddy、Claude Code、Kimi Code CLI、DeepSeek Harness、Qoder IDE/CLI、QoderWork 和 Grok Build。
-- Qoder 与 QoderWork 是两个独立产品，并分别使用不同的 Skill 目录，因此需要保留两个安装目标；只需安装自己正在使用的那个。
-- WorkBuddy 也可以直接通过对话安装：新建任务，粘贴本仓库地址并说“安装这个 Skill”。当前桌面版实测会安装到 `~/.workbuddy-ai/skills/`，完成后重启 WorkBuddy 或新建任务即可。可直接复制 [WorkBuddy 安装指令](adapters/workbuddy-creation-prompt.md)。
-- TRAE：使用 [TRAE 项目规则适配文件](adapters/trae-project_rules.md)。
-- 豆包及不支持文件型 Skill 的聊天产品：将 [通用智能体提示词](adapters/portable-agent-prompt.md) 放入自定义智能体设定或知识库。
-
-更完整的安装目录和能力限制见 [兼容性说明](references/compatibility.md)。
+安装脚本会把 Skill 复制到 `~/.codex/skills/scrapbook-photo-collage/`。安装完成后，请新建一个 Codex 任务，让最新版本在干净上下文中被发现。
 
 ## 使用示例
 

@@ -2,6 +2,8 @@
 
 Use this workflow whenever the renderer may redraw, omit, merge, replace, or crop important source content. It preserves the integrated look whenever possible and keeps the background-only compositor as the last visual fallback.
 
+Read the source contract and rendering-path rules before initial rendering. Continue to recovery preparation only after a fidelity failure, and to the lower-background instructions only if that fallback is actually selected. Reuse sections already read for the current unchanged files.
+
 ## Immutable source contract
 
 Inside every delivered photo frame, the original photo may undergo only:
@@ -25,6 +27,14 @@ Cropping is outside this safety path. Use it only when the user explicitly reque
 4. **Brief-only fallback:** If neither reference editing nor deterministic compositing is available, deliver the prompt, frame map, and source ledger. Do not present a source-altering render as final.
 
 After one failed fidelity inspection, stop asking the same generative renderer to reconstruct deleted people or objects. Restore the original into the successful generated card geometry first; switch to the background-only fallback only if that recovery is impossible.
+
+## Prepare recovery before compositing
+
+Record the detected defect once and check the actual frame geometry before constructing masks: source aspect ratio, rectangular photo boundary, whole-card angle, mat/shadow boundary, and attachments crossing the perimeter. Confirm that the complete original can fit with uniform scale and shallow rotation, meeting the normal photo-area and mat targets. If the generated aperture is perspective-distorted or incompatible with those constraints, repeated rectangle-size guesses will not restore it faithfully; correct the card geometry with a supported method or use the established fallback without relaxing source protection.
+
+`compose_locked_photos.py` is a rectangular card compositor, not an automatic segmentation or frame-recovery tool. It does not discover generated photo boundaries or remove old image fragments. Geometry-preserving recovery therefore needs a clean prepared interior and foreground masks containing only the intended attachments; polygon cutouts that also retain bits of the generated photo are not clean masks. Preserve the existing mat, texture, shadows and attachment shape, and inspect the recovered perimeter at 200% before reusing the method on another page. Never reuse page-specific coordinates or masks on a different composition.
+
+Continue recovery when a concrete change addresses a recorded defect: corrected boundaries, a cleaner foreground mask, or a different supported recovery method. Do not repeat unchanged inputs or make blind border-width guesses. If a revision makes no progress on the same defect, reassess the geometry/method before another run. Do not impose a blanket one-pass cutoff on solvable problems, redo already-accepted pages, lower quality thresholds, or count earlier fallback/failure as faster successful delivery. Page-specific repairs do not block independent renders; a shared-direction or capability failure does.
 
 ## Generate a lower background with card footprints
 

@@ -20,7 +20,7 @@ DEFAULT_ROOTS = {
     "grok-build": Path.home() / ".grok" / "skills",
     "generic": Path.home() / ".agents" / "skills",
 }
-INCLUDE = ("SKILL.md", "LICENSE", "agents", "references", "scripts", "adapters")
+INCLUDE = ("SKILL.md", "LICENSE", "requirements.txt", "agents", "references", "examples", "scripts", "adapters")
 
 
 def add_workbuddy_marker(skill_file: Path) -> None:

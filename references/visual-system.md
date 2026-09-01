@@ -2,6 +2,21 @@
 
 Read this file when choosing composition density, materials, or decorations.
 
+## Anchor baseline
+
+Read [style-anchors.md](style-anchors.md) and visually inspect `../examples/after/08-open-sky-stage.png` before choosing a layout. It defines the outer-scene baseline for both single pages and summaries; older material examples must not pull the background back toward flat beige paper, cloth or a solid fill.
+
+The target fingerprint is:
+
+- one expansive photographic sky-and-horizon stage with clouds, luminous distance and restrained low treetop silhouettes, with a bounded scrapbook or story-object island placed in front;
+- the original photograph embedded inside the physical assembly through mats, overlaps, tape, clips, foreground contacts, and coherent contact shadows;
+- substantial expressive English lettering and a short journal note, not a tiny footer caption;
+- varied paper, fabric, translucent, metal, ink, natural, and shallow-object materials with visibly different surfaces;
+- medium story density concentrated near the photo-and-copy cluster, with both photo-responsive details and freely associated keepsakes;
+- asymmetry, scale contrast, and controlled spill beyond the paper island without turning the whole canvas into torn paper.
+
+Reject a page that looks like a finished scrapbook background with a rectangular bitmap pasted on top, even if source fidelity is perfect. Hard white apertures, stair-stepped edges, halos, mismatched shadows, unmotivated rectangular mats, and rigid grids are integration failures. The preferred render composes the complete physical scene together; deterministic photo recovery is corrective surgery inside existing card geometry, not the default art direction.
+
 ## Density presets
 
 ### Airy
@@ -45,11 +60,13 @@ Density is not the number of objects alone. Richness can come from paper edges, 
 
 Place the assembled cluster slightly above center with open background around it. Good for covers and for scenes with sky, water, or landscape.
 
-This is the default outer construction. Use a vivid solid field, sky, tabletop, fabric, wall, landscape blur, or open notebook as the stage; place a smaller scrapbook board or paper island above it. The stage is atmosphere, not another layer of densely torn scraps.
+This is the default outer construction for **every single page and every summary**. Use an open photographic sky with soft cloud structure, blue-to-warm horizon light and a small distant treetop silhouette near the lower edge. Keep a continuous scenic field above and beside the smaller scrapbook island. Light and cloud variation must suggest distance, not merely a solid blue gradient or blue paper texture. Keep dark silhouettes restrained so they do not turn the background into a gloomy enclosure. Paper, fabric and notebook planes stay inside the island; flat-color, desk, cloth and full-notebook stages require an explicit user request.
+
+Vary clouds and horizon light across the set within the same atmospheric family. Indoor subjects still receive the decorative open-sky stage unless the user requests otherwise. Never duplicate a source in the background, extend scenery beyond its photo frame, add background people or landmarks, or recolor the original to match sunset. The scene is decorative atmosphere, not evidence of the source's place, time or weather. The title may sit directly in the sky; preserve enough unlettered sky that the background itself remains legible.
 
 ### Notebook field
 
-Use one open or spiral notebook as the base plane. Let photographs interrupt the writing area rather than filling every page edge. Good for diary and friendship stories.
+Use one open or spiral notebook within the foreground island, not as a canvas-filling outer stage. Let photographs interrupt the writing area rather than filling every page edge. Good for diary and friendship stories.
 
 ### Memory wall
 

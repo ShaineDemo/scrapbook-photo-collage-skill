@@ -4,27 +4,37 @@ description: Turn 1–8 user photos into a tactile scrapbook set with one design
 license: MIT
 metadata:
   author: ShaineDemo
-  version: "1.7.0"
+  version: "1.9.0"
 ---
 
 # Scrapbook Photo Collage
 
 Create a polished scrapbook set in which the user's photos remain the evidence and focal content. Generative styling may build the surrounding papers, lettering, tape, textures, and decorations, but must not replace the memories in the supplied photos.
 
+## Mandatory visual calibration
+
+Before planning or rendering, read [references/style-anchors.md](references/style-anchors.md) and visually inspect `examples/after/08-open-sky-stage.png`. This is the primary outer-background and stage-and-island anchor for **every single page and every combined summary**, including indoor source photos. These files are execution-time style anchors, not merely README illustrations. Older examples may supplement material details but must not override this anchor's open scenic background with their flat paper or fabric fields.
+
+Treat roles explicitly: the user's uploaded photos are **content references that must remain faithful**; packaged examples are **style-only references** for composition, material depth, photo integration, lettering scale, density, and stage-and-island balance. Never copy people, scenes, factual objects, dates, or captions from the anchors. If the renderer supports multiple references, send both roles in the same full-composition edit. If it does not, inspect the anchor and carry its visual fingerprint into the prompt.
+
+Do not render from prose alone when the packaged anchors are available. A clean conversation must receive the same visual baseline as an experienced conversation.
+
+Inspect each distinct source and applicable anchor once during shared planning; reuse those observations within this run while the files are unchanged. Read linked references by the active section: visual direction for planning, the integrated prompt for initial rendering, and recovery/fallback instructions only when that path is needed. Reuse already-read sections rather than loading the whole package for every page; if a read is truncated, fetch the missing section instead of repeating the same oversized read.
+
 ## Capability gate
 
 Determine the available rendering path before composing:
 
-1. Prefer an **integrated full-composition reference edit**. Supply the original photo in the same render that creates its card, mat, tape, clips, foreground crossings, contact shadows, lettering, and surrounding materials. Generate these relationships together; never generate empty photo slots first on this preferred path.
-2. Inspect the integrated result against the original. If the source pixels and subject count remain faithful, deliver it.
+1. Prefer an **integrated full-composition reference edit**. Supply the original photo as the locked content reference and the applicable packaged example as the style-only reference in the same render that creates the card, mat, tape, clips, foreground crossings, contact shadows, lettering, surrounding materials, outer stage, and scrapbook island. Generate these relationships together; never generate empty photo slots first on this preferred path.
+2. Inspect the integrated result against the original. If the source pixels and subject count remain faithful, continue to the full final acceptance checks; no recovery or recompositing is needed for an integrated result that already passes them.
 3. If the composition is strong but the renderer altered source pixels, keep the generated card geometry and art direction, then restore the untouched original into that already-generated card geometry while preserving its mat, tape, clip, foreground crossings, and contact shadow. This is an exact-source recovery step, not a new blank template.
-4. Use the **background-only hybrid fallback**—generate lower layers and paste complete original-photo cards afterward—only when integrated editing and geometry-preserving source recovery are unavailable. It is the last visual fallback because it can make photographs look detached.
+4. Use the **background-only hybrid fallback**—generate lower layers and paste complete original-photo cards afterward—only when integrated editing and geometry-preserving source recovery are unavailable. It is a compatibility fallback, not the target workflow, because it can create hard white slots, jagged edges, halos, mismatched perspective, and detached photographs. Clearly label such output as a lower-fidelity layout proof unless it passes every integration check.
 5. If the tool accepts fewer references than the photo count, numbered contact sheets from `scripts/build_contact_sheet.py` may help with planning, but they do not replace fidelity inspection.
-6. If no generative image tool exists, deliver a production-ready layout brief and prompt. If deterministic compositing is available, label its basic Canvas, SVG, or Pillow result as a layout proof unless it passes all integration checks below.
+6. If no generative image tool exists, deliver a production-ready layout brief and prompt. Do not manufacture a seemingly final page from a blank generated background plus pasted photos merely because deterministic compositing is available; label that result as a compatibility proof unless the user explicitly accepts this tradeoff and it passes all integration checks below.
 
 Do not claim the Skill itself supplies an image model. The host agent must expose one to render the final artwork.
 
-Read [references/source-preservation.md](references/source-preservation.md) before rendering. After one failed fidelity check, do not ask the model to reconstruct missing subjects: first restore the untouched original into the successful generated card geometry; use the background-only fallback only if that recovery is impossible.
+Read the [source contract and rendering-path rules](references/source-preservation.md#immutable-source-contract) before rendering. If recovery is needed, read [recovery preparation](references/source-preservation.md#prepare-recovery-before-compositing) before executing it. After one failed fidelity check, do not ask the model to reconstruct missing subjects: first restore the untouched original into the successful generated card geometry; use the background-only fallback only if that recovery is impossible.
 
 ## Immutable source contract
 
@@ -61,12 +71,15 @@ Do not silently collapse a multi-photo request into only the combined collage.
 
 Only the finished composed pages count as deliverables. Lower-layer backgrounds, contact sheets, source ledgers, manifests, and other construction files are working artifacts. Keep them out of the final gallery and final ZIP unless the user explicitly asks for production files.
 
-## Two-stage output sequence
+## Render dependencies and delivery order
 
-For two to eight supplied photos, render in this order:
+For two to eight supplied photos, complete source inspection, style calibration, exact copy, and the shared `N + 1` set plan before starting any render. Delivery remains `S1…Sn`, then the summary; completion order need not match delivery order.
 
-1. Create the `N` single-photo collages in source order, one complete composition for each `S1` through `Sn`.
-2. Create the combined summary collage after the singles, using every original source exactly once.
+1. Render independent single-photo pages with up to **two concurrent image jobs** when the host supports it. Each job gets the same frozen set direction plus its own full prompt, exact original paths, style-only reference paths, source ID and separate output path. Never depend on “the last image” or another job's mutable state. When concurrency is unavailable or rejected, continue sequentially without weakening the quality settings or repeatedly resubmitting active jobs.
+2. Inspect and, when needed, recover completed pages while other image jobs run. After all single-page initial renders are available, check their shared palette, material language and lettering together. If that direction holds, start the summary from the original photos and frozen set plan; it does **not** need to wait for single-page edge repairs. If a finding changes the shared direction or rendering capability, resolve it before launching affected jobs.
+3. Validate each final page and then the whole set before delivery. A parallel job failure must not cancel, overwrite or cause regeneration of an unaffected successful page. Finish or accurately account for every planned output; concurrency does not authorize fewer pages or partial completion claims.
+
+Keep the selected renderer/model, full output resolution, source references, material density, lettering, 4× compositing where used, and every fidelity/visual gate unchanged. Use direct image-tool jobs when possible; separate workers are optional and must receive the complete frozen direction, not reconstruct it independently.
 
 Keep the set cohesive through a shared emotional theme, palette, material family, density, and lettering direction, while varying layout and content-derived decorations so the single-photo pieces do not look cloned.
 
@@ -104,17 +117,20 @@ For a multi-photo request, define one shared art direction for the complete `N +
 
 Define a set palette before rendering: two shared neutrals plus one or two shared anchor colors sampled from the complete source set. Reuse roughly 55–70% of that palette across the set, while allowing 30–45% page-specific color so a sea page may feel boldly blue, a friendship page playful pink, and a forest page deep green without becoming unrelated templates. Cohesion comes from the material language, lettering family, and recurring anchor colors—not from forcing every page into the same cream-and-sage wash.
 
-Before rendering any page, create a compact **set plan** with one row per output: output index, source ID(s), composition family, photo-card anchor, title-zone anchor, shared palette colors, source-specific accent, content motifs, and forbidden repeats. Adjacent singles must differ in at least three spatial choices: photo position, title position, frame orientation/scale, tape anchor, or decoration cluster. Do not let all pages collapse into a centered photo plus a bottom title strip.
+Before rendering any page, create a compact **set plan** with one row per output: output index, source ID(s), selected packaged style anchor, the three anchor traits being carried forward (one spatial, one material/integration, and one density/lettering trait), outer scene (sky/clouds, horizon light, edge silhouette), composition family, photo-card anchor, title-zone anchor, shared palette colors, source-specific accent, content motifs, and forbidden repeats. Adjacent singles must differ in at least three spatial choices: photo position, title position, frame orientation/scale, tape anchor, or decoration cluster. Do not let all pages collapse into a centered photo plus a bottom title strip.
 
 Read [references/visual-system.md](references/visual-system.md) when deciding density, hierarchy, materials, and the balance between photo-responsive and freely associated decorations.
 
 ### 3. Compose an outer stage and concentrated story island
 
-Default to a **stage-and-island composition**. The 3:4 canvas first establishes a large, clearly visible outer background—such as vivid solid color, sky, fabric, tabletop, wall, landscape blur, notebook spread, or softly lit paper field—then places a bounded scrapbook or memory-board island on top. The island must not touch all four canvas edges.
+Default to an **open-sky stage-and-island composition** on both single and combined pages. The 3:4 canvas establishes a photographic atmospheric scene: expansive clear blue sky with softly varied clouds, a luminous warm horizon, and restrained distant foliage or treetop silhouettes near the lower edge. The bounded scrapbook island sits in front of this scene. The background must read as air, light and distance—not blue paper, cloth, a flat gradient, or a beige desk. Keep the sky spacious and luminous; confine dark silhouettes to the edge rather than enclosing the island in a heavy dark frame. Vary cloud shapes, horizon height and warm/cool balance across the set without abandoning the scenic background family.
+
+This is a decorative outer scene, not a new photograph or an extension of the user's original setting. Never extend scenery out of a source's frame, repeat a source as wallpaper, add people or identifiable landmarks to the outer scene, or imply the source was taken at that time or place. Keep the original photo's own sky, lighting, colors and setting untouched. Paper, fabric and notebook textures belong to the foreground island. Use a flat-color, tabletop, textile or full-notebook outer background only when the user explicitly requests that alternative.
 
 - keep the scrapbook island around **58–78% of the canvas area**;
 - keep roughly **22–42% of the outer stage visibly readable**, with a continuous field visible on at least three sides;
-- let the stage supply atmosphere and contrast instead of filling it with small scrapbook pieces;
+- keep an unbroken atmospheric field around the island, with visible cloud detail and light-to-distance transition; a thin colored rim is not enough;
+- let the stage supply atmosphere and contrast instead of filling it with small scrapbook pieces; titles may sit directly in the open sky if contrast and legibility hold;
 - use full-bleed scrapbook paper only when the user explicitly requests a page-filling notebook or flat-lay treatment.
 
 For a 2–8 photo collage:
@@ -211,7 +227,7 @@ On this fallback path, give every photo at least **two visible perimeter contact
 
 Do not send the locked-photo composite through another generative pass. The optional foreground overlay must be generated and inspected separately, then composited deterministically with `--overlay`.
 
-For every single page, run the compositor with its default mat and photo-area checks. Multiple placements require `--summary-layout`; the compositor rejects weak hero hierarchy, summaries outside the 36–64% hard photo-area range, and aligned contact-sheet grids. If a check fails, redesign or resize the complete photo-card footprints and run the compositor again. Do not bypass a failed check by increasing the allowed mat or widening the photo-area limits unless the user explicitly asks for an unusually minimal or photo-led layout.
+For every single page on this compositing fallback path, run the compositor with its default mat and photo-area checks. Do not recompose an integrated render that already passes all acceptance checks. Multiple placements require `--summary-layout`; the compositor rejects weak hero hierarchy, summaries outside the 36–64% hard photo-area range, and aligned contact-sheet grids. If a check fails, redesign or resize the complete photo-card footprints and run the compositor again. Do not bypass a failed check by increasing the allowed mat or widening the photo-area limits unless the user explicitly asks for an unusually minimal or photo-led layout.
 
 Treat fallback backgrounds as intermediates, not extra artwork. Build them in a temporary work directory and present only the final composites. Do not create one-off helper programs such as `add_titles.py` in the user's project. Put the final decorative title and non-critical labels into the generated background once; if exact text must be overlaid deterministically, use an existing approved text tool or omit uncertain microcopy rather than inventing a per-run script. Never add a second title over an already titled background.
 
@@ -219,8 +235,13 @@ For two to eight sources, prepare one adapted renderer prompt per single-photo o
 
 ### 8. Inspect and revise
 
+Inspect each candidate as it arrives: decode dimensions, compare every source with its original, check the full composition, then inspect all photo-card edges and attachments at 200%. Record the result against that file's hash or immutable version. Final delivery may reuse checks for the exact same file; if its pixels change, repeat the affected content/edge checks and the full-page check. If the changed region is unknown, repeat all source and edge checks for that page. The final cross-page check of palette, layout variation, source accounting and delivery order is always required. Contact sheets help compare the set but never replace individual source or 200% edge inspection.
+
+Fix the recorded defect, not the entire set. Do not rerun identical recovery geometry or masks while expecting a different result; use the recovery preparation and progress rules in the source-preservation reference. A shorter failed run is not a successful speed improvement, and time pressure never makes an unverified image final.
+
 Before delivering, verify:
 
+- the applicable packaged style anchor was visually inspected, and the chosen spatial, integration, and density/lettering traits are visible without copying the anchor's people, place, objects, or copy;
 - every final file has actual pixel dimensions in an exact 3:4 vertical ratio, and all files in the set use the same dimensions;
 - every source ID appears exactly once;
 - every source retains its original subject count and unmistakable visual anchors;
@@ -228,15 +249,18 @@ Before delivering, verify:
 - the hero remains dominant;
 - each single-photo page keeps the source photo around 26–40% of the canvas and within the 20–46% hard range;
 - the page reads as one concentrated story island rather than a large photo with a detached title strip;
-- a clearly visible outer stage surrounds the scrapbook island on at least three sides, unless the user explicitly requested full bleed;
+- every single page and the summary show the packaged anchor's open scenic depth: readable sky/clouds, luminous horizon and restrained distant edge silhouettes around the island, not a flat paper/fabric field or a thin blue rim, unless the user explicitly requested another background;
+- the outer scene is decorative and separate from the original photo bounds; it neither duplicates nor extends a source or introduces extra people, and it does not darken the source photos;
 - the English-copy default was followed unless the user explicitly requested another artwork language;
 - photo cards feel embedded through mat, shadow, shallow rotation, and perimeter attachments rather than pasted over a mismatched placeholder;
+- at 200% inspection, photo-card edges have no stair steps, hard white aperture, halo, exposed placeholder border, or shadow/perspective mismatch;
 - the title, short journal passage, and 2–4 micro-labels are present and purposeful;
 - the default page contains enough layered materials and varied motifs to feel hand-assembled, not like a clean editorial poster;
 - no large empty foundation panel remains visibly unused;
 - the combined page keeps total visible photo area around 44–58% within the 36–64% hard range;
 - the combined page has one unmistakable hero whose visible area is at least 1.4 times the next-largest photo and does not read as an equal grid;
 - the combined page reads as one connected asymmetric photo island, without disconnected photo columns or a central vertical text spine;
+- the combined hierarchy is comparable in visual connectedness to the packaged summary anchor: varied card sizes and positions joined by shared material, never four equal pasted rectangles or a contact sheet;
 - decorations do not cover key content or repeat conspicuously;
 - the decoration set is approximately half source-responsive and half free-association found objects, with at least three playful object families represented when the theme permits;
 - paper, photo, tape, fabric, and hardware have distinct textures;
@@ -260,5 +284,7 @@ For a multi-photo set, also verify that:
 Return the single-photo collages in source order, then the combined summary collage last. Use sortable filenames such as `01-S1-...`, `02-S2-...`, and `05-summary-...` so gallery order cannot scramble the source sequence. Follow with a short note covering the shared art direction, the combined-image hierarchy, the content-derived decoration logic, and any limitation that genuinely remains. Do not expose long internal prompt text unless the user asks for it.
 
 Display and package only the expected final count: `1` image for one source or `N + 1` images for two to eight sources. Do not show blank frame backgrounds, temporary templates, contact sheets, manifests, or runtime helper files as additional outputs.
+
+For routine creation, keep one compact source/set plan and per-file acceptance record. Full audit reports, installation checks, extra reviewer agents and elaborate galleries are separate testing work, not default production steps. Record image paths, dimensions and concise findings; use the host's image display/save mechanism rather than dumping image bytes or base64 into text logs.
 
 For installation paths and fallbacks across agent products, read [references/compatibility.md](references/compatibility.md).

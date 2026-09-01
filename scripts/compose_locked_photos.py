@@ -355,7 +355,8 @@ def main() -> None:
             args.max_summary_photo_fraction,
         )
 
-    locked_photo_mask = Image.new("L", canvas.size, 0)
+    # The photo mask is only consumed by foreground-overlay validation.
+    locked_photo_mask = Image.new("L", canvas.size, 0) if args.overlay else None
     for plan in plans:
         source_id = plan.source_id
         path = plan.path
@@ -385,8 +386,10 @@ def main() -> None:
         high_photo_y = high_border + (high_inner_height - high_fitted.height) // 2
         card.alpha_composite(high_fitted, (high_photo_x, high_photo_y))
 
-        card_photo_mask = Image.new("L", (high_width, high_height), 0)
-        card_photo_mask.paste(high_fitted.getchannel("A"), (high_photo_x, high_photo_y))
+        card_photo_mask = None
+        if locked_photo_mask is not None:
+            card_photo_mask = Image.new("L", (high_width, high_height), 0)
+            card_photo_mask.paste(high_fitted.getchannel("A"), (high_photo_x, high_photo_y))
 
         if plan.rotation:
             rendered_card = card.rotate(
@@ -394,10 +397,14 @@ def main() -> None:
                 resample=Image.Resampling.BICUBIC,
                 expand=True,
             )
-            rendered_photo_mask = card_photo_mask.rotate(
-                plan.rotation,
-                resample=Image.Resampling.BICUBIC,
-                expand=True,
+            rendered_photo_mask = (
+                card_photo_mask.rotate(
+                    plan.rotation,
+                    resample=Image.Resampling.BICUBIC,
+                    expand=True,
+                )
+                if card_photo_mask is not None
+                else None
             )
         else:
             rendered_card = card
@@ -412,10 +419,11 @@ def main() -> None:
                 downsampled_size,
                 Image.Resampling.LANCZOS,
             )
-            rendered_photo_mask = rendered_photo_mask.resize(
-                downsampled_size,
-                Image.Resampling.LANCZOS,
-            )
+            if rendered_photo_mask is not None:
+                rendered_photo_mask = rendered_photo_mask.resize(
+                    downsampled_size,
+                    Image.Resampling.LANCZOS,
+                )
 
         center_x = x + width / 2
         center_y = y + height / 2
@@ -445,9 +453,10 @@ def main() -> None:
             canvas = Image.alpha_composite(canvas, shadow_layer)
 
         canvas.alpha_composite(rendered_card, (rendered_x, rendered_y))
-        source_mask_canvas = Image.new("L", canvas.size, 0)
-        source_mask_canvas.paste(rendered_photo_mask, (rendered_x, rendered_y))
-        locked_photo_mask = ImageChops.lighter(locked_photo_mask, source_mask_canvas)
+        if locked_photo_mask is not None:
+            source_mask_canvas = Image.new("L", canvas.size, 0)
+            source_mask_canvas.paste(rendered_photo_mask, (rendered_x, rendered_y))
+            locked_photo_mask = ImageChops.lighter(locked_photo_mask, source_mask_canvas)
 
         allowed_changes = ["EXIF orientation", "uniform resize", "contain placement"]
         if plan.rotation:

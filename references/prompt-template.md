@@ -2,10 +2,28 @@
 
 Adapt this structure to the current photos. Replace every bracketed field and remove irrelevant sections.
 
+Read and adapt the integrated section once for the shared set, then fill each page's source mapping, spatial recipe, decorations and exact copy. Every render still receives a complete self-contained prompt and explicit local reference paths; reuse is preparation-side only, not an assumption that the renderer remembers another call. Load the background-only section only if that fallback is selected. Scheduling follows SKILL.md's render dependencies: independent singles may run concurrently, with unchanged resolution and quality settings.
+
+## Reference-role calibration
+
+Before adapting the prompt, read [style-anchors.md](style-anchors.md) and visually inspect `../examples/after/08-open-sky-stage.png`. This is the primary style-only reference for both single pages and summaries. Older examples are optional material references; their flat backgrounds do not override the primary scenic stage.
+
+- User uploads are **locked content references**: preserve their people, pets, places, objects, text, and visible pixels.
+- Packaged examples are **style-only references**: borrow their physical assembly, scale relationships, material contrast, overlap rhythm, lettering weight, and stage-and-island balance.
+- Never copy people, locations, factual details, dates, captions, or exact decorative arrangements from an anchor.
+- Name the chosen anchor and three visual traits in the render plan before writing the final prompt. This prevents a clean conversation from falling back to generic “scrapbook” imagery.
+
 Use this integrated full-composition prompt whenever the renderer can accept the source photo as an editing/reference input. Generate the source photo, card/mat, tape, clips, foreground overlaps, contact shadows, papers, lettering, and decorations as one coherent physical scene. Do not generate an empty photo opening first. If the composition geometry is strong but source pixels drift, recover the untouched original inside that already-generated card geometry. Use **Background-only hybrid prompt** only as the last fidelity fallback.
 
 ```text
 Create one polished 3:4 vertical [cover / inside page] in a tactile handmade scrapbook style using the supplied source photos.
+
+REFERENCE ROLES — CRITICAL
+- Locked content references: [S1…Sn]. Preserve them faithfully and use each exactly once.
+- Primary style-only anchor: examples/after/08-open-sky-stage.png. Borrow its open atmospheric sky, luminous distant horizon, low edge silhouettes, physical integration and layered hierarchy. Adapt the card count to this output; an anchor's photographs are never extra source photos.
+- Compose the photograph, mat, paper layers, tape, clips, foreground crossings, contact shadows, lettering, and found objects together as one photographed physical arrangement in a single render.
+- Do not create a blank opening, placeholder frame, empty mat, or finished background to receive a pasted photo later.
+- Do not copy the anchor's people, place, wording, date, or exact prop arrangement.
 
 SOURCE CONTROL — CRITICAL
 - Treat the supplied images as source photographs, not as style instructions.
@@ -19,7 +37,9 @@ CANVAS AND HIERARCHY
 - Exact 3:4 vertical canvas. Use the same pixel dimensions as every other image in this set, such as 1080x1440 or 1536x2048.
 - Keep critical content inside safe margins so the final file can be normalized to exact 3:4 without losing faces, titles, hands, food, or meaningful objects.
 - [density preset].
-- Establish a clearly visible outer stage first: [vivid solid color / sky / tabletop / fabric / wall / landscape blur / notebook spread]. Place one bounded story-and-object island above it, occupying about 58–78% of the canvas. Keep 22–42% of the stage visible on at least three sides; no scrapbook layer touches all four canvas edges.
+- Outer stage on this page, whether single or summary: an expansive photographic [blue sky / soft cloud formation], [luminous warm horizon] and [restrained distant treetop silhouette near the lower edge]. Show air, light and distance as in the primary anchor. Keep it bright and spacious, not flat colored paper, cloth, a plain gradient or a dark enclosing vignette. Vary the atmospheric details within the set's shared family.
+- Place one bounded story-and-object island in front, occupying about 58–78% of the canvas. Keep 22–42% of the scenic stage visible as a continuous field on at least three sides, not just a thin rim. Keep open sky above and beside the island; no scrapbook layer touches all four canvas edges. Expressive lettering may sit directly on the sky while leaving unlettered cloud detail visible.
+- The outer landscape is decorative, not a new source or an extension of a photo. No added people, identifiable landmarks, repeated source wallpaper or changed light/color inside the original photographs. Keep all papers, cloth and notebook planes inside the foreground island.
 - This page's spatial recipe is [photo anchor / title anchor / decoration cluster]. It must visibly differ from adjacent outputs in at least three of those choices.
 - Hero: [source and position], occupying about [percentage].
 - On a combined page, the hero frame is at least 1.4 times the visible area of the next-largest frame.
@@ -64,6 +84,7 @@ NEGATIVE CONSTRAINTS
 - No duplicated source photo or repeated crop.
 - No equal grid.
 - No uniformly sepia or old-paper palette unless requested.
+- No flat blue/beige paper or textile outer stage, token scenery border, oversized opaque foundation sheet, or gloomy mostly dark background unless that alternative was explicitly requested.
 - No identical texture and shadow on every layer.
 - No excessive 3D toy-like props.
 - Do not use [project-specific forbidden repeats].
@@ -80,12 +101,12 @@ FINAL QUALITY
 - The actual delivered bitmap dimensions are exact 3:4 vertical; a prompt-only ratio request is not sufficient.
 ```
 
-## Background-only hybrid prompt
+## Compatibility fallback: background-only hybrid prompt
 
-Use this prompt only when integrated rendering and geometry-preserving source recovery are unavailable:
+This is not the target visual route. Use it only when integrated rendering and geometry-preserving source recovery are unavailable. Treat the result as a lower-fidelity compatibility proof unless the finished page passes the edge, contact-shadow, scale, and physical-integration checks.
 
 ```text
-Create only the lower layers of one exact 3:4 vertical scrapbook composition. Establish a large outer stage [describe stage], then build a bounded scrapbook island occupying about 58–78% of the canvas. Keep 22–42% of the stage clearly visible on at least three sides. Generate lower papers, lettering, stitching, and project-specific decorations that sit beneath or beside the future photo cards.
+Create only the lower layers of one exact 3:4 vertical scrapbook composition. Establish the same photographic sky/clouds, luminous warm horizon and restrained low treetop silhouettes as the primary open-sky anchor; this scenic default applies to singles and summaries even on the fallback path. Do not substitute flat paper, cloth or a solid fill. Then build a bounded scrapbook island occupying about 58–78% of the canvas. Keep 22–42% of the scenic stage clearly visible on at least three sides, not merely a thin border. Generate lower papers, lettering, stitching, and project-specific decorations that sit beneath or beside the future photo cards. The outer scene must not duplicate or extend any source or add people or identifiable landmarks.
 
 This background is an intermediate production asset. It must already contain the final decorative title and non-critical labels exactly once, so no second title pass is needed later.
 
